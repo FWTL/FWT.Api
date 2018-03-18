@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FWT.TL.Core", "FWT.TL.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FWT.TL.API", "FWT.TL.API\FWT.TL.API.csproj", "{198BE345-754B-4143-B361-A9B820B914ED}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTl.ClientApi", "OpenTl.ClientApi\OpenTl.ClientApi.csproj", "{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTl.ClientApi.MtProto", "OpenTl.ClientApi.MtProto\OpenTl.ClientApi.MtProto.csproj", "{3CD19420-05C2-4977-9CB2-681E0389A804}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{198BE345-754B-4143-B361-A9B820B914ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198BE345-754B-4143-B361-A9B820B914ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198BE345-754B-4143-B361-A9B820B914ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CD19420-05C2-4977-9CB2-681E0389A804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD19420-05C2-4977-9CB2-681E0389A804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD19420-05C2-4977-9CB2-681E0389A804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD19420-05C2-4977-9CB2-681E0389A804}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

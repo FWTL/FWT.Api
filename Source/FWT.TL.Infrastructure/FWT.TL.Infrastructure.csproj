@@ -65,6 +65,14 @@
       <Project>{6fb44485-6fca-41a2-9308-6dbaeeab4ba1}</Project>
       <Name>FWT.TL.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenTl.ClientApi.MtProto\OpenTl.ClientApi.MtProto.csproj">
+      <Project>{3cd19420-05c2-4977-9cb2-681e0389a804}</Project>
+      <Name>OpenTl.ClientApi.MtProto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenTl.ClientApi\OpenTl.ClientApi.csproj">
+      <Project>{b1b77a0a-c7d6-4d7d-9b3c-f6ab76b8bff0}</Project>
+      <Name>OpenTl.ClientApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
