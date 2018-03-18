@@ -1,14 +1,14 @@
-﻿using System;
+﻿using FluentValidation;
+using FWT.TL.API.Models;
+using FWT.TL.Core.Extensions;
+using FWT.TL.Core.Services.Logging;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http.Filters;
-using Auth.FWT.API.Models;
-using Auth.FWT.Core.Extensions;
-using Auth.FWT.Core.Services.Logging;
-using FluentValidation;
 
-namespace Auth.FWT.API.Filters
+namespace FWT.TL.API.Filters
 {
     public class ApiExceptionAttribute : ExceptionFilterAttribute
     {
@@ -39,9 +39,6 @@ namespace Auth.FWT.API.Filters
             sb.Append(filterContext.Exception);
 
             _logger.Error(sb.ToString());
-
-            //var telemetry = new TelemetryClient();
-            //telemetry.TrackException(filterContext.Exception);
         }
     }
 }

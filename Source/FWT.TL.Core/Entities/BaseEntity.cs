@@ -1,4 +1,4 @@
-namespace Auth.FWT.Core.Entities
+namespace FWT.TL.Core.Entities
 {
     public abstract class BaseEntity<TKey>
     {

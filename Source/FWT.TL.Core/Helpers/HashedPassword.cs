@@ -1,6 +1,6 @@
 using System;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public class HashedPassword
     {

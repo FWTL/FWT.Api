@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public static class PredicateBuilder
     {

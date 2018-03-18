@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Swashbuckle.Swagger;
+using System;
 using System.Collections.Generic;
 using System.Web.Http.Description;
-using Swashbuckle.Swagger;
 
-namespace Auth.FWT.API.SwaggerExtensions
+namespace FWT.TL.API.SwaggerExtensions
 {
     public class ApplyDocumentVendorExtensions : IDocumentFilter
     {

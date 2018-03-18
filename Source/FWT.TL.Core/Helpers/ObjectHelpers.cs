@@ -1,8 +1,8 @@
+using FWT.TL.Core.Extensions;
 using System;
 using System.Linq.Expressions;
-using Auth.FWT.Core.Extensions;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public static class ObjectHelpers
     {

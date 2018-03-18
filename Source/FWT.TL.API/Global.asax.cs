@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using FWT.TL.API;
 using System.Web.Http;
-using System.Web.Routing;
-using Auth.FWT.API;
 
 namespace Telegram.Server
 {

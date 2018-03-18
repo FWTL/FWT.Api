@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace Auth.FWT.Core.Extensions
+namespace FWT.TL.Core.Extensions
 {
     public static class StringExtensions
     {

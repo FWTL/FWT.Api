@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public static class ResponseHelper
     {

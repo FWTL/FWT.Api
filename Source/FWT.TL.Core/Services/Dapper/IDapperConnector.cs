@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Auth.FWT.Core.Services.Dapper
+namespace FWT.TL.Core.Services.Dapper
 {
     public interface IDapperConnector
     {

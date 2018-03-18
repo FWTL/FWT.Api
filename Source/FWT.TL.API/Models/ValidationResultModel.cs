@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
+using System.Collections.Generic;
 using System.Linq;
-using FluentValidation;
 
-namespace Auth.FWT.API.Models
+namespace FWT.TL.API.Models
 {
     public class ValidationResultModel
     {

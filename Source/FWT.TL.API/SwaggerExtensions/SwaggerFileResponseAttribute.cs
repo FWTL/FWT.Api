@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Swashbuckle.Swagger.Annotations;
+using System;
 using System.Net;
-using Swashbuckle.Swagger.Annotations;
 
-namespace Auth.FWT.API.SwaggerExtensions
+namespace FWT.TL.API.SwaggerExtensions
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public sealed class SwaggerFileResponseAttribute : SwaggerResponseAttribute

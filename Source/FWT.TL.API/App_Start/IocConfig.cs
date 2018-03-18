@@ -1,8 +1,8 @@
-﻿using System.Web.Http;
-using Autofac;
+﻿using Autofac;
 using Autofac.Integration.WebApi;
+using System.Web.Http;
 
-namespace Auth.FWT.API
+namespace FWT.TL.API
 {
     public class IocConfig
     {

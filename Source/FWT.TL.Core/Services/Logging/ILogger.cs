@@ -1,6 +1,6 @@
 using System;
 
-namespace Auth.FWT.Core.Services.Logging
+namespace FWT.TL.Core.Services.Logging
 {
     public interface ILogger
     {

@@ -1,8 +1,8 @@
-﻿using System.Web.Http.Filters;
-using Auth.FWT.API.Filters;
-using Auth.FWT.Infrastructure.Logging;
+﻿using FWT.TL.API.Filters;
+using FWT.TL.Infrastructure.Logging;
+using System.Web.Http.Filters;
 
-namespace Auth.FWT.API.App_Start
+namespace FWT.TL.API.App_Start
 {
     public class FilterConfig
     {

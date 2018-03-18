@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Auth.FWT.API.SwaggerExtensions
+namespace FWT.TL.API.SwaggerExtensions
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     internal class SwaggerDefaultValueAttribute : Attribute

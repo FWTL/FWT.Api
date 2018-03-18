@@ -1,13 +1,12 @@
-﻿using Auth.FWT.API.App_Start;
-using FWT.TL.API;
+﻿using FWT.TL.API.App_Start;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
 using Owin;
 using Telegram.Server.App_Start;
 
-[assembly: OwinStartup("api", typeof(Auth.FWT.API.Bootstrapper.Startup))]
 
-namespace Auth.FWT.API.Bootstrapper
+[assembly: OwinStartup("api", typeof(FWT.TL.API.Bootstrapper.Startup))]
+namespace FWT.TL.API.Bootstrapper
 {
     public partial class Startup
     {
@@ -29,10 +28,6 @@ namespace Auth.FWT.API.Bootstrapper
             });
 
             app.UseStageMarker(PipelineStage.PostAcquireState);
-
-            //#if DEBUG
-            //            TelemetryConfiguration.Active.DisableTelemetry = true;
-            //#endif
         }
     }
 }

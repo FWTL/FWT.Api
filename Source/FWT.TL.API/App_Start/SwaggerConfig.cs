@@ -1,10 +1,6 @@
-using Auth.FWT.API.SwaggerExtensions;
-using FWT.TL.API;
+using FWT.TL.API.SwaggerExtensions;
 using Swashbuckle.Application;
 using System.Web.Http;
-using WebActivatorEx;
-
-[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace FWT.TL.API
 {
@@ -17,14 +13,14 @@ namespace FWT.TL.API
             GlobalConfiguration.Configuration
             .EnableSwagger(c =>
             {
-                c.SingleApiVersion("v1", "Telegram.Server");
+                c.SingleApiVersion("v1", "FWT.TL.API");
                 c.OperationFilter<DefaultValueOperationFilter>();
                 c.OperationFilter<UpdateFileDownloadOperations>();
                 c.UseFullTypeNameInSchemaIds();
             })
             .EnableSwaggerUi(c =>
             {
-                c.CustomAsset("index", thisAssembly, "Telegram.Server.SwaggerExtensions.Index.html");
+                c.CustomAsset("index", thisAssembly, "FWT.TL.API.SwaggerExtensions.Index.html");
             });
         }
     }

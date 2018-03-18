@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 
-namespace Auth.FWT.API.Controllers
+namespace FWT.TL.API.Controllers
 {
     public class DefaultController : ApiController
     {

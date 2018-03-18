@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public static class FileHelpers
     {

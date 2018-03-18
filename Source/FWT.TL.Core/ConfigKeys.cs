@@ -1,8 +1,8 @@
-using Auth.FWT.Core.Extensions;
+using FWT.TL.Core.Extensions;
 using System;
 using System.Configuration;
 
-namespace Auth.FWT.Core
+namespace FWT.TL.Core
 {
     public static class ConfigKeys
     {

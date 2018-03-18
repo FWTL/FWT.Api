@@ -1,10 +1,10 @@
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
 
-namespace Auth.FWT.Core.Helpers
+namespace FWT.TL.Core.Helpers
 {
     public static class HttpHelper
     {

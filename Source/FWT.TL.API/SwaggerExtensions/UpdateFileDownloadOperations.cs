@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Swashbuckle.Swagger;
+using System.Linq;
 using System.Web.Http.Description;
-using Swashbuckle.Swagger;
 
-namespace Auth.FWT.API.SwaggerExtensions
+namespace FWT.TL.API.SwaggerExtensions
 {
     public class UpdateFileDownloadOperations : IOperationFilter
     {

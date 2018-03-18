@@ -1,7 +1,7 @@
-using System;
 using NodaTime;
+using System;
 
-namespace Auth.FWT.Core.Extensions
+namespace FWT.TL.Core.Extensions
 {
     public static class DateTimeExtensions
     {

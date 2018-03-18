@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Auth.FWT.Core.Extensions
+namespace FWT.TL.Core.Extensions
 {
     public static class EnumExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace Auth.FWT.Core.Enums
+﻿namespace FWT.TL.Core.Enums
 {
     public static class DomainEnums
     {

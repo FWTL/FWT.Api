@@ -1,6 +1,6 @@
 ﻿using Owin;
 
-namespace Auth.FWT.API.Bootstrapper
+namespace FWT.TL.API.Bootstrapper
 {
     public partial class Startup
     {

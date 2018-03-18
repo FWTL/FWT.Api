@@ -1,4 +1,4 @@
-﻿namespace Auth.FWT.API.Models
+﻿namespace FWT.TL.API.Models
 {
     public class ValidationError
     {

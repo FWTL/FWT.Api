@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using AutoMapper;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Telegram.Server.App_Start
 {

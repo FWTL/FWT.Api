@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace Auth.FWT.API
+namespace FWT.TL.API
 {
     public static class WebApiConfig
     {

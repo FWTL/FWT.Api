@@ -1,8 +1,7 @@
-using Auth.FWT.Core.Services.Logging;
+using FWT.TL.Core.Services.Logging;
 using System;
 
-
-namespace Auth.FWT.Infrastructure.Logging
+namespace FWT.TL.Infrastructure.Logging
 {
     public class NLogLogger : ILogger
     {

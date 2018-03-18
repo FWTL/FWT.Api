@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Auth.FWT.Core.Extensions
+namespace FWT.TL.Core.Extensions
 {
     public class OrderableColumn<TSource, TKey>
     {

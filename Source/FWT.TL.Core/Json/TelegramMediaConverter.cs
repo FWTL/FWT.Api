@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace Auth.FWT.Infrastructure.Json
+namespace FWT.TL.Infrastructure.Json
 {
     public class TelegramMediaConverter : JsonConverter
     {
@@ -16,19 +16,14 @@ namespace Auth.FWT.Infrastructure.Json
         {
         }
 
-        public override bool CanWrite => false;
-
         public override bool CanRead => true;
+
+        public override bool CanWrite => false;
 
         public override bool CanConvert(Type objectType)
         {
             //TO DO
             return true;
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new InvalidOperationException("Use default serialization.");
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -42,6 +37,11 @@ namespace Auth.FWT.Infrastructure.Json
             }
 
             return null;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new InvalidOperationException("Use default serialization.");
         }
     }
 }

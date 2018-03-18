@@ -1,4 +1,4 @@
-namespace Auth.FWT.Core.Helpers.Const
+namespace FWT.TL.Core.Helpers.Const
 {
     public static class ParametersName
     {

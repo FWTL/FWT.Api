@@ -1,8 +1,8 @@
+using NLog;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
-using NLog;
 
-namespace Auth.FWT.Infrastructure.Logging
+namespace FWT.TL.Infrastructure.Logging
 {
     public class NLogCommandInterceptor : IDbCommandInterceptor
     {
