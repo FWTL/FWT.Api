@@ -32,6 +32,11 @@ namespace FWT.TL.Core
             get { return Setting<int>("TelegramApiId"); }
         }
 
+        public static string RsaPublicKey
+        {
+            get { return Setting("RsaPublicKey"); }
+        }
+
         private static T Setting<T>(string name) where T : struct
         {
             string value = ConfigurationManager.AppSettings[name];

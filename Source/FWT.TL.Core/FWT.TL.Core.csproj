@@ -80,14 +80,21 @@
     <Compile Include="Helpers\ResponseHelper.cs" />
     <Compile Include="Json\TelegramMediaConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\IUserProvider.cs" />
     <Compile Include="Services\Dapper\IDapperConnector.cs" />
     <Compile Include="Services\Logging\ILogger.cs" />
+    <Compile Include="Services\Telegram\IUserSessionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTl.ClientApi\OpenTl.ClientApi.csproj">
+      <Project>{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}</Project>
+      <Name>OpenTl.ClientApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
