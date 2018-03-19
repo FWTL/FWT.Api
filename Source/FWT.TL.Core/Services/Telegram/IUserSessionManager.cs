@@ -9,6 +9,7 @@ namespace FWT.TL.Core.Services.Telegram
 {
     public interface IUserSessionManager
     {
-        Task<IClientApi> Get(string key);
+        IClientApi Get(string key);
+        IClientApi GetAnonymous();
     }
 }

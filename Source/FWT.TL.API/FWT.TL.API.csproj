@@ -62,6 +62,12 @@
     <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.7.5.1\lib\net45\FluentValidation.dll</HintPath>
     </Reference>
@@ -83,6 +89,9 @@
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=2.2.4.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.2.2.4\lib\net45\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -158,6 +167,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Filters\ApiExceptionAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -196,13 +206,13 @@
       <Project>{6fb44485-6fca-41a2-9308-6dbaeeab4ba1}</Project>
       <Name>FWT.TL.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FWT.TL.Data\FWT.TL.Data.csproj">
+      <Project>{6F3F7BD7-8BE6-4594-A5F5-9CB4971E0EE9}</Project>
+      <Name>FWT.TL.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FWT.TL.Infrastructure\FWT.TL.Infrastructure.csproj">
       <Project>{e5f58df0-e452-4ffa-98a6-298a01de8a31}</Project>
       <Name>FWT.TL.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenTl.ClientApi\OpenTl.ClientApi.csproj">
-      <Project>{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}</Project>
-      <Name>OpenTl.ClientApi</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

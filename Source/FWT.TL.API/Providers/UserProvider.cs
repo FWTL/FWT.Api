@@ -5,7 +5,7 @@ using Autofac;
 using FWT.TL.Core.Extensions;
 using FWT.TL.Core.Providers;
 
-namespace GitGud.API.Providers
+namespace FWT.TL.API.Providers
 {
     public class UserProvider : IUserProvider
     {

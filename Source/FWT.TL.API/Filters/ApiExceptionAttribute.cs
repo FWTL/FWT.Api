@@ -37,6 +37,7 @@ namespace FWT.TL.API.Filters
             filterContext.ActionContext.Request.GetRouteData().Values.ForEach(parameter => sb.Append($"{parameter.Key} = {parameter.Value}").AppendLine());
             sb.AppendLine();
             sb.Append(filterContext.Exception);
+            sb.AppendLine();
 
             _logger.Error(sb.ToString());
         }
