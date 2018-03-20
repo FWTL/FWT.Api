@@ -25,7 +25,8 @@ namespace FWT.TL.Infrastructure.Telegram
             {
                 AppHash = ConfigKeys.TelegramApiHash,
                 AppId = ConfigKeys.TelegramApiId,
-                ServerAddress = "149.154.167.50",
+                //ServerAddress = "149.154.167.50",
+                ServerAddress = "149.154.175.10",
                 ServerPublicKey = ConfigKeys.RsaPublicKey,
                 ServerPort = 443,
                 SessionTag = key,

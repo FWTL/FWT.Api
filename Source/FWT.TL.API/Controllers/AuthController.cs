@@ -21,6 +21,14 @@ namespace FWT.TL.API.Controllers
         }
 
         [HttpPost]
+        [Route("api/test")]
+        public TUser Test(string phoneNumber)
+        {
+            var user = new TUser();
+            return user;
+        }
+
+        [HttpPost]
         [Route("api/SendCode")]
         public async Task SendCode(string phoneNumber)
         {
@@ -44,7 +52,7 @@ namespace FWT.TL.API.Controllers
             }
 
             var client = await _sessionManager.Get(HashHelper.GetHash(phoneNumber), null);
-            var result = await client.AuthService.SignInAsync(phoneNumber, new TSentCode() { PhoneCodeHash = phoneCodeHash }, phoneCodeHash);
+            var result = await client.AuthService.SignInAsync(phoneNumber, new TSentCode() { PhoneCodeHash = phoneCodeHash }, code);
             return result;
         }
     }
