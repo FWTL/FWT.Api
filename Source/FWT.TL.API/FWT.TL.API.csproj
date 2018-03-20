@@ -214,6 +214,10 @@
       <Project>{e5f58df0-e452-4ffa-98a6-298a01de8a31}</Project>
       <Name>FWT.TL.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenTl.ClientApi\OpenTl.ClientApi.csproj">
+      <Project>{B1B77A0A-C7D6-4D7D-9B3C-F6AB76B8BFF0}</Project>
+      <Name>OpenTl.ClientApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

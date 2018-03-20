@@ -20,7 +20,7 @@ namespace FWT.TL.API.Controllers
         [HttpPost]
         public async Task SendCode(string phoneNumber)
         {
-            var result = await _client.AuthService.SendCodeAsync(phoneNumber);
+            //var result = await _client.AuthService.SendCodeAsync(phoneNumber);
         }
     }
 }
