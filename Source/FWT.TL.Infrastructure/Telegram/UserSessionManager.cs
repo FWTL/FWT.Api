@@ -1,8 +1,8 @@
 ﻿using FWT.TL.Core;
 using FWT.TL.Core.Services.Telegram;
 using OpenTl.ClientApi;
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FWT.TL.Infrastructure.Telegram
 {
@@ -14,7 +14,7 @@ namespace FWT.TL.Infrastructure.Telegram
         {
         }
 
-        public IClientApi Get(string key)
+        public async Task<IClientApi> Get(string key, ISessionStore store)
         {
             if (_clients.ContainsKey(key))
             {
@@ -38,35 +38,11 @@ namespace FWT.TL.Infrastructure.Telegram
                     SystemLangCode = "en",
                     SystemVersion = "Win 10 Pro"
                 },
+                SessionStore = new FakeSessionStore()
             };
 
-            _clients[key] = ClientFactory.BuildClient(settings).GetAwaiter().GetResult();
+            _clients[key] = await ClientFactory.BuildClientAsync(settings);
             return _clients[key];
-        }
-
-        public IClientApi GetAnonymous()
-        {
-            var settings = new FactorySettings
-            {
-                AppHash = ConfigKeys.TelegramApiHash,
-                AppId = ConfigKeys.TelegramApiId,
-                ServerAddress = "149.154.167.50",
-                ServerPublicKey = ConfigKeys.RsaPublicKey,
-                ServerPort = 443,
-                SessionTag = Guid.NewGuid().ToString("n"),
-                Properties = new ApplicationProperties
-                {
-                    AppVersion = "1.0.0",
-                    DeviceModel = "PC",
-                    LangCode = "en",
-                    LangPack = "tdesktop",
-                    SystemLangCode = "en",
-                    SystemVersion = "Win 10 Pro"
-                },
-                SessionStore = null,
-            };
-
-            return ClientFactory.BuildClient(settings).GetAwaiter().GetResult();
         }
     }
 }

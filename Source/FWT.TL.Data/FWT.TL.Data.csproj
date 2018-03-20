@@ -127,18 +127,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContext.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Conventions\DecimalConventions.cs" />
     <Compile Include="Conventions\IndexesConvention.cs" />
     <Compile Include="Conventions\StringConventions.cs" />
     <Compile Include="Dapper\DapperConnector.cs" />
     <Compile Include="EntityRepository.cs" />
     <Compile Include="IEntitiesContext.cs" />
+    <Compile Include="Migrations\201803201229130_Init.cs" />
+    <Compile Include="Migrations\201803201229130_Init.Designer.cs">
+      <DependentUpon>201803201229130_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Configuration\" />
+    <EmbeddedResource Include="Migrations\201803201229130_Init.resx">
+      <DependentUpon>201803201229130_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

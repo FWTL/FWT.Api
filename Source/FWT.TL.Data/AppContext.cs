@@ -1,5 +1,6 @@
 using Auth.FWT.Data.Conventions;
 using FWT.TL.Core.Entities;
+using FWT.TL.Data.Configuration;
 using System;
 using System.Data;
 using System.Data.Common;
@@ -172,6 +173,7 @@ namespace Auth.FWT.Data
             base.Dispose(disposing);
         }
 
+       
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -183,6 +185,8 @@ namespace Auth.FWT.Data
             modelBuilder.Conventions.Add(new StringConventions());
             modelBuilder.Conventions.Add(new DecimalConventions());
             modelBuilder.Conventions.Add(new IndexesConventions());
+
+            modelBuilder.Configurations.Add(new TelegramSessionConfiguration());
         }
 
         private DbEntityEntry GetDbEntityEntrySafely<TEntity, TKey>(TEntity entity, EntityState state) where TEntity : BaseEntity<TKey>

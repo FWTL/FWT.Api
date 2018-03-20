@@ -2,11 +2,14 @@
 using Autofac;
 using Autofac.Integration.WebApi;
 using FWT.TL.API.Providers;
+using FWT.TL.Core;
 using FWT.TL.Core.Data;
 using FWT.TL.Core.Providers;
 using FWT.TL.Core.Services.Telegram;
 using FWT.TL.Infrastructure.Telegram;
 using NodaTime;
+using OpenTl.ClientApi;
+using StackExchange.Redis;
 using System.Net.Http;
 using System.Reflection;
 using System.Web;
@@ -35,25 +38,13 @@ namespace FWT.TL.API
                 return new UserProvider(httpRequestMessage);
             }).InstancePerRequest();
 
-            builder.Register(b =>
-            {
-                var manager = b.Resolve<IUserSessionManager>();
-
-                var userProvider = b.Resolve<IUserProvider>();
-                if (userProvider.IsAuthenticated)
-                {
-                    return manager.Get(userProvider.CurrentUserId.ToString());
-                }
-
-                return manager.GetAnonymous();
-            }).InstancePerRequest();
-
             builder.Register<IUserSessionManager>(b =>
             {
                 return AppUserSessionManager.Instance.UserSessionManager;
             }).SingleInstance();
 
-            builder.RegisterType(typeof(IUnitOfWork)).As(typeof(IUnitOfWork)).InstancePerDependency();
+            builder.RegisterType(typeof(UnitOfWork)).As(typeof(IUnitOfWork)).InstancePerRequest();
+            builder.RegisterType(typeof(SqlSessionStore)).As(typeof(ISessionStore)).InstancePerRequest();
 
             builder.Register<IEntitiesContext>(b =>
             {
@@ -65,6 +56,17 @@ namespace FWT.TL.API
             {
                 return SystemClock.Instance;
             }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                return ConnectionMultiplexer.Connect(ConfigKeys.RedisConnectionString);
+            }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                var redis = b.Resolve<ConnectionMultiplexer>();
+                return redis.GetDatabase();
+            }).InstancePerRequest();
 
             _container = builder.Build();
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(_container);

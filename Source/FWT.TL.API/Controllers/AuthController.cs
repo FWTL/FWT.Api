@@ -1,6 +1,9 @@
-﻿using FluentValidation;
-using FWT.TL.Core.Data;
-using OpenTl.ClientApi;
+﻿using FWT.TL.Core.Helpers;
+using FWT.TL.Core.Services.Telegram;
+using OpenTl.Schema;
+using OpenTl.Schema.Auth;
+using StackExchange.Redis;
+using System;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -8,19 +11,41 @@ namespace FWT.TL.API.Controllers
 {
     public class AuthController : ApiController
     {
-        private IClientApi _client;
-        private IUnitOfWork _unitOfWork;
+        private IUserSessionManager _sessionManager;
+        private IDatabase _cache;
 
-        public AuthController(IClientApi client, IUnitOfWork unitOfWork)
+        public AuthController(IUserSessionManager sessionManager, IDatabase cache)
         {
-            _client = client;
-            _unitOfWork = unitOfWork;
+            _sessionManager = sessionManager;
+            _cache = cache;
         }
 
         [HttpPost]
+        [Route("api/SendCode")]
         public async Task SendCode(string phoneNumber)
         {
-            //var result = await _client.AuthService.SendCodeAsync(phoneNumber);
+            var client = await _sessionManager.Get(HashHelper.GetHash(phoneNumber), null);
+            var result = await client.AuthService.SendCodeAsync(phoneNumber);
+
+            if (result.PhoneRegistered)
+            {
+                await _cache.StringSetAsync($"TelegramCode.{HashHelper.GetHash(phoneNumber)}", result.PhoneCodeHash, TimeSpan.FromMinutes(5));
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SignIn")]
+        public async Task<TUser> SignIn(string phoneNumber, string code)
+        {
+            var phoneCodeHash = await _cache.StringGetAsync($"TelegramCode.{HashHelper.GetHash(phoneNumber)}");
+            if (phoneCodeHash.IsNullOrEmpty)
+            {
+                return null;
+            }
+
+            var client = await _sessionManager.Get(HashHelper.GetHash(phoneNumber), null);
+            var result = await client.AuthService.SignInAsync(phoneNumber, new TSentCode() { PhoneCodeHash = phoneCodeHash }, phoneCodeHash);
+            return result;
         }
     }
 }

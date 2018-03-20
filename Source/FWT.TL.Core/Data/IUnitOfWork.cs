@@ -7,6 +7,8 @@ namespace FWT.TL.Core.Data
 {
     public interface IUnitOfWork : IDisposable
     {
+        IRepository<TelegramSession,int> TelegramSessionRepository { get; }
+       
         void BeginTransaction();
 
         int Commit();
