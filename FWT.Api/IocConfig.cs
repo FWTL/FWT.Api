@@ -44,11 +44,11 @@ namespace FWT.Api
                 var configuration = b.Resolve<IConfiguration>();
                 var credentials = new TelegramDatabaseCredentials();
                 credentials.BuildConnectionString(
-                    configuration["Auth:Sql:Url"],
-                    configuration["Auth:Sql:Port"].To<int>(),
-                    configuration["Auth:Sql:Catalog"],
-                    configuration["Auth:Sql:User"],
-                    configuration["Auth:Sql:Password"]);
+                    configuration["Api:Sql:Url"],
+                    configuration["Api:Sql:Port"].To<int>(),
+                    configuration["Api:Sql:Catalog"],
+                    configuration["Api:Sql:User"],
+                    configuration["Api:Sql:Password"]);
 
                 return credentials;
             }).SingleInstance();
@@ -76,8 +76,8 @@ namespace FWT.Api
                 var configuration = b.Resolve<IConfiguration>();
                 var credentials = new TelegramDatabaseCredentials();
                 credentials.BuildLocalConnectionString(
-                        configuration["Auth:Sql:Url"],
-                        configuration["Auth:Sql:Catalog"]);
+                        configuration["Api:Sql:Url"],
+                        configuration["Api:Sql:Catalog"]);
 
                 return credentials;
             }).SingleInstance();
