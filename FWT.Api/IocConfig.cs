@@ -11,6 +11,7 @@ using FWT.Infrastructure.Dapper;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Unique;
 using FWT.Infrastructure.Validation;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -96,6 +97,26 @@ namespace FWT.Api
                 OverrideWithLocalCredentials(builder);
             }
 
+            builder.Register<IDiscoveryCache>(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var cache = new DiscoveryCache(configuration["Auth:Client:Url"]);
+                return cache;
+            }).SingleInstance();
+
+            builder.Register<DiscoveryResponse>(b =>
+            {
+                var cache = b.Resolve<IDiscoveryCache>();
+                var disco = cache.GetAsync();
+
+                if (disco.IsError)
+                {
+                    throw new Exception(disco.Error);
+                }
+
+                return disco;
+            }).InstancePerLifetimeScope();
+
             builder.Register(b =>
             {
                 return rootConfiguration;
@@ -140,7 +161,7 @@ namespace FWT.Api
                 return new MemoryCache(new MemoryCacheOptions());
             }).SingleInstance();
 
-            builder.RegisterType<DapperConnector>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<DapperConnector<TelegramDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
 

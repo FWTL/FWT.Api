@@ -22,7 +22,8 @@ namespace FWT.Api.Controllers
         [Route("Sendcode")]
         public async Task<string> SendCode(string phoneNumber)
         {
-            return await _queryDispatcher.DispatchAsync<SendCode.Query, string>(new SendCode.Query(phoneNumber));
+            //return await _queryDispatcher.DispatchAsync<SendCode.Query, string>(new SendCode.Query(phoneNumber));
+
         }
 
         [HttpPost]

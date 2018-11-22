@@ -52,6 +52,14 @@ namespace FWT.Api
                 options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             });
 
+            services.AddAuthentication("Bearer")
+            .AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = _configuration["Auth:Client:Url"];
+                options.RequireHttpsMetadata = !_hostingEnvironment.IsDevelopment();
+                options.ApiName = "api";
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "FWT.Api", Version = "v1" });
@@ -74,6 +82,8 @@ namespace FWT.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
