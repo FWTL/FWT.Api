@@ -8,6 +8,7 @@ using FWT.Core.Services.Telegram;
 using FWT.Database;
 using FWT.Infrastructure.CQRS;
 using FWT.Infrastructure.Dapper;
+using FWT.Infrastructure.Identity;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Unique;
 using FWT.Infrastructure.Validation;
@@ -26,6 +27,18 @@ namespace FWT.Api
     {
         public static void RegisterCredentials(ContainerBuilder builder)
         {
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var credentails = new IdentityModelCredentials()
+                {
+                    ClientId = configuration["Auth:Client:Id"],
+                    ClientSecret = configuration["Auth:Client:Secret"]
+                };
+
+                return credentails;
+            }).SingleInstance();
+
             builder.Register(b =>
             {
                 var configuration = b.Resolve<IConfiguration>();
@@ -104,19 +117,6 @@ namespace FWT.Api
                 return cache;
             }).SingleInstance();
 
-            builder.Register<DiscoveryResponse>(b =>
-            {
-                var cache = b.Resolve<IDiscoveryCache>();
-                var disco = cache.GetAsync();
-
-                if (disco.IsError)
-                {
-                    throw new Exception(disco.Error);
-                }
-
-                return disco;
-            }).InstancePerLifetimeScope();
-
             builder.Register(b =>
             {
                 return rootConfiguration;
@@ -164,6 +164,7 @@ namespace FWT.Api
             builder.RegisterType<DapperConnector<TelegramDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
 
             return builder.Build();
         }

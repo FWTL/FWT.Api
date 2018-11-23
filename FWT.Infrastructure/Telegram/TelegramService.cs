@@ -2,6 +2,7 @@
 using FWT.Core.Services.Telegram;
 using Microsoft.Extensions.Caching.Memory;
 using OpenTl.ClientApi;
+using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
 
@@ -9,12 +10,12 @@ namespace FWT.Infrastructure.Telegram
 {
     public class TelegramService : ITelegramService
     {
-        private readonly IDatabaseConnector _database;
+        private readonly IDatabase _database;
         private readonly TelegramSettings _settings;
         private readonly IMemoryCache _cache;
         private static readonly TimeSpan SlidingExpiration = TimeSpan.FromMinutes(60);
 
-        public TelegramService(IDatabaseConnector database, TelegramSettings settings, IMemoryCache cache)
+        public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache)
         {
             _database = database;
             _settings = settings;
@@ -40,7 +41,7 @@ namespace FWT.Infrastructure.Telegram
                     LangPack = "tdesktop",
                     SystemVersion = "Windows",
                 },
-                SessionStore = new DatabaseSessionStore(_database)
+                SessionStore = new RedisSessionStore(_database)
             };
         }
 

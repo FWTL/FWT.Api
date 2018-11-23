@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using FWT.Core.CQRS;
+using FWT.Core.Extensions;
 using FWT.Core.Helpers;
 using FWT.Core.Services.Telegram;
+using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Validation;
 using NodaTime;
 using OpenTl.ClientApi;
@@ -20,7 +22,7 @@ namespace FWT.Api.Controllers.Account
         {
             public Query(string phoneNumber, string sentCode, string code)
             {
-                PhoneNumber = $"+{Regex.Match(phoneNumber, @"\d+").Value}";
+                PhoneNumber = phoneNumber.IsNotNull() ? $"+{Regex.Match(phoneNumber, @"\d+").Value}" : string.Empty;
                 Code = code;
                 SentCode = sentCode;
             }
@@ -30,7 +32,7 @@ namespace FWT.Api.Controllers.Account
             public string SentCode { get; }
         }
 
-        public class Handler : IQueryHandler<Query, int>
+        public class Handler : IQueryHandler<Query, TUser>
         {
             private readonly IClock _clock;
             private readonly ITelegramService _telegramService;
@@ -41,7 +43,7 @@ namespace FWT.Api.Controllers.Account
                 _telegramService = telegramService;
             }
 
-            public async Task<int> HandleAsync(Query query)
+            public async Task<TUser> HandleAsync(Query query)
             {
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
                 IClientApi client = await _telegramService.Build(hashedPhoneId);
@@ -51,8 +53,12 @@ namespace FWT.Api.Controllers.Account
                     PhoneCodeHash = query.SentCode
                 };
 
-                TUser result = await client.AuthService.SignInAsync(query.PhoneNumber, sentCode, query.Code);
-                return result.Id;
+                TUser result = await TelegramRequest.Handle(() =>
+                {
+                    return client.AuthService.SignInAsync(query.PhoneNumber, sentCode, query.Code);
+                });
+
+                return result;
             }
         }
 
@@ -72,7 +78,7 @@ namespace FWT.Api.Controllers.Account
             public bool PhoneRegistered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
             public ISentCodeType Type { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
             public byte[] PhoneCodeHashAsBinary { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-            public string PhoneCodeHash { get;set; }
+            public string PhoneCodeHash { get; set; }
             public ICodeType NextType { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
             public int Timeout { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
             public ITermsOfService TermsOfService { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

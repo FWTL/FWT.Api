@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FWT.Core.CQRS;
+using FWT.Core.Extensions;
 using FWT.Core.Helpers;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Telegram;
@@ -18,7 +19,7 @@ namespace FWT.Api.Controllers.Account
         {
             public Query(string phoneNumber)
             {
-                PhoneNumber = $"+{Regex.Match(phoneNumber, @"\d+").Value}";
+                PhoneNumber = phoneNumber.IsNotNull() ? $"+{Regex.Match(phoneNumber, @"\d+").Value}" : string.Empty;
             }
 
             public string PhoneNumber { get; }

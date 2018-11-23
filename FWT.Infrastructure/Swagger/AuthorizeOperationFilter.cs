@@ -18,7 +18,7 @@ namespace FWT.Infrastructure.Swagger
                 operation.Responses.Add("403", new Response { Description = "Forbidden" });
 
                 operation.Security = new List<IDictionary<string, IEnumerable<string>>> {
-                    new Dictionary<string, IEnumerable<string>> {{"oauth2", new[] {"swagger"}}}
+                    new Dictionary<string, IEnumerable<string>> { { "Bearer", new[] { "api" } } }
                 };
             }
         }

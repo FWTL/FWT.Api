@@ -65,6 +65,14 @@ namespace FWT.Api
                 c.SwaggerDoc("v1", new Info { Title = "FWT.Api", Version = "v1" });
                 c.MapType<Guid>(() => new Schema() { Type = "string", Format = "text", Description = "GUID" });
 
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+
                 c.OperationFilter<AuthorizeOperationFilter>();
             });
 
@@ -89,6 +97,8 @@ namespace FWT.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "FWT.Api");
                 c.DisplayRequestDuration();
+
+                c.OAuthClientId("swagger");
             });
 
             app.UseMvc(routes =>
