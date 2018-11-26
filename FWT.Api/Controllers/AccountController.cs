@@ -36,10 +36,13 @@ namespace FWT.Api.Controllers
         [Route("SignIn")]
         public async Task<JObject> SignIn(string phoneNumber, string sentCode, string code)
         {
-            TUser tlUser = await _queryDispatcher.DispatchAsync<SignIn.Query, TUser>(new SignIn.Query(phoneNumber, sentCode, code));
+            //TUser tlUser = await _queryDispatcher.DispatchAsync<SignIn.Query, TUser>(new SignIn.Query(phoneNumber, sentCode, code));
             string hashedPhoneId = HashHelper.GetHash(phoneNumber);
 
-            TokenResponse response = await _identityClient.RequestClientCredentialsTokenAsync(tlUser);
+            TokenResponse response = await _identityClient.RequestClientCredentialsTokenAsync(new TUser()
+            {
+                Phone = "123"
+            });
             return response.Json;
         }
     }

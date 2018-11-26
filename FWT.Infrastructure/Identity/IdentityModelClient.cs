@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using FWT.Core.Helpers;
 using FWT.Core.Services.Identity;
 using IdentityModel.Client;
 using OpenTl.Schema;
@@ -30,7 +31,11 @@ namespace FWT.Infrastructure.Identity
                 Address = disco.TokenEndpoint,
                 ClientId = _credentials.ClientId,
                 ClientSecret = _credentials.ClientSecret,
-                Scope = "api"
+                Scope = "api",
+                Parameters = new Dictionary<string, string>()
+                {
+                    { "PhoneHashId", HashHelper.GetHash(user.Phone) }
+                }
             });
 
             if (response.IsError)
