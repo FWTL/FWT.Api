@@ -25,8 +25,4 @@
     <ProjectReference Include="..\FWT.Database\FWT.Database.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="User\" />
-  </ItemGroup>
-
 </Project>

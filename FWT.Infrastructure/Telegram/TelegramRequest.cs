@@ -1,10 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using FWT.Core.Extensions;
 using OpenTl.ClientApi.MtProto.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FWT.Infrastructure.Telegram
@@ -47,12 +45,7 @@ namespace FWT.Infrastructure.Telegram
             }
             catch (UnhandledException ex)
             {
-                if (errorMessages.IsNotNull() && errorMessages.Contains(ex.Message))
-                {
-                    return default(TResult);
-                }
-
-                throw ex;
+                ThrowValidationException(ex);
             }
 
             throw new Exception("Unsupported Path");

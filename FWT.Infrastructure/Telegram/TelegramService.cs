@@ -14,12 +14,14 @@ namespace FWT.Infrastructure.Telegram
         private readonly TelegramSettings _settings;
         private readonly IMemoryCache _cache;
         private static readonly TimeSpan SlidingExpiration = TimeSpan.FromMinutes(60);
+        private readonly IDatabaseConnector _databaseConnector;
 
-        public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache)
+        public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache, IDatabaseConnector databaseConnector)
         {
             _database = database;
             _settings = settings;
             _cache = cache;
+            _databaseConnector = databaseConnector;
         }
 
         private IFactorySettings BuildSettings(string hash)
@@ -41,7 +43,7 @@ namespace FWT.Infrastructure.Telegram
                     LangPack = "tdesktop",
                     SystemVersion = "Windows",
                 },
-                SessionStore = new RedisSessionStore(_database)
+                SessionStore = new DatabaseSessionStore(_databaseConnector)
             };
         }
 

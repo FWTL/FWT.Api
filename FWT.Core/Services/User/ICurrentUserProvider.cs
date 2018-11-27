@@ -1,11 +1,9 @@
-﻿namespace FWT.Core.Services.User
+﻿using System.Security.Claims;
+
+namespace FWT.Core.Services.User
 {
     public interface ICurrentUserProvider
     {
-        string Email { get; }
-
-        string FullName { get; }
-
-        string Id { get; }
+        string PhoneHashId(ClaimsPrincipal user);
     }
 }

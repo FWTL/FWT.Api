@@ -11,6 +11,7 @@ using FWT.Infrastructure.Dapper;
 using FWT.Infrastructure.Identity;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Unique;
+using FWT.Infrastructure.User;
 using FWT.Infrastructure.Validation;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Hosting;
@@ -165,6 +166,13 @@ namespace FWT.Api
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<CurrentUserProvider>().AsImplementedInterfaces().InstancePerLifetimeScope();
+
+
+            builder.Register<IClock>(b =>
+            {
+                return SystemClock.Instance;
+            }).SingleInstance();
 
             return builder.Build();
         }

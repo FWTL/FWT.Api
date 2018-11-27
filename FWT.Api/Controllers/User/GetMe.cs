@@ -12,7 +12,7 @@ namespace FWT.Api.Controllers.User
     {
         public class Query : IQuery
         {
-            public string UserHashId { get; set; }
+            public string PhoneHashId { get; set; }
         }
 
         public class Handler : IQueryHandler<Query, Result>
@@ -26,7 +26,7 @@ namespace FWT.Api.Controllers.User
 
             public async Task<Result> HandleAsync(Query query)
             {
-                IClientApi client = await _telegramService.Build(query.UserHashId);
+                IClientApi client = await _telegramService.Build(query.PhoneHashId);
                 TUserFull result = await client.UsersService.GetCurrentUserFullAsync();
                 return new Result(result.User.As<TUser>());
             }
@@ -52,7 +52,7 @@ namespace FWT.Api.Controllers.User
         {
             public Validator()
             {
-                RuleFor(x => x.UserHashId).NotEmpty();
+                RuleFor(x => x.PhoneHashId).NotEmpty();
             }
         }
     }

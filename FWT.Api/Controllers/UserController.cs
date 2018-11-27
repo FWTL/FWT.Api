@@ -1,6 +1,6 @@
 ﻿using FWT.Api.Controllers.User;
 using FWT.Core.CQRS;
-using FWT.Core.Helpers;
+using FWT.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -11,22 +11,25 @@ namespace FWT.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private ICommandDispatcher _commandDispatcher;
-        private IQueryDispatcher _queryDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly ICurrentUserProvider _userProvider;
 
-        public UserController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+        public UserController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
+            _userProvider = userProvider;
         }
 
         [HttpGet]
         [Route("/Me")]
-        public async Task<GetMe.Result> GetMe(string phone)
+        [Authorize]
+        public async Task<GetMe.Result> GetMe()
         {
-            string hashedPhoneId = HashHelper.GetHash(phone);
-            return await _queryDispatcher.DispatchAsync<GetMe.Query, GetMe.Result>(new GetMe.Query() {
-                UserHashId = hashedPhoneId
+            return await _queryDispatcher.DispatchAsync<GetMe.Query, GetMe.Result>(new GetMe.Query()
+            {
+                PhoneHashId = _userProvider.PhoneHashId(User)
             });
         }
     }

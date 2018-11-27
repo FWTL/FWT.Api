@@ -19,7 +19,7 @@ namespace FWT.Api.Controllers.Account
         {
             public Query(string phoneNumber)
             {
-                PhoneNumber = phoneNumber.IsNotNull() ? $"+{Regex.Match(phoneNumber, @"\d+").Value}" : string.Empty;
+                PhoneNumber = phoneNumber;
             }
 
             public string PhoneNumber { get; }
