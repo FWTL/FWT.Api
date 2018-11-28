@@ -1,6 +1,7 @@
 ﻿using FWT.Api.Controllers.Account;
 using FWT.Core.CQRS;
 using FWT.Core.Services.Identity;
+using FWT.Core.Services.User;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -16,12 +17,14 @@ namespace FWT.Api.Controllers
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly IQueryDispatcher _queryDispatcher;
         private readonly IIdentityModelClient _identityClient;
+        private readonly ICurrentUserProvider _userProvider;
 
-        public AccountController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdentityModelClient identityClient)
+        public AccountController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdentityModelClient identityClient, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
             _identityClient = identityClient;
+            _userProvider = userProvider;
         }
 
         [HttpPost]
@@ -39,6 +42,16 @@ namespace FWT.Api.Controllers
 
             TokenResponse response = await _identityClient.RequestClientCredentialsTokenAsync(tlUser);
             return response.Json;
+        }
+
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<bool> Logout(string phoneNumber, string sentCode, string code)
+        {
+            return await _queryDispatcher.DispatchAsync<Logout.Query, bool>(new Logout.Query()
+            {
+                PhoneHashId = _userProvider.PhoneHashId(User)
+            });
         }
     }
 }

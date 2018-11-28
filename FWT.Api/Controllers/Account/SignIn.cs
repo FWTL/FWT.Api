@@ -22,7 +22,7 @@ namespace FWT.Api.Controllers.Account
         {
             public Query(string phoneNumber, string sentCode, string code)
             {
-                PhoneNumber = phoneNumber;
+                PhoneNumber = Regex.Replace(phoneNumber ?? string.Empty, "[^0-9]", "");
                 Code = code;
                 SentCode = sentCode;
             }

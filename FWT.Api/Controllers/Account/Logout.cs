@@ -1,42 +1,22 @@
 ﻿using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Cache;
-using FWT.Infrastructure.Handlers;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using StackExchange.Redis;
-using System;
 using System.Threading.Tasks;
 
-namespace FWT.Api.Controllers.User
+namespace FWT.Api.Controllers.Account
 {
-    public class GetMe
+    public class Logout
     {
         public class Query : IQuery
         {
             public string PhoneHashId { get; set; }
         }
 
-        public class Cache : RedisJsonHandler<Query, Result>
-        {
-            public Cache(IDatabase cache) : base(cache)
-            {
-                KeyFn = query =>
-                {
-                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.PhoneHashId);
-                };
-            }
-
-            public override TimeSpan? Ttl(Query query)
-            {
-                return TimeSpan.FromHours(24);
-            }
-        }
-
-        public class Handler : IQueryHandler<Query, Result>
+        public class Handler : IQueryHandler<Query, bool>
         {
             private readonly ITelegramService _telegramService;
 
@@ -45,16 +25,16 @@ namespace FWT.Api.Controllers.User
                 _telegramService = telegramService;
             }
 
-            public async Task<Result> HandleAsync(Query query)
+            public async Task<bool> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.Build(query.PhoneHashId);
 
-                TUserFull result = await TelegramRequest.Handle(() =>
+                await TelegramRequest.Handle(() =>
                 {
-                    return client.UsersService.GetCurrentUserFullAsync();
+                    return client.AuthService.LogoutAsync();
                 });
 
-                return new Result(result.User.As<TUser>());
+                return true;
             }
         }
 

@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using OpenTl.ClientApi.MtProto.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,41 +8,27 @@ namespace FWT.Infrastructure.Telegram
 {
     public static class TelegramRequest
     {
-        public static async Task<TResult> Handle<TResult>(Func<Task<TResult>> func, params string[] errorMessages)
+        public static async Task<TResult> Handle<TResult>(Func<Task<TResult>> func)
         {
             try
             {
                 return await func();
             }
-            catch (CloudPasswordNeededException ex)
+            catch (Exception ex)
             {
                 ThrowValidationException(ex);
             }
-            catch (PhoneCodeInvalidException ex)
+
+            throw new Exception("Unsupported Path");
+        }
+
+        public static async Task Handle(Func<Task> func)
+        {
+            try
             {
-                ThrowValidationException(ex);
+                await func();
             }
-            catch (FileMigrationException ex)
-            {
-                ThrowValidationException(ex);
-            }
-            catch (FloodWaitException ex)
-            {
-                ThrowValidationException(ex);
-            }
-            catch (UserNotAuthorizeException ex)
-            {
-                ThrowValidationException(ex);
-            }
-            catch (PhoneNumberInvalidException ex)
-            {
-                ThrowValidationException(ex);
-            }
-            catch (PhoneNumberUnoccupiedException ex)
-            {
-                ThrowValidationException(ex);
-            }
-            catch (UnhandledException ex)
+            catch (Exception ex)
             {
                 ThrowValidationException(ex);
             }
@@ -55,7 +40,7 @@ namespace FWT.Infrastructure.Telegram
         {
             throw new ValidationException(new List<ValidationFailure>()
             {
-                new ValidationFailure("request", ex.Message)
+                new ValidationFailure(ex.GetType().FullName, ex.Message)
             });
         }
     }

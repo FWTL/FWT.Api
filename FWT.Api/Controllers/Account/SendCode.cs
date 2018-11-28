@@ -15,11 +15,12 @@ namespace FWT.Api.Controllers.Account
 {
     public class SendCode
     {
+
         public class Query : IQuery
         {
             public Query(string phoneNumber)
             {
-                PhoneNumber = phoneNumber;
+                PhoneNumber = Regex.Replace(phoneNumber ?? string.Empty, "[^0-9]", "");
             }
 
             public string PhoneNumber { get; }
