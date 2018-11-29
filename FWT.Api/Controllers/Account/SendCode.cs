@@ -40,7 +40,7 @@ namespace FWT.Api.Controllers.Account
             public async Task<string> HandleAsync(Query query)
             {
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
-                IClientApi client = await _telegramService.Build(hashedPhoneId);
+                IClientApi client = await _telegramService.BuildAsync(hashedPhoneId);
                 ISentCode result = await TelegramRequest.Handle(() =>
                 {
                     return client.AuthService.SendCodeAsync(query.PhoneNumber);

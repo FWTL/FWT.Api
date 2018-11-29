@@ -27,7 +27,7 @@ namespace FWT.Api.Controllers.Account
 
             public async Task<bool> HandleAsync(Query query)
             {
-                IClientApi client = await _telegramService.Build(query.PhoneHashId);
+                IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
                 await TelegramRequest.Handle(() =>
                 {

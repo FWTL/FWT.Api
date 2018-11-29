@@ -5,6 +5,6 @@ namespace FWT.Core.Services.Telegram
 {
     public interface ITelegramService
     {
-        Task<IClientApi> Build(string hash);
+        Task<IClientApi> BuildAsync(string hash);
     }
 }

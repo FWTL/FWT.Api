@@ -3,6 +3,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace FWT.Infrastructure.Swagger
 {
@@ -10,7 +11,7 @@ namespace FWT.Infrastructure.Swagger
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            var hasAuthorize = context.ApiDescription.ControllerAttributes().OfType<AuthorizeAttribute>().Any() || context.ApiDescription.ActionAttributes().OfType<AuthorizeAttribute>().Any();
+            var hasAuthorize = context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
 
             if (hasAuthorize)
             {

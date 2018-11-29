@@ -47,7 +47,7 @@ namespace FWT.Infrastructure.Telegram
             };
         }
 
-        public async Task<IClientApi> Build(string hash)
+        public async Task<IClientApi> BuildAsync(string hash)
         {
             if (_cache.TryGetValue(hash, out IClientApi clientApi))
             {

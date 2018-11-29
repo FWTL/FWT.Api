@@ -4,29 +4,33 @@ using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Cache;
 using FWT.Infrastructure.Handlers;
 using FWT.Infrastructure.Telegram;
+using FWT.Infrastructure.Telegram.Parsers;
+using FWT.Infrastructure.Telegram.Parsers.Models;
 using FWT.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
+using OpenTl.Schema.Messages;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FWT.Api.Controllers.User
+namespace FWT.Api.Controllers.Chat
 {
-    public class GetMe
+    public class GetDialogs
     {
         public class Query : IQuery
         {
             public string PhoneHashId { get; set; }
         }
 
-        public class Cache : RedisJsonHandler<Query, Result>
+        public class Cache : RedisJsonHandler<Query, List<TelegramDialog>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.PhoneHashId);
+                    return CacheKeyBuilder.Build<TelegramDialog, Query>(query, m => m.PhoneHashId);
                 };
             }
 
@@ -36,7 +40,7 @@ namespace FWT.Api.Controllers.User
             }
         }
 
-        public class Handler : IQueryHandler<Query, Result>
+        public class Handler : IQueryHandler<Query, List<TelegramDialog>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -45,37 +49,23 @@ namespace FWT.Api.Controllers.User
                 _telegramService = telegramService;
             }
 
-            public async Task<Result> HandleAsync(Query query)
+            public async Task<List<TelegramDialog>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
-                TUserFull result = await TelegramRequest.Handle(() =>
+                TDialogs result = (await TelegramRequest.Handle(() =>
                 {
-                    return client.UsersService.GetCurrentUserFullAsync();
-                });
+                    return client.MessagesService.GetUserDialogsAsync();
+                })).As<TDialogs>();
 
-                return new Result(result.User.As<TUser>());
+                var dialogs = new List<TelegramDialog>();
+                foreach (IDialog dialog in result.Dialogs)
+                {
+                    dialogs.Add(DialogParser.Parse(dialog, result.Users));
+                }
+
+                return dialogs;
             }
-        }
-
-        public class Result
-        {
-            public Result()
-            {
-            }
-
-            public Result(TUser user)
-            {
-                FirstName = user.FirstName;
-                LastName = user.LastName;
-                UserName = user.Username;
-                PhotoId = user.Photo.As<TUserProfilePhoto>()?.PhotoId;
-            }
-
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string UserName { get; set; }
-            public long? PhotoId { get; set; }
         }
 
         public class Validator : AppAbstractValidation<Query>

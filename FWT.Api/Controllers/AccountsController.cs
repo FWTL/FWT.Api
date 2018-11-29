@@ -12,14 +12,14 @@ namespace FWT.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly IQueryDispatcher _queryDispatcher;
         private readonly IIdentityModelClient _identityClient;
         private readonly ICurrentUserProvider _userProvider;
 
-        public AccountController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdentityModelClient identityClient, ICurrentUserProvider userProvider)
+        public AccountsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdentityModelClient identityClient, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
@@ -28,7 +28,7 @@ namespace FWT.Api.Controllers
         }
 
         [HttpPost]
-        [Route("Sendcode")]
+        [Route("SendCode")]
         public async Task<string> SendCode(string phoneNumber)
         {
             return await _queryDispatcher.DispatchAsync<SendCode.Query, string>(new SendCode.Query(phoneNumber));
@@ -39,7 +39,6 @@ namespace FWT.Api.Controllers
         public async Task<JObject> SignIn(string phoneNumber, string sentCode, string code)
         {
             TUser tlUser = await _queryDispatcher.DispatchAsync<SignIn.Query, TUser>(new SignIn.Query(phoneNumber, sentCode, code));
-
             TokenResponse response = await _identityClient.RequestClientCredentialsTokenAsync(tlUser);
             return response.Json;
         }
