@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using FWT.Core.Services.Logging;
+using FWT.Infrastructure.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using FWT.Core.Services.Logging;
-using FWT.Infrastructure.Models;
 using System;
 using System.IO;
 using System.Text;
@@ -13,10 +14,12 @@ namespace FWT.Infrastructure.Filters
     public sealed class ApiExceptionAttribute : ExceptionFilterAttribute
     {
         private readonly ILogger _logger;
+        private readonly IHostingEnvironment _hosting;
 
-        public ApiExceptionAttribute(ILogger logger)
+        public ApiExceptionAttribute(ILogger logger, IHostingEnvironment hosting)
         {
             _logger = logger;
+            _hosting = hosting;
         }
 
         public override void OnException(ExceptionContext context)
@@ -49,7 +52,14 @@ namespace FWT.Infrastructure.Filters
 
             _logger.Error(sb.ToString());
 
-            context.Result = new ContentResult() { Content = exceptionId.ToString() };
+            if (_hosting.IsDevelopment())
+            {
+                context.Result = new ContentResult() { Content = sb.ToString() };
+            }
+            else
+            {
+                context.Result = new ContentResult() { Content = exceptionId.ToString() };
+            }
         }
     }
 }

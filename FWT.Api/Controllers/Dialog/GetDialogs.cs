@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FWT.Core.CQRS;
+using FWT.Core.Extensions;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Cache;
 using FWT.Infrastructure.Handlers;
@@ -13,6 +14,7 @@ using OpenTl.Schema.Messages;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Chat
@@ -59,9 +61,15 @@ namespace FWT.Api.Controllers.Chat
                 })).As<TDialogs>();
 
                 var dialogs = new List<TelegramDialog>();
+                List<TUser> users = result.Users.Select(u => u.As<TUser>()).ToList();
+
                 foreach (IDialog dialog in result.Dialogs)
                 {
-                    dialogs.Add(DialogParser.Parse(dialog, result.Users));
+                    var appDialog = DialogParser.Parse(dialog, users);
+                    if (appDialog.IsNotNull())
+                    {
+                        dialogs.Add(appDialog);
+                    }
                 }
 
                 return dialogs;
