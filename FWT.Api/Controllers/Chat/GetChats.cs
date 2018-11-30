@@ -62,11 +62,7 @@ namespace FWT.Api.Controllers.Chat
                 var chats = new List<TelegramChat>();
                 foreach (IChat chat in result.Chats)
                 {
-                    var appChat = ChatParser.ParseChat(chat);
-                    if (appChat.IsNotNull())
-                    {
-                        chats.Add(appChat);
-                    }
+                    chats.AddWhenNotNull(ChatParser.ParseChat(chat));
                 }
 
                 return chats;

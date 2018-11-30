@@ -13,7 +13,7 @@ namespace FWT.Core.Extensions
             }
         }
 
-        public static void AddWhenNotNull<T>(ICollection<T> list, T item)
+        public static void AddWhenNotNull<T>(this ICollection<T> list, T item)
         {
             if (item != null)
             {

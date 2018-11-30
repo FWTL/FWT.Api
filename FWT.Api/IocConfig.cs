@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using FWT.Core.CQRS;
 using FWT.Core.Extensions;
 using FWT.Core.Services.Redis;
+using FWT.Core.Services.Sql;
 using FWT.Core.Services.Telegram;
 using FWT.Database;
 using FWT.Infrastructure.CQRS;
@@ -28,6 +29,20 @@ namespace FWT.Api
     {
         public static void RegisterCredentials(ContainerBuilder builder)
         {
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var credentials = new HangfireDatabaseCredentials();
+                credentials.BuildConnectionString(
+                        configuration["Hangfire:Sql:Url"],
+                        configuration["Hangfire:Sql:Port"].To<int>(),
+                        configuration["Hangfire:Sql:Catalog"],
+                        configuration["Hangfire:Sql:User"],
+                        configuration["Hangfire:Sql:Password"]);
+
+                return credentials;
+            }).SingleInstance();
+
             builder.Register(b =>
             {
                 var configuration = b.Resolve<IConfiguration>();
@@ -93,6 +108,17 @@ namespace FWT.Api
                 credentials.BuildLocalConnectionString(
                         configuration["Api:Sql:Url"],
                         configuration["Api:Sql:Catalog"]);
+
+                return credentials;
+            }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var credentials = new HangfireDatabaseCredentials();
+                credentials.BuildLocalConnectionString(
+                        configuration["Hangfire:Sql:Url"],
+                        configuration["Hangfire:Sql:Catalog"]);
 
                 return credentials;
             }).SingleInstance();
@@ -167,7 +193,6 @@ namespace FWT.Api
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<CurrentUserProvider>().AsImplementedInterfaces().InstancePerLifetimeScope();
-
 
             builder.Register<IClock>(b =>
             {

@@ -1,5 +1,6 @@
 ﻿using FWT.Core.Services.Dapper;
 using FWT.Core.Services.Telegram;
+using FWT.Database;
 using Microsoft.Extensions.Caching.Memory;
 using OpenTl.ClientApi;
 using StackExchange.Redis;
@@ -14,9 +15,9 @@ namespace FWT.Infrastructure.Telegram
         private readonly TelegramSettings _settings;
         private readonly IMemoryCache _cache;
         private static readonly TimeSpan SlidingExpiration = TimeSpan.FromMinutes(60);
-        private readonly IDatabaseConnector _databaseConnector;
+        private readonly IDatabaseConnector<TelegramDatabaseCredentials> _databaseConnector;
 
-        public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache, IDatabaseConnector databaseConnector)
+        public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache, IDatabaseConnector<TelegramDatabaseCredentials> databaseConnector)
         {
             _database = database;
             _settings = settings;

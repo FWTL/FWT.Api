@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FWT.Core.Services.Dapper;
+using FWT.Database;
 using OpenTl.ClientApi;
 using System.Threading.Tasks;
 using static FWT.Core.Entities.Maps.TelegramSessionMap;
@@ -8,10 +9,10 @@ namespace FWT.Infrastructure.Telegram
 {
     public class DatabaseSessionStore : ISessionStore
     {
-        private readonly IDatabaseConnector _database;
+        private readonly IDatabaseConnector<TelegramDatabaseCredentials> _database;
         private string _hashId;
 
-        public DatabaseSessionStore(IDatabaseConnector database)
+        public DatabaseSessionStore(IDatabaseConnector<TelegramDatabaseCredentials> database)
         {
             _database = database;
         }

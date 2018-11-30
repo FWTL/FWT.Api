@@ -62,11 +62,7 @@ namespace FWT.Api.Controllers.Chat
                 var channels = new List<TelegramChannel>();
                 foreach (IChat channel in result.Chats)
                 {
-                    var appChannel = ChatParser.ParseChannel(channel);
-                    if (appChannel.IsNotNull())
-                    {
-                        channels.Add(appChannel);
-                    }
+                    channels.AddWhenNotNull(ChatParser.ParseChannel(channel));
                 }
 
                 return channels;

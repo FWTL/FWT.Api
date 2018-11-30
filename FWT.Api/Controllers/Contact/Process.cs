@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
+using FWT.Api.Jobs;
 using FWT.Core.CQRS;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Validation;
-using OpenTl.ClientApi;
-using OpenTl.Schema;
-using OpenTl.Schema.Messages;
+using Hangfire;
 using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Dialog
@@ -20,23 +17,10 @@ namespace FWT.Api.Controllers.Dialog
 
         public class Handler : ICommandHandler<Command>
         {
-            private readonly ITelegramService _telegramService;
-
-            public Handler(ITelegramService telegramService)
+            public Task ExecuteAsync(Command command)
             {
-                _telegramService = telegramService;
-            }
-
-            public async Task ExecuteAsync(Command command)
-            {
-                IClientApi client = await _telegramService.BuildAsync(command.PhoneHashId);
-                IMessages history = await TelegramRequest.Handle(() =>
-                {
-                    return client.MessagesService.GetHistoryAsync(new TInputPeerUser()
-                    {
-                        UserId = command.ContactId,
-                    }, 0, 0, 100);
-                });
+                BackgroundJob.Enqueue<GetMessages>(job => job.ForContactAsync(command.ContactId, command.PhoneHashId, 0, 0));
+                return Task.CompletedTask;
             }
         }
 

@@ -1,11 +1,16 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Dormer.Scheduler.Jobs;
 using FluentValidation;
+using FWT.Core.Services.Dapper;
+using FWT.Core.Services.Sql;
 using FWT.Database;
 using FWT.Infrastructure.Configuration;
 using FWT.Infrastructure.Filters;
+using FWT.Infrastructure.Hangfire;
 using FWT.Infrastructure.Swagger;
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,6 +47,8 @@ namespace FWT.Api
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            IContainer applicationContainer = null;
+
             services.AddAutoMapper();
             services.AddMvc(options =>
             {
@@ -82,13 +89,19 @@ namespace FWT.Api
                 options.DescribeAllEnumsAsStrings();
             });
 
+            services.AddHangfire(hangfire =>
+            {
+                HangfireDatabaseCredentials hangfireDatabaseCredentials = applicationContainer.Resolve<HangfireDatabaseCredentials>();
+                hangfire.UseSqlServerStorage(hangfireDatabaseCredentials.ConnectionString);
+            });
+
             services.AddDbContext<TelegramDatabaseContext>();
 
-            IContainer applicationContainer = IocConfig.RegisterDependencies(services, _hostingEnvironment, _configuration);
+            applicationContainer = IocConfig.RegisterDependencies(services, _hostingEnvironment, _configuration);
             return new AutofacServiceProvider(applicationContainer);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             app.UseAuthentication();
 
@@ -103,6 +116,14 @@ namespace FWT.Api
 
             app.UseMvc(routes =>
             {
+            });
+
+            JobsSetup.Purge(services.GetService<IDatabaseConnector<HangfireDatabaseCredentials>>());
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/SchedulerDashboard", new DashboardOptions()
+            {
+                Authorization = new[] { new DevelopmentAuthorizationFilter() }
             });
 
             ValidatorOptions.LanguageManager.Enabled = false;
