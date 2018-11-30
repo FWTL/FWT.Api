@@ -1,5 +1,4 @@
-﻿using FWT.Api.Controllers.Chat;
-using FWT.Api.Controllers.User;
+﻿using FWT.Api.Controllers.Dialog;
 using FWT.Core.CQRS;
 using FWT.Core.Services.User;
 using FWT.Infrastructure.Telegram.Parsers.Models;
@@ -12,13 +11,13 @@ namespace FWT.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DialogsController : ControllerBase
+    public class ContactsController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly IQueryDispatcher _queryDispatcher;
         private readonly ICurrentUserProvider _userProvider;
 
-        public DialogsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
+        public ContactsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
@@ -27,10 +26,22 @@ namespace FWT.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<TelegramDialog>> GetDialogs()
+        public async Task<List<TelegramContact>> GetContacts()
         {
-            return await _queryDispatcher.DispatchAsync<GetDialogs.Query, List<TelegramDialog>>(new GetDialogs.Query()
+            return await _queryDispatcher.DispatchAsync<GetContacts.Query, List<TelegramContact>>(new GetContacts.Query()
             {
+                PhoneHashId = _userProvider.PhoneHashId(User)
+            });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("Process/{id}")]
+        public async Task Process(int id)
+        {
+            await _commandDispatcher.DispatchAsync(new Process.Command()
+            {
+                ContactId = id,
                 PhoneHashId = _userProvider.PhoneHashId(User)
             });
         }

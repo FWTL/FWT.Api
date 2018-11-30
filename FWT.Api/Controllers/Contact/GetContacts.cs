@@ -1,38 +1,36 @@
 ﻿using FluentValidation;
 using FWT.Core.CQRS;
-using FWT.Core.Extensions;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Cache;
 using FWT.Infrastructure.Handlers;
 using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Telegram.Parsers;
 using FWT.Infrastructure.Telegram.Parsers.Models;
 using FWT.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using OpenTl.Schema.Messages;
+using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FWT.Api.Controllers.Chat
+namespace FWT.Api.Controllers.Dialog
 {
-    public class GetDialogs
+    public class GetContacts
     {
         public class Query : IQuery
         {
             public string PhoneHashId { get; set; }
         }
 
-        public class Cache : RedisJsonHandler<Query, List<TelegramDialog>>
+        public class Cache : RedisJsonHandler<Query, List<TelegramContact>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<TelegramDialog, Query>(query, m => m.PhoneHashId);
+                    return CacheKeyBuilder.Build<TelegramContact, Query>(query, m => m.PhoneHashId);
                 };
             }
 
@@ -42,7 +40,7 @@ namespace FWT.Api.Controllers.Chat
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<TelegramDialog>>
+        public class Handler : IQueryHandler<Query, List<TelegramContact>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -51,28 +49,20 @@ namespace FWT.Api.Controllers.Chat
                 _telegramService = telegramService;
             }
 
-            public async Task<List<TelegramDialog>> HandleAsync(Query query)
+            public async Task<List<TelegramContact>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
-
-                TDialogs result = (await TelegramRequest.Handle(() =>
+                TContacts result = (await TelegramRequest.Handle(() =>
                 {
-                    return client.MessagesService.GetUserDialogsAsync();
-                })).As<TDialogs>();
+                    return client.ContactsService.GetContactsAsync();
+                }));
 
-                var dialogs = new List<TelegramDialog>();
-                List<TUser> users = result.Users.Select(u => u.As<TUser>()).ToList();
-
-                foreach (IDialog dialog in result.Dialogs)
+                List<TelegramContact> contacts = result.Users.Select(c =>
                 {
-                    var appDialog = DialogParser.Parse(dialog, users);
-                    if (appDialog.IsNotNull())
-                    {
-                        dialogs.Add(appDialog);
-                    }
-                }
+                    return new TelegramContact(c.As<TUser>());
+                }).ToList();
 
-                return dialogs;
+                return contacts;
             }
         }
 

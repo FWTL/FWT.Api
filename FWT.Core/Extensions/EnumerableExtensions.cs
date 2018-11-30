@@ -12,5 +12,13 @@ namespace FWT.Core.Extensions
                 action(item);
             }
         }
+
+        public static void AddWhenNotNull<T>(ICollection<T> list, T item)
+        {
+            if (item != null)
+            {
+                list.Add(item);
+            }
+        }
     }
 }
