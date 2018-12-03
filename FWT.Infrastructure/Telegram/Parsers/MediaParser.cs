@@ -1,8 +1,10 @@
 ﻿using FWT.Core.Extensions;
+using FWT.Core.Helpers;
 using FWT.Infrastructure.Telegram.Parsers.Models;
 using OpenTl.Schema;
 using System;
 using System.Collections.Generic;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -31,52 +33,83 @@ namespace FWT.Infrastructure.Telegram.Parsers
         private static MessageMedia Parse(TMessageMediaDocument messageMediaDocument)
         {
             var document = messageMediaDocument.Document.As<TDocument>();
-            document.Attributes.
+
+            var messageMedia = new MessageMedia();
+            var attributes = document.Attributes.ForEach(attribute => { return DocumentAttributeParser.Parse(attribute); });
+
+            return messageMedia;
         }
 
         private static MessageMedia Parse(TMessageMediaUnsupported messageMediaUnsupported)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Unknown
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaContact messageMediaContact)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.MediaContact
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaVenue messageMediaVenue)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Venue
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaInvoice messageMediaInvoice)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Invoice
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaGeo messageMediaGeo)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Geo
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaEmpty messageMediaEmpty)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Unknown
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaPhoto messageMediaPhoto)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Photo
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaGeoLive messageMediaGeoLive)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.GeoLive
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaWebPage messageMediaWebPage)
         {
-            throw new NotImplementedException();
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.WebPage
+            };
         }
 
         public static MessageMedia Parse(IMessageMedia media)

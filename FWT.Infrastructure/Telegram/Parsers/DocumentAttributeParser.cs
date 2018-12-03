@@ -7,7 +7,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
 {
     internal class DocumentAttributeParser
     {
-        private static readonly Dictionary<string, Func<IDocumentAttribute, DocumentAttribute>> Switch = new Dictionary<string, Func<IDocumentAttribute, DocumentAttribute>>()
+        private static readonly Dictionary<string, Func<IDocumentAttribute, List<DocumentAttribute>>> Switch = new Dictionary<string, Func<IDocumentAttribute, List<DocumentAttribute>>>()
         {
             { typeof(TDocumentAttributeFilename).FullName, x => { return Parse(x as TDocumentAttributeFilename); } },
             { typeof(TDocumentAttributeSticker).FullName, x => { return Parse(x as TDocumentAttributeSticker); } },
@@ -18,39 +18,56 @@ namespace FWT.Infrastructure.Telegram.Parsers
             { typeof(TDocumentAttributeImageSize).FullName, x => { return Parse(x as TDocumentAttributeImageSize); } },
         };
 
-        private static DocumentAttribute Parse(TDocumentAttributeImageSize documentAttributeImageSize)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeImageSize documentAttributeImageSize)
         {
-            throw new NotImplementedException();
+            return new List<DocumentAttribute>();
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeVideo documentAttributeVideo)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeVideo documentAttributeVideo)
         {
-            throw new NotImplementedException();
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeVideo.Duration), documentAttributeVideo.Duration.ToString()));
+            return attributes;
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeAudio documentAttributeAudio)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeAudio documentAttributeAudio)
         {
-            throw new NotImplementedException();
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeAudio.Duration), documentAttributeAudio.Duration.ToString()));
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeAudio.Performer), documentAttributeAudio.Performer));
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeAudio.Title), documentAttributeAudio.Title));
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeAudio.Voice), documentAttributeAudio.Voice.ToString()));
+            return attributes;
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeHasStickers documentAttributeHasStickers)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeHasStickers documentAttributeHasStickers)
         {
-            throw new NotImplementedException();
+            return new List<DocumentAttribute>();
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeAnimated documentAttributeAnimated)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeAnimated documentAttributeAnimated)
         {
-            throw new NotImplementedException();
+            return new List<DocumentAttribute>();
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeSticker documentAttributeSticker)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeSticker documentAttributeSticker)
         {
-            throw new NotImplementedException();
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeSticker.Alt), documentAttributeSticker.Alt));
+            return attributes;
         }
 
-        private static DocumentAttribute Parse(TDocumentAttributeFilename documentAttributeFilename)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeFilename documentAttributeFilename)
         {
-            throw new NotImplementedException();
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeFilename.FileName), documentAttributeFilename.FileName));
+            return attributes;
+        }
+
+        public static List<DocumentAttribute> Parse(IDocumentAttribute attribute)
+        {
+            string key = attribute.GetType().FullName;
+            return Switch[key](attribute);
         }
     }
 }

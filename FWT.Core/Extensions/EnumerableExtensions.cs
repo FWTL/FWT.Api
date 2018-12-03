@@ -13,6 +13,14 @@ namespace FWT.Core.Extensions
             }
         }
 
+        public static IEnumerable<TResult> ForEach<TModel, TResult>(this IEnumerable<TModel> enumeration, Func<TModel, TResult> action)
+        {
+            foreach (TModel item in enumeration)
+            {
+                yield return action(item);
+            }
+        }
+
         public static void AddWhenNotNull<T>(this ICollection<T> list, T item)
         {
             if (item != null)

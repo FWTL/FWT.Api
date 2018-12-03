@@ -16,6 +16,18 @@
             p100 = 100
         }
 
+        public enum TelegramMediaType
+        {
+            Unknown = 0,
+            MediaContact = 1,
+            Venue = 2,
+            Invoice = 3,
+            Geo = 4,
+            Photo = 5,
+            GeoLive = 6,
+            WebPage = 7,
+        }
+
         public enum TelegramEntity
         {
             Unknown = 0,
