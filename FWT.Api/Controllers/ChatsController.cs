@@ -27,9 +27,9 @@ namespace FWT.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<TelegramChat>> GetChats()
+        public async Task<List<Infrastructure.Telegram.Parsers.Models.Chat>> GetChats()
         {
-            return await _queryDispatcher.DispatchAsync<GetChats.Query, List<TelegramChat>>(new GetChats.Query()
+            return await _queryDispatcher.DispatchAsync<GetChats.Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>(new GetChats.Query()
             {
                 PhoneHashId = _userProvider.PhoneHashId(User)
             });

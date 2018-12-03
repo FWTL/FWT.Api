@@ -26,9 +26,9 @@ namespace FWT.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<TelegramContact>> GetContacts()
+        public async Task<List<Contact>> GetContacts()
         {
-            return await _queryDispatcher.DispatchAsync<GetContacts.Query, List<TelegramContact>>(new GetContacts.Query()
+            return await _queryDispatcher.DispatchAsync<GetContacts.Query, List<Contact>>(new GetContacts.Query()
             {
                 PhoneHashId = _userProvider.PhoneHashId(User)
             });

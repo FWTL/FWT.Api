@@ -24,13 +24,13 @@ namespace FWT.Api.Controllers.Dialog
             public string PhoneHashId { get; set; }
         }
 
-        public class Cache : RedisJsonHandler<Query, List<TelegramContact>>
+        public class Cache : RedisJsonHandler<Query, List<Contact>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<TelegramContact, Query>(query, m => m.PhoneHashId);
+                    return CacheKeyBuilder.Build<Contact, Query>(query, m => m.PhoneHashId);
                 };
             }
 
@@ -40,7 +40,7 @@ namespace FWT.Api.Controllers.Dialog
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<TelegramContact>>
+        public class Handler : IQueryHandler<Query, List<Contact>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -49,7 +49,7 @@ namespace FWT.Api.Controllers.Dialog
                 _telegramService = telegramService;
             }
 
-            public async Task<List<TelegramContact>> HandleAsync(Query query)
+            public async Task<List<Contact>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
                 TContacts result = (await TelegramRequest.Handle(() =>
@@ -57,9 +57,9 @@ namespace FWT.Api.Controllers.Dialog
                     return client.ContactsService.GetContactsAsync();
                 }));
 
-                List<TelegramContact> contacts = result.Users.Select(c =>
+                List<Contact> contacts = result.Users.Select(c =>
                 {
-                    return new TelegramContact(c.As<TUser>());
+                    return new Contact(c.As<TUser>());
                 }).ToList();
 
                 return contacts;

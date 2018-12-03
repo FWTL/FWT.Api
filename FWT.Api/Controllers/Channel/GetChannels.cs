@@ -25,7 +25,7 @@ namespace FWT.Api.Controllers.Chat
             public string PhoneHashId { get; set; }
         }
 
-        public class Cache : RedisJsonHandler<Query, List<TelegramChannel>>
+        public class Cache : RedisJsonHandler<Query, List<Channel>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
@@ -41,7 +41,7 @@ namespace FWT.Api.Controllers.Chat
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<TelegramChannel>>
+        public class Handler : IQueryHandler<Query, List<Channel>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -50,7 +50,7 @@ namespace FWT.Api.Controllers.Chat
                 _telegramService = telegramService;
             }
 
-            public async Task<List<TelegramChannel>> HandleAsync(Query query)
+            public async Task<List<Channel>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
@@ -59,7 +59,7 @@ namespace FWT.Api.Controllers.Chat
                     return client.MessagesService.GetUserDialogsAsync();
                 })).As<TDialogs>();
 
-                var channels = new List<TelegramChannel>();
+                var channels = new List<Channel>();
                 foreach (IChat channel in result.Chats)
                 {
                     channels.AddWhenNotNull(ChatParser.ParseChannel(channel));

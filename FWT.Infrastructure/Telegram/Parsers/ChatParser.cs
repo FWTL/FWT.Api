@@ -8,20 +8,20 @@ namespace FWT.Infrastructure.Telegram.Parsers
 {
     public class ChatParser
     {
-        private static readonly Dictionary<string, Func<IChat, TelegramChat>> SwitchChat = new Dictionary<string, Func<IChat, TelegramChat>>()
+        private static readonly Dictionary<string, Func<IChat, Chat>> SwitchChat = new Dictionary<string, Func<IChat, Chat>>()
         {
               { typeof(TChatEmpty).FullName, x => { return Parse(x as TChatEmpty); } },
               { typeof(TChat).FullName, x => { return Parse(x as TChat); } },
               { typeof(TChatForbidden).FullName, x => { return Parse(x as TChatForbidden); } },
         };
 
-        private static readonly Dictionary<string, Func<IChat, TelegramChannel>> SwitchChannel = new Dictionary<string, Func<IChat, TelegramChannel>>()
+        private static readonly Dictionary<string, Func<IChat, Channel>> SwitchChannel = new Dictionary<string, Func<IChat, Channel>>()
         {
               { typeof(TChannel).FullName, x => { return Parse(x as TChannel); } },
               { typeof(TChannelForbidden).FullName, x => { return Parse(x as TChannelForbidden); } },
         };
 
-        public static TelegramChat ParseChat(IChat chat)
+        public static Chat ParseChat(IChat chat)
         {
             string key = chat.GetType().FullName;
             if (SwitchChat.ContainsKey(key))
@@ -32,7 +32,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return null;
         }
 
-        public static TelegramChannel ParseChannel(IChat chat)
+        public static Channel ParseChannel(IChat chat)
         {
             string key = chat.GetType().FullName;
             if (SwitchChannel.ContainsKey(key))
@@ -43,20 +43,14 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return null;
         }
 
-        private static TelegramChat Parse(TChatEmpty chat)
+        private static Chat Parse(TChatEmpty chat)
         {
-            var appChat = new TelegramChat()
-            {
-                Id = chat.Id,
-                Title = "Empty Chat"
-            };
-
-            return appChat;
+            throw new NotImplementedException();
         }
 
-        private static TelegramChat Parse(TChat chat)
+        private static Chat Parse(TChat chat)
         {
-            var appChat = new TelegramChat()
+            var appChat = new Chat()
             {
                 Id = chat.Id,
                 CreateDate = Instant.FromUnixTimeSeconds(chat.Date).ToDateTimeUtc(),
@@ -67,9 +61,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return appChat;
         }
 
-        private static TelegramChat Parse(TChatForbidden chat)
+        private static Chat Parse(TChatForbidden chat)
         {
-            var appChat = new TelegramChat()
+            var appChat = new Chat()
             {
                 Id = chat.Id,
                 Title = chat.Title,
@@ -78,9 +72,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return appChat;
         }
 
-        private static TelegramChannel Parse(TChannel chat)
+        private static Channel Parse(TChannel chat)
         {
-            var appChat = new TelegramChannel()
+            var appChat = new Channel()
             {
                 Id = chat.Id,
                 Title = chat.Title,
@@ -90,9 +84,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return appChat;
         }
 
-        private static TelegramChannel Parse(TChannelForbidden chat)
+        private static Channel Parse(TChannelForbidden chat)
         {
-            var appChat = new TelegramChannel()
+            var appChat = new Channel()
             {
                 Id = chat.Id,
                 Title = chat.Title,

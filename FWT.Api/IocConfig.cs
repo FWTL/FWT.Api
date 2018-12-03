@@ -6,6 +6,7 @@ using FWT.Core.Extensions;
 using FWT.Core.Services.Redis;
 using FWT.Core.Services.Sql;
 using FWT.Core.Services.Telegram;
+using FWT.Core.Services.Unique;
 using FWT.Database;
 using FWT.Infrastructure.CQRS;
 using FWT.Infrastructure.Dapper;
@@ -193,6 +194,7 @@ namespace FWT.Api
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<CurrentUserProvider>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<RandomService>().AsImplementedInterfaces().SingleInstance();
 
             builder.Register<IClock>(b =>
             {

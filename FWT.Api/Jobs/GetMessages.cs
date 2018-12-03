@@ -1,9 +1,14 @@
 ﻿using FWT.Core.Services.Telegram;
+using FWT.Core.Services.Unique;
 using FWT.Infrastructure.Telegram;
+using FWT.Infrastructure.Telegram.Parsers;
+using FWT.Infrastructure.Telegram.Parsers.Models;
 using Hangfire;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FWT.Api.Jobs
@@ -11,10 +16,12 @@ namespace FWT.Api.Jobs
     public class GetMessages
     {
         private readonly ITelegramService _telegramService;
+        private readonly IRandomService _randomService;
 
-        public GetMessages(ITelegramService telegramService)
+        public GetMessages(ITelegramService telegramService, IRandomService randomService)
         {
             _telegramService = telegramService;
+            _randomService = randomService;
         }
 
         public async Task ForContactAsync(int contactId, string phoneHashId, int offset, int maxId)
@@ -28,7 +35,14 @@ namespace FWT.Api.Jobs
                 }, offset, maxId, 100);
             });
 
-            BackgroundJob.Enqueue<GetMessages>(job => job.ForContactAsync(contactId, phoneHashId, offset + 100, 0));
+            List<Message> messages = MessagesParser.Parse(history);
+
+            if (messages.Count > 0)
+            {
+                BackgroundJob.Schedule<GetMessages>(
+                    job => job.ForContactAsync(contactId, phoneHashId, offset + 100, 0),
+                    TimeSpan.FromSeconds(_randomService.Random.Next(5, 20)));
+            }
         }
     }
 }
