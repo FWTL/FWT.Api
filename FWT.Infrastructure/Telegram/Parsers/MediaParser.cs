@@ -107,7 +107,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
         private static MessageMedia Parse(TMessageMediaPhoto messageMediaPhoto)
         {
             var photo = messageMediaPhoto.Photo.As<TPhoto>();
-            var sizes = photo.Sizes.ForEach(size => { return size.As<TPhotoSize>(); });
+            var sizes = photo.Sizes.ForEach(size => { return PhotoSizeParser.Parse(size); });
             var files = sizes.ForEach(size =>
             {
                 var location = size.Location.As<TFileLocation>();

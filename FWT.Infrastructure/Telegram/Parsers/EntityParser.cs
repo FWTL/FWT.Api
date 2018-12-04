@@ -23,7 +23,17 @@ namespace FWT.Infrastructure.Telegram.Parsers
               { typeof(TMessageEntityUnknown).FullName, x => { return Parse(x as TMessageEntityUnknown); } },
               { typeof(TMessageEntityUrl).FullName, x => { return Parse(x as TMessageEntityUrl); } },
               { typeof(TMessageEntityHashtag).FullName, x => { return Parse(x as TMessageEntityHashtag); } },
+              { typeof(TInputMessageEntityMentionName).FullName, x => { return Parse(x as TInputMessageEntityMentionName); } },
+              { typeof(TMessageEntityCode).FullName, x => { return Parse(x as TMessageEntityCode); } },
         };
+
+        private static MessageEntity Parse(TInputMessageEntityMentionName inputMessageEntityMentionName)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.MentionName
+            };
+        }
 
         private static MessageEntity Parse(TMessageEntityHashtag messageEntityHashtag)
         {

@@ -49,7 +49,7 @@
 
         public enum TelegramMessageAction
         {
-            Empty = 0,
+            Plain = 0,
             ChatCreate = 1,
             ChatEditTitle = 2,
             ChatEditPhoto = 3,
@@ -68,6 +68,9 @@
             PhoneCall = 16,
             ScreenshotTaken = 17,
             ActionCustomAction = 18,
+            BotAllowed = 19,
+            SecureValuesSent = 20,
+            Empty = 21,
         }
     }
 }

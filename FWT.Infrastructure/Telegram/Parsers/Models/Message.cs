@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers.Models
 {
@@ -12,5 +13,7 @@ namespace FWT.Infrastructure.Telegram.Parsers.Models
         public string Text { get; set; }
         public MessageMedia Media { get; set; }
         public List<MessageEntity> Entities { get; set; } = new List<MessageEntity>();
+
+        public TelegramMessageAction Action { get; set; }
     }
 }
