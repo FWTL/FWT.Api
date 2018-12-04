@@ -26,6 +26,7 @@
             Photo = 5,
             GeoLive = 6,
             WebPage = 7,
+            Document = 8,
         }
 
         public enum TelegramEntity
@@ -42,7 +43,8 @@
             Pre = 9,
             TextUrl = 10,
             MentionName = 11,
-            InputMentionName = 12,
+            CashTag = 12,
+            Phone = 13,
         }
 
         public enum TelegramMessageAction

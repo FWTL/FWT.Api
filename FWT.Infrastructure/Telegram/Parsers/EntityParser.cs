@@ -2,6 +2,7 @@
 using OpenTl.Schema;
 using System;
 using System.Collections.Generic;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -26,72 +27,114 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static MessageEntity Parse(TMessageEntityHashtag messageEntityHashtag)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Hashtag
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityUrl messageEntityUrl)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Url
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityUnknown messageEntityUnknown)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Unknown
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityBotCommand messageEntityBotCommand)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.BotCommand
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityEmail messageEntityEmail)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Email
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityMentionName messageEntityMentionName)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.MentionName
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityPre messageEntityPre)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Pre
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityCode messageEntityCode)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Code
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityItalic messageEntityItalic)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Italic
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityTextUrl messageEntityTextUrl)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.TextUrl
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityCashtag messageEntityCashtag)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.CashTag
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityBold messageEntityBold)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Bold
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityPhone messageEntityPhone)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Phone
+            };
         }
 
         private static MessageEntity Parse(TMessageEntityMention messageEntityMention)
         {
-            throw new NotImplementedException();
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Mention
+            };
         }
 
         public static MessageEntity Parse(IMessageEntity entity)

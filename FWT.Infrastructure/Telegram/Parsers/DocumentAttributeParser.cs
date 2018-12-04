@@ -42,7 +42,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static List<DocumentAttribute> Parse(TDocumentAttributeHasStickers documentAttributeHasStickers)
         {
-            return new List<DocumentAttribute>();
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute("HasSticker", "true"));
+            return attributes;
         }
 
         private static List<DocumentAttribute> Parse(TDocumentAttributeAnimated documentAttributeAnimated)

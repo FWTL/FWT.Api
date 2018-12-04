@@ -4,6 +4,7 @@ using FWT.Infrastructure.Telegram.Parsers.Models;
 using OpenTl.Schema;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
@@ -34,8 +35,13 @@ namespace FWT.Infrastructure.Telegram.Parsers
         {
             var document = messageMediaDocument.Document.As<TDocument>();
 
-            var messageMedia = new MessageMedia();
-            var attributes = document.Attributes.ForEach(attribute => { return DocumentAttributeParser.Parse(attribute); });
+            var messageMedia = new MessageMedia()
+            {
+                Type = TelegramMediaType.Document
+            };
+
+            List<DocumentAttribute> attrubutes = new List<DocumentAttribute>();
+            var attributes = document.Attributes.ForEach(attribute => { return DocumentAttributeParser.Parse(attribute); }).SelectMany(list => list).ToList();
 
             return messageMedia;
         }

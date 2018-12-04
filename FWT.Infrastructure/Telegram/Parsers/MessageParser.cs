@@ -44,7 +44,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
                 Media = MediaParser.Parse(message.Media),
             };
 
-            message.Entities.ForEach(entity => parsedMessage.Entities.Add(EntityParser.Parse(entity)));
+            message.Entities?.ForEach(entity => parsedMessage.Entities.Add(EntityParser.Parse(entity)));
             return parsedMessage;
         }
     }
