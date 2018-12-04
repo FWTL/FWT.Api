@@ -8,9 +8,9 @@ using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 
-namespace FWT.Api.Controllers.File
+namespace FWT.Api.Controllers.Photo
 {
-    public class GetFile
+    public class GetPhoto
     {
         public class Query : IQuery
         {

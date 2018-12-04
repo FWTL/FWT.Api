@@ -1,4 +1,4 @@
-﻿using FWT.Api.Controllers.File;
+﻿using FWT.Api.Controllers.Photo;
 using FWT.Core.CQRS;
 using FWT.Core.Helpers;
 using FWT.Core.Services.User;
@@ -11,13 +11,13 @@ namespace FWT.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FileController : ControllerBase
+    public class PhotosController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
         private readonly IQueryDispatcher _queryDispatcher;
         private readonly ICurrentUserProvider _userProvider;
 
-        public FileController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
+        public PhotosController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
@@ -28,7 +28,7 @@ namespace FWT.Api.Controllers
         [Authorize]
         public async Task<FileContentResult> GetChats(long volumeId, int localId, long secret)
         {
-            var result = await _queryDispatcher.DispatchAsync<GetFile.Query, FileInfo>(new GetFile.Query()
+            var result = await _queryDispatcher.DispatchAsync<GetPhoto.Query, FileInfo>(new GetPhoto.Query()
             {
                 PhoneHashId = _userProvider.PhoneHashId(User),
                 Location = new TInputFileLocation()
