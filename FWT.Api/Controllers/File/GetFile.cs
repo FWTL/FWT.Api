@@ -5,6 +5,7 @@ using FWT.Core.Services.Telegram;
 using FWT.Core.Services.Unique;
 using FWT.Infrastructure.Telegram;
 using OpenTl.ClientApi;
+using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 
 namespace FWT.Api.Controllers.File
@@ -14,6 +15,7 @@ namespace FWT.Api.Controllers.File
         public class Query : IQuery
         {
             public string PhoneHashId { get; set; }
+            public TInputFileLocation Location { get; set; }
         }
 
         public class Handler : IQueryHandler<Query, FileInfo>
@@ -33,7 +35,7 @@ namespace FWT.Api.Controllers.File
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
                 byte[] result = (await TelegramRequest.Handle(() =>
                 {
-                    return client.FileService.DownloadFullFileAsync(null);
+                    return client.FileService.DownloadFullFileAsync(query.Location);
                 }));
 
                 return new FileInfo()
@@ -42,5 +44,6 @@ namespace FWT.Api.Controllers.File
                     Name = _guidService.New().ToString("n")
                 };
             }
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FWT.Core.Extensions;
-using FWT.Core.Helpers;
 using FWT.Infrastructure.Telegram.Parsers.Models;
 using OpenTl.Schema;
 using System;
@@ -37,12 +36,23 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
             var messageMedia = new MessageMedia()
             {
+                Files = new List<File>()
+                {
+                    new File()
+                    {
+                        Size = document.Size,
+                        Location = new TInputDocumentFileLocation()
+                        {
+                            Id = document.Id,
+                            AccessHash = document.AccessHash,
+                            Version = document.Version
+                        }
+                    }
+                },
                 Type = TelegramMediaType.Document
             };
 
-            List<DocumentAttribute> attrubutes = new List<DocumentAttribute>();
-            var attributes = document.Attributes.ForEach(attribute => { return DocumentAttributeParser.Parse(attribute); }).SelectMany(list => list).ToList();
-
+            messageMedia.Attibutes = document.Attributes.ForEach(attribute => { return DocumentAttributeParser.Parse(attribute); }).SelectMany(list => list).ToList();
             return messageMedia;
         }
 
@@ -96,8 +106,26 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static MessageMedia Parse(TMessageMediaPhoto messageMediaPhoto)
         {
+            var photo = messageMediaPhoto.Photo.As<TPhoto>();
+            var sizes = photo.Sizes.ForEach(size => { return size.As<TPhotoSize>(); });
+            var files = sizes.ForEach(size =>
+            {
+                var location = size.Location.As<TFileLocation>();
+                return new File()
+                {
+                    Size = size.Size,
+                    Location = new TInputFileLocation()
+                    {
+                        LocalId = location.LocalId,
+                        VolumeId = location.VolumeId,
+                        Secret = location.Secret
+                    }
+                };
+            });
+
             return new MessageMedia()
             {
+                Files = files.ToList(),
                 Type = TelegramMediaType.Photo
             };
         }
