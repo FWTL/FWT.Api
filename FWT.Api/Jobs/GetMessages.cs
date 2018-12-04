@@ -2,14 +2,12 @@
 using FWT.Core.Services.Unique;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Telegram.Parsers;
-using FWT.Infrastructure.Telegram.Parsers.Models;
 using Hangfire;
 using OpenTl.ClientApi;
-using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Api.Jobs
 {
@@ -24,18 +22,24 @@ namespace FWT.Api.Jobs
             _randomService = randomService;
         }
 
-        public async Task ForContactAsync(int contactId, string phoneHashId, int offset, int maxId)
+        public async Task ForPeer(int id, PeerType peerType, string phoneHashId, int offset, int maxId)
         {
+            InputPeer
+            switch(peerType)
+            {
+                case(PeerType.Channal)
+                    {
+
+                    }
+            }
+
             IClientApi client = await _telegramService.BuildAsync(phoneHashId);
             IMessages history = await TelegramRequest.Handle(() =>
             {
-                return client.MessagesService.GetHistoryAsync(new TInputPeerUser()
-                {
-                    UserId = contactId
-                }, offset, maxId, 100);
+                return client.MessagesService.GetHistoryAsync(inputPeer, offset, maxId, 100);
             });
 
-            List<Message> messages = MessagesParser.Parse(history);
+            var messages = MessagesParser.Parse(history);
 
             if (messages.Count > 0)
             {

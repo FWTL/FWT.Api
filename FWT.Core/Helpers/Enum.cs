@@ -16,6 +16,13 @@
             p100 = 100
         }
 
+        public enum PeerType
+        {
+            User = 1,
+            Chat = 2,
+            Channal = 3
+        }
+
         public enum TelegramMediaType
         {
             Unknown = 0,
