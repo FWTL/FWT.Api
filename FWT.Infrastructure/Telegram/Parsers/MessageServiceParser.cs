@@ -7,7 +7,7 @@ using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    internal class MessageServiceParser
+    public class MessageServiceParser
     {
         private static readonly Dictionary<string, Func<IMessageAction, Message>> Switch = new Dictionary<string, Func<IMessageAction, Message>>()
         {
@@ -231,6 +231,12 @@ namespace FWT.Infrastructure.Telegram.Parsers
                 Text = messageActionChannelCreate.Title,
                 Action = TelegramMessageAction.ChannelCreate
             };
+        }
+
+        public static Message Parse(IMessageAction message)
+        {
+            string key = message.GetType().FullName;
+            return Switch[key](message);
         }
     }
 }

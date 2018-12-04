@@ -90,10 +90,15 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static MessageMedia Parse(TMessageMediaGeo messageMediaGeo)
         {
-            return new MessageMedia()
+            var point = messageMediaGeo.Geo.As<TGeoPoint>();
+            var media = new MessageMedia()
             {
                 Type = TelegramMediaType.Geo
             };
+
+            media.Attibutes.Add(new DocumentAttribute("Lat", point.Lat.ToString()));
+            media.Attibutes.Add(new DocumentAttribute("Long", point.Long.ToString()));
+            return media;
         }
 
         private static MessageMedia Parse(TMessageMediaEmpty messageMediaEmpty)
@@ -132,10 +137,15 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static MessageMedia Parse(TMessageMediaGeoLive messageMediaGeoLive)
         {
-            return new MessageMedia()
+            var point = messageMediaGeoLive.Geo.As<TGeoPoint>();
+            var media = new MessageMedia()
             {
                 Type = TelegramMediaType.GeoLive
             };
+
+            media.Attibutes.Add(new DocumentAttribute("Lat", point.Lat.ToString()));
+            media.Attibutes.Add(new DocumentAttribute("Long", point.Long.ToString()));
+            return media;
         }
 
         private static MessageMedia Parse(TMessageMediaWebPage messageMediaWebPage)

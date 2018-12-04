@@ -29,7 +29,10 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static Message Parse(TMessageService messageService)
         {
-            return new Message();
+            var message = MessageServiceParser.Parse(messageService.Action);
+            message.Id = messageService.Id;
+            message.CreateDate = Instant.FromUnixTimeSeconds(messageService.Date).ToDateTimeUtc();
+            return message;
         }
 
         private static Message Parse(TMessage message)
