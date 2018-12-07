@@ -1,4 +1,5 @@
 ﻿using FWT.Api.Controllers.Dialog;
+using FWT.Api.Controllers.Message;
 using FWT.Core.CQRS;
 using FWT.Core.Services.User;
 using FWT.Infrastructure.Telegram.Parsers.Models;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Api.Controllers
 {
@@ -41,8 +43,9 @@ namespace FWT.Api.Controllers
         {
             await _commandDispatcher.DispatchAsync(new Process.Command()
             {
-                ContactId = id,
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                Id = id,
+                PhoneHashId = _userProvider.PhoneHashId(User),
+                Type = PeerType.User
             });
         }
     }

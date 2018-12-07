@@ -10,6 +10,7 @@ using FWT.Core.Services.Unique;
 using FWT.Database;
 using FWT.Infrastructure.CQRS;
 using FWT.Infrastructure.Dapper;
+using FWT.Infrastructure.EventHub;
 using FWT.Infrastructure.Identity;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Unique;
@@ -17,6 +18,7 @@ using FWT.Infrastructure.User;
 using FWT.Infrastructure.Validation;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.EventHubs;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -97,6 +99,17 @@ namespace FWT.Api
                 };
 
                 return settings;
+            }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var connectionStringBuilder = new EventHubsConnectionStringBuilder(configuration["EventHub:ConnectionString"])
+                {
+                    EntityPath = configuration["EventHub:EntityPath"]
+                };
+
+                return connectionStringBuilder;
             }).SingleInstance();
         }
 
@@ -195,11 +208,18 @@ namespace FWT.Api
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<CurrentUserProvider>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<RandomService>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<EventHubService>().AsImplementedInterfaces().SingleInstance();
 
             builder.Register<IClock>(b =>
             {
                 return SystemClock.Instance;
             }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                var connectionStringBuilder = b.Resolve<EventHubsConnectionStringBuilder>();
+                return EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
+            }).InstancePerLifetimeScope();
 
             return builder.Build();
         }
