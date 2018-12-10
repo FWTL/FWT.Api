@@ -55,7 +55,10 @@ namespace FWT.Infrastructure.Telegram.Parsers
         private static List<DocumentAttribute> Parse(TDocumentAttributeSticker documentAttributeSticker)
         {
             var attributes = new List<DocumentAttribute>();
+            var stickerSet = documentAttributeSticker.Stickerset.As<TInputStickerSetID>();
             attributes.Add(new DocumentAttribute(nameof(documentAttributeSticker.Alt), documentAttributeSticker.Alt));
+            attributes.Add(new DocumentAttribute(nameof(stickerSet.Id), stickerSet.Id.ToString()));
+            attributes.Add(new DocumentAttribute(nameof(stickerSet.AccessHash), stickerSet.AccessHash.ToString()));
             return attributes;
         }
 

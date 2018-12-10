@@ -2,6 +2,7 @@
 using OpenTl.Schema.Messages;
 using System;
 using System.Collections.Generic;
+using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -15,10 +16,17 @@ namespace FWT.Infrastructure.Telegram.Parsers
               { typeof(TMessages).FullName, x => { return Parse(x as TMessages); } },
         };
 
-        public static List<Message> Parse(IMessages messages)
+        public static List<Message> Parse(IMessages messages, int id, PeerType peerType)
         {
             string key = messages.GetType().FullName;
-            return Switch[key](messages);
+            List<Message> message = Switch[key](messages);
+            message.ForEach(m =>
+            {
+                m.SourceId = id;
+                m.PeerType = peerType;
+            });
+
+            return message;
         }
 
         private static List<Message> Parse(TChannelMessages channelMessages)

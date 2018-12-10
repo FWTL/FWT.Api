@@ -63,7 +63,7 @@ namespace FWT.Api.Jobs
                 return client.MessagesService.GetHistoryAsync(peer, offset, maxId, 100);
             });
 
-            var messages = MessagesParser.Parse(history);
+            var messages = MessagesParser.Parse(history, id, peerType);
             await _eventHub.SendAsync(messages);
 
             if (messages.Count > 0)

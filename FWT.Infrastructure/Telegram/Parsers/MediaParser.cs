@@ -66,10 +66,14 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
         private static MessageMedia Parse(TMessageMediaContact messageMediaContact)
         {
-            return new MessageMedia()
+            var media = new MessageMedia()
             {
                 Type = TelegramMediaType.MediaContact
             };
+
+            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.FirstName), messageMediaContact.FirstName));
+            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.PhoneNumber), messageMediaContact.PhoneNumber));
+            return media;
         }
 
         private static MessageMedia Parse(TMessageMediaVenue messageMediaVenue)
