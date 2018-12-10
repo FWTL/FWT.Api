@@ -24,6 +24,8 @@ namespace FWT.Infrastructure.EventHub
                 batch.TryAdd(new EventData(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msg))));
             }
 
+            var json = JsonConvert.SerializeObject(messages, Formatting.Indented);
+
             await _client.SendAsync(batch);
         }
     }
