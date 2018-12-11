@@ -4,7 +4,10 @@ namespace FWT.Infrastructure.Telegram.Parsers.Models
 {
     public class Contact
     {
-        
+        public Contact()
+        {
+        }
+
         public Contact(TUser contact)
         {
             Id = contact.Id;
