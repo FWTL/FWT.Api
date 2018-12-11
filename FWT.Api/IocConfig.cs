@@ -203,6 +203,7 @@ namespace FWT.Api
             }).SingleInstance();
 
             builder.RegisterType<DapperConnector<TelegramDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
+            builder.RegisterType<DapperConnector<HangfireDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();

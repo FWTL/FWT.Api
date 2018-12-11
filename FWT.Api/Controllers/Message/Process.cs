@@ -1,8 +1,16 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using FWT.Api.Jobs;
 using FWT.Core.CQRS;
+using FWT.Core.Services.Telegram;
+using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Validation;
 using Hangfire;
+using OpenTl.ClientApi;
+using OpenTl.Schema;
+using OpenTl.Schema.Channels;
+using OpenTl.Schema.Messages;
+using OpenTl.Schema.Users;
 using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
@@ -28,9 +36,48 @@ namespace FWT.Api.Controllers.Message
 
         public class Validator : AppAbstractValidation<Command>
         {
-            public Validator()
+            private readonly ITelegramService _telegramService;
+
+            public Validator(ITelegramService telegramService)
             {
+                _telegramService = telegramService;
+
                 RuleFor(x => x.PhoneHashId).NotEmpty();
+                RuleFor(x => x).CustomAsync(async (command, context, token) =>
+                {
+                    await HasAccessToPeerAsync(command, context);
+                });
+            }
+
+            private async Task HasAccessToPeerAsync(Command command, CustomContext context)
+            {
+                switch (command.Type)
+                {
+                    case (PeerType.Channal):
+                        {
+                            await ValidateRequestAsync(new RequestGetFullChannel() { Channel = new TInputChannel() { ChannelId = command.Id } }, command, context);
+                            return;
+                        }
+                    case (PeerType.Chat):
+                        {
+                            await ValidateRequestAsync(new RequestGetFullChat() { ChatId = command.Id }, command, context);
+                            return;
+                        }
+                    case (PeerType.User):
+                        {
+                            await ValidateRequestAsync(new RequestGetFullUser() { Id = new TInputUser() { UserId = command.Id, } }, command, context);
+                            return;
+                        }
+                }
+            }
+
+            private async Task ValidateRequestAsync<TResult>(IRequest<TResult> request, Command command, CustomContext context)
+            {
+                IClientApi client = await _telegramService.BuildAsync(command.PhoneHashId);
+                var result = (await TelegramRequest.HandleAsync(() =>
+                {
+                    return client.CustomRequestsService.SendRequestAsync(request);
+                }, context));
             }
         }
     }

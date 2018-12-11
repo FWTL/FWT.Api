@@ -22,8 +22,8 @@ namespace FWT.Infrastructure.Telegram.Parsers
             List<Message> message = Switch[key](messages);
             message.ForEach(m =>
             {
-                m.SourceId = id;
-                m.PeerType = peerType;
+                m.UniqueId = $"{m.Id};{id};{(int)peerType}";
+                m.SourceId = $"{id};{(int)peerType}";
             });
 
             return message;

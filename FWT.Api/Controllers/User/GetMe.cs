@@ -49,7 +49,7 @@ namespace FWT.Api.Controllers.User
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
-                TUserFull result = await TelegramRequest.Handle(() =>
+                TUserFull result = await TelegramRequest.HandleAsync(() =>
                 {
                     return client.UsersService.GetCurrentUserFullAsync();
                 });

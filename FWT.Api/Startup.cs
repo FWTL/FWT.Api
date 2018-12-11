@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 
@@ -98,6 +99,10 @@ namespace FWT.Api
             services.AddDbContext<TelegramDatabaseContext>();
 
             applicationContainer = IocConfig.RegisterDependencies(services, _hostingEnvironment, _configuration);
+
+            var cache = applicationContainer.Resolve<IServer>();
+            cache.FlushDatabase();
+
             return new AutofacServiceProvider(applicationContainer);
         }
 

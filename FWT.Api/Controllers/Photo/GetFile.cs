@@ -33,7 +33,7 @@ namespace FWT.Api.Controllers.Photo
             public async Task<FileInfo> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
-                byte[] result = (await TelegramRequest.Handle(() =>
+                byte[] result = (await TelegramRequest.HandleAsync(() =>
                 {
                     return client.FileService.DownloadFullFileAsync(query.Location);
                 }));

@@ -29,7 +29,7 @@ namespace FWT.Api.Controllers.Account
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
-                await TelegramRequest.Handle(() =>
+                await TelegramRequest.HandleAsync(() =>
                 {
                     return client.AuthService.LogoutAsync();
                 });

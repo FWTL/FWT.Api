@@ -52,7 +52,7 @@ namespace FWT.Api.Controllers.Dialog
             public async Task<List<Contact>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
-                TContacts result = (await TelegramRequest.Handle(() =>
+                TContacts result = (await TelegramRequest.HandleAsync(() =>
                 {
                     return client.ContactsService.GetContactsAsync();
                 }));

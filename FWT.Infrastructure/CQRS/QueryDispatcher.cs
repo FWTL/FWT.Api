@@ -18,15 +18,15 @@ namespace FWT.Infrastructure.CQRS
         public async Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query)
             where TQuery : IQuery
         {
-            //IReadCacheHandler<TQuery, TResult> cache;
-            //if (_context.TryResolve(out cache))
-            //{
-            //    TResult result = await cache.ReadAsync(query).ConfigureAwait(false);
-            //    if (result != null)
-            //    {
-            //        return result;
-            //    }
-            //}
+            IReadCacheHandler<TQuery, TResult> cache;
+            if (_context.TryResolve(out cache))
+            {
+                TResult result = await cache.ReadAsync(query).ConfigureAwait(false);
+                if (result != null)
+                {
+                    return result;
+                }
+            }
 
             AppAbstractValidation<TQuery> validator;
             if (_context.TryResolve(out validator))

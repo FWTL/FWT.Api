@@ -18,15 +18,16 @@ namespace FWT.Infrastructure.EventHub
 
         public async Task SendAsync<TMessage>(List<TMessage> messages)
         {
-            var batch = new EventDataBatch(100000);
-            foreach (var msg in messages)
+            if (messages.Count > 0)
             {
-                batch.TryAdd(new EventData(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msg))));
+                var batch = new EventDataBatch(100000);
+                foreach (var msg in messages)
+                {
+                    batch.TryAdd(new EventData(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msg))));
+                }
+
+                await _client.SendAsync(batch);
             }
-
-            var json = JsonConvert.SerializeObject(messages, Formatting.Indented);
-
-            await _client.SendAsync(batch);
         }
     }
 }

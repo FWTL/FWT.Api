@@ -28,37 +28,9 @@ namespace FWT.Api.Jobs
 
         public async Task ForPeer(int id, PeerType peerType, string phoneHashId, int offset, int maxId)
         {
-            IInputPeer peer = null;
-            switch (peerType)
-            {
-                case (PeerType.Channal):
-                    {
-                        peer = new TInputPeerChannel()
-                        {
-                            ChannelId = id,
-                        };
-                        break;
-                    }
-                case (PeerType.Chat):
-                    {
-                        peer = new TInputPeerChat()
-                        {
-                            ChatId = id
-                        };
-                        break;
-                    }
-                case (PeerType.User):
-                    {
-                        peer = new TInputPeerUser()
-                        {
-                            UserId = id
-                        };
-                        break;
-                    }
-            }
-
+            IInputPeer peer = GetPeer(id, peerType);
             IClientApi client = await _telegramService.BuildAsync(phoneHashId);
-            IMessages history = await TelegramRequest.Handle(() =>
+            IMessages history = await TelegramRequest.HandleAsync(() =>
             {
                 return client.MessagesService.GetHistoryAsync(peer, offset, maxId, 100);
             });
@@ -72,6 +44,36 @@ namespace FWT.Api.Jobs
                     job => job.ForPeer(id, peerType, phoneHashId, offset + 100, 0),
                     TimeSpan.FromSeconds(_randomService.Random.Next(5, 20)));
             }
+        }
+
+        private IInputPeer GetPeer(int id, PeerType peerType)
+        {
+            switch (peerType)
+            {
+                case (PeerType.Channal):
+                    {
+                        return new TInputPeerChannel()
+                        {
+                            ChannelId = id,
+                        };
+                    }
+                case (PeerType.Chat):
+                    {
+                        return new TInputPeerChat()
+                        {
+                            ChatId = id
+                        };
+                    }
+                case (PeerType.User):
+                    {
+                        return new TInputPeerUser()
+                        {
+                            UserId = id
+                        };
+                    }
+            }
+
+            throw new NotImplementedException("PeerType unknown");
         }
     }
 }

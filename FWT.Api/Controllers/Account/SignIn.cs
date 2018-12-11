@@ -53,7 +53,7 @@ namespace FWT.Api.Controllers.Account
                     PhoneCodeHash = query.SentCode
                 };
 
-                TUser result = await TelegramRequest.Handle(() =>
+                TUser result = await TelegramRequest.HandleAsync(() =>
                 {
                     return client.AuthService.SignInAsync(query.PhoneNumber, sentCode, query.Code);
                 });

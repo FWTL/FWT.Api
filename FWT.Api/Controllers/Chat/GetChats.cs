@@ -54,7 +54,7 @@ namespace FWT.Api.Controllers.Chat
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
-                TDialogs result = (await TelegramRequest.Handle(() =>
+                TDialogs result = (await TelegramRequest.HandleAsync(() =>
                 {
                     return client.MessagesService.GetUserDialogsAsync();
                 })).As<TDialogs>();

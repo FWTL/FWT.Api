@@ -1,5 +1,4 @@
-﻿using FWT.Core.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static FWT.Core.Helpers.Enum;
 
@@ -7,8 +6,9 @@ namespace FWT.Infrastructure.Telegram.Parsers.Models
 {
     public class Message
     {
-        public long SourceId { get; set; }
-        public PeerType PeerType { get; set; }
+        public string UniqueId { get; set; }
+        public string SourceId { get; set; }
+
         public int Id { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? EditDate { get; set; }

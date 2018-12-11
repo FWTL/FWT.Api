@@ -8,11 +8,9 @@
     {
         public static void Purge(IDatabaseConnector<HangfireDatabaseCredentials> database)
         {
-            try
+            database.Execute(conn =>
             {
-                database.Execute(conn =>
-                {
-                    conn.Execute(@"
+                conn.Execute(@"
                 ALTER TABLE [HangFire].[State] DROP CONSTRAINT [FK_HangFire_State_Job];
                 ALTER TABLE [HangFire].[JobParameter] DROP CONSTRAINT [FK_HangFire_JobParameter_Job];
                 DROP TABLE [HangFire].[Schema];
@@ -27,9 +25,7 @@
                 DROP TABLE [HangFire].[Hash];
                 DROP TABLE [HangFire].[AggregatedCounter];
                 DROP SCHEMA [HangFire];");
-                });
-            }
-            catch { }
+            });
         }
     }
 }
