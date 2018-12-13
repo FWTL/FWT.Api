@@ -73,9 +73,11 @@ namespace FWTL.Api.Jobs
                             UserId = id
                         };
                     }
+                default:
+                    {
+                        throw new NotImplementedException($"{peerType} not implemented");
+                    }
             }
-
-            throw new NotImplementedException("PeerType unknown");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
 using FWTL.Api.Jobs;
@@ -69,6 +70,10 @@ namespace FWTL.Api.Controllers.Message
                         {
                             await ValidateRequestAsync(new RequestGetFullUser() { Id = new TInputUser() { UserId = command.Id, } }, command, context).ConfigureAwait(false);
                             return;
+                        }
+                    default:
+                        {
+                            throw new NotImplementedException($"{command.Type} not implemented");
                         }
                 }
             }
