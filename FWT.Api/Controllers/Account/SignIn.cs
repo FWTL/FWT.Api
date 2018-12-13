@@ -49,6 +49,7 @@ namespace FWTL.Api.Controllers.Account
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
                 IClientApi client = await _telegramService.BuildAsync(hashedPhoneId);
 
+
                 var sentCode = new FakeSendCode()
                 {
                     PhoneCodeHash = query.SentCode
