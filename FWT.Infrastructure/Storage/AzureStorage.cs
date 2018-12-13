@@ -1,21 +1,23 @@
-﻿using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using NodaTime;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FWT.Core.Extensions;
 using FWT.Core.Helpers;
 using FWT.Core.Services.Storage;
 using FWT.Infrastructure.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using NodaTime;
 
 namespace FWT.Infrastructure.Storage
 {
     public class AzureStorage : IStorage
     {
-        private readonly CloudStorageAccount _storageAccount;
         private readonly CloudBlobClient _blobClient;
+
+        private readonly CloudStorageAccount _storageAccount;
+
         private IClock _clock;
 
         public AzureStorage(AzureStorageCredentials credentials, IClock clock)
@@ -23,6 +25,27 @@ namespace FWT.Infrastructure.Storage
             _storageAccount = CloudStorageAccount.Parse(credentials.ConnectionString);
             _blobClient = _storageAccount.CreateCloudBlobClient();
             _clock = clock;
+        }
+
+        public async Task<bool> ExistsAsync(string containerName)
+        {
+            var container = _blobClient.GetContainerReference(containerName);
+            return await container.ExistsAsync().ConfigureAwait(false);
+        }
+
+        public string GetAccountSasUri(TimeSpan expireAfter)
+        {
+            SharedAccessAccountPolicy adHocPolicy = new SharedAccessAccountPolicy()
+            {
+                SharedAccessExpiryTime = _clock.UtcNow().Add(expireAfter),
+                Protocols = SharedAccessProtocol.HttpsOnly,
+                SharedAccessStartTime = DateTime.Now,
+                Services = SharedAccessAccountServices.Blob,
+                Permissions = SharedAccessAccountPermissions.Read,
+                ResourceTypes = SharedAccessAccountResourceTypes.Object,
+            };
+
+            return _storageAccount.GetSharedAccessSignature(adHocPolicy);
         }
 
         public async Task<List<BlobFileInfo>> ListAsync(string containerName)
@@ -46,12 +69,6 @@ namespace FWT.Infrastructure.Storage
             }).ToList();
         }
 
-        public async Task<bool> ExistsAsync(string containerName)
-        {
-            var container = _blobClient.GetContainerReference(containerName);
-            return await container.ExistsAsync().ConfigureAwait(false);
-        }
-
         public async Task UploadAsync(Guid containerId, List<FileInfo> files)
         {
             var container = _blobClient.GetContainerReference(containerId.ToString("n"));
@@ -62,21 +79,6 @@ namespace FWT.Infrastructure.Storage
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference(file.Name);
                 await blockBlob.UploadFromByteArrayAsync(file.Content, 0, file.Content.Length).ConfigureAwait(false);
             }
-        }
-
-        public string GetAccountSasUri(TimeSpan expireAfter)
-        {
-            SharedAccessAccountPolicy adHocPolicy = new SharedAccessAccountPolicy()
-            {
-                SharedAccessExpiryTime = _clock.UtcNow().Add(expireAfter),
-                Protocols = SharedAccessProtocol.HttpsOnly,
-                SharedAccessStartTime = DateTime.Now,
-                Services = SharedAccessAccountServices.Blob,
-                Permissions = SharedAccessAccountPermissions.Read,
-                ResourceTypes = SharedAccessAccountResourceTypes.Object,
-            };
-
-            return _storageAccount.GetSharedAccessSignature(adHocPolicy);
         }
     }
 }

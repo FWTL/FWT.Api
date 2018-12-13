@@ -1,5 +1,5 @@
-﻿using FWT.Core.Services.Unique;
-using System;
+﻿using System;
+using FWT.Core.Services.Unique;
 
 namespace FWT.Infrastructure.Unique
 {

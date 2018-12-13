@@ -1,14 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace FWT.Infrastructure.Configuration
 {
     public class AzureSecretsVaultProvider : ConfigurationProvider
     {
-        private readonly string _clientId;
-        private readonly string _clientSecret;
         private readonly string _baseUrl;
+
+        private readonly string _clientId;
+
+        private readonly string _clientSecret;
 
         public AzureSecretsVaultProvider(string baseUrl, string clientId, string clientSecret)
         {

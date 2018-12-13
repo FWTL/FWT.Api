@@ -1,4 +1,5 @@
-﻿using Auth.FWT.Infrastructure.Logging;
+﻿using System;
+using Auth.FWT.Infrastructure.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FWT.Core.CQRS;
@@ -24,12 +25,36 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using StackExchange.Redis;
-using System;
 
 namespace FWT.Api
 {
     public class IocConfig
     {
+        public static void OverrideWithLocalCredentials(ContainerBuilder builder)
+        {
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var credentials = new TelegramDatabaseCredentials();
+                credentials.BuildLocalConnectionString(
+                        configuration["Api:Sql:Url"],
+                        configuration["Api:Sql:Catalog"]);
+
+                return credentials;
+            }).SingleInstance();
+
+            builder.Register(b =>
+            {
+                var configuration = b.Resolve<IConfiguration>();
+                var credentials = new HangfireDatabaseCredentials();
+                credentials.BuildLocalConnectionString(
+                        configuration["Hangfire:Sql:Url"],
+                        configuration["Hangfire:Sql:Catalog"]);
+
+                return credentials;
+            }).SingleInstance();
+        }
+
         public static void RegisterCredentials(ContainerBuilder builder)
         {
             builder.Register(b =>
@@ -110,31 +135,6 @@ namespace FWT.Api
                 };
 
                 return connectionStringBuilder;
-            }).SingleInstance();
-        }
-
-        public static void OverrideWithLocalCredentials(ContainerBuilder builder)
-        {
-            builder.Register(b =>
-            {
-                var configuration = b.Resolve<IConfiguration>();
-                var credentials = new TelegramDatabaseCredentials();
-                credentials.BuildLocalConnectionString(
-                        configuration["Api:Sql:Url"],
-                        configuration["Api:Sql:Catalog"]);
-
-                return credentials;
-            }).SingleInstance();
-
-            builder.Register(b =>
-            {
-                var configuration = b.Resolve<IConfiguration>();
-                var credentials = new HangfireDatabaseCredentials();
-                credentials.BuildLocalConnectionString(
-                        configuration["Hangfire:Sql:Url"],
-                        configuration["Hangfire:Sql:Catalog"]);
-
-                return credentials;
             }).SingleInstance();
         }
 

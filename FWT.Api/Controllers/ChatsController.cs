@@ -1,13 +1,11 @@
-﻿using FWT.Api.Controllers.Chat;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FWT.Api.Controllers.Chat;
 using FWT.Api.Controllers.Message;
-using FWT.Api.Controllers.User;
 using FWT.Core.CQRS;
 using FWT.Core.Services.User;
-using FWT.Infrastructure.Telegram.Parsers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Api.Controllers
@@ -17,7 +15,9 @@ namespace FWT.Api.Controllers
     public class ChatsController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
+
         private readonly IQueryDispatcher _queryDispatcher;
+
         private readonly ICurrentUserProvider _userProvider;
 
         public ChatsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)

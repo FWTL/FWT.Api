@@ -1,13 +1,14 @@
-﻿using OpenTl.ClientApi;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using OpenTl.ClientApi;
+using StackExchange.Redis;
 
 namespace FWT.Infrastructure.Telegram
 {
     public class RedisSessionStore : ISessionStore
     {
         private readonly IDatabase _cache;
+
         private string _hashId;
 
         public RedisSessionStore(IDatabase cache)

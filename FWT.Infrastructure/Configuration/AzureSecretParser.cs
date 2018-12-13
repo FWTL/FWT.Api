@@ -1,17 +1,19 @@
-﻿using Microsoft.Azure.KeyVault;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.KeyVault.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest.Azure;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FWT.Infrastructure.Configuration
 {
     public class AzureSecretParser
     {
         private readonly string _baseUrl;
+
         private readonly string _clientId;
+
         private readonly string _clientSecret;
 
         public AzureSecretParser(string baseUrl, string clientId, string clientSecret)
@@ -43,11 +45,6 @@ namespace FWT.Infrastructure.Configuration
             return dict;
         }
 
-        private static string ParseKey(string key)
-        {
-            return key.Replace("-", ":");
-        }
-
         private static async Task<string> GetTokenAsync(string clientId, string clientSecret, string authority, string resource, string scope)
         {
             var authContext = new AuthenticationContext(authority);
@@ -60,6 +57,11 @@ namespace FWT.Infrastructure.Configuration
             }
 
             return result.AccessToken;
+        }
+
+        private static string ParseKey(string key)
+        {
+            return key.Replace("-", ":");
         }
     }
 }

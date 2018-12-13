@@ -1,5 +1,5 @@
-﻿using OpenTl.ClientApi;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using OpenTl.ClientApi;
 
 namespace FWT.Core.Services.Telegram
 {

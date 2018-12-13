@@ -1,5 +1,5 @@
-﻿using NodaTime;
-using System;
+﻿using System;
+using NodaTime;
 
 namespace FWT.Core.Extensions
 {

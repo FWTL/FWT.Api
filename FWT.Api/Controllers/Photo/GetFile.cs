@@ -6,29 +6,22 @@ using FWT.Core.Services.Unique;
 using FWT.Infrastructure.Telegram;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using OpenTl.Schema.Contacts;
 
 namespace FWT.Api.Controllers.Photo
 {
     public class GetPhoto
     {
-        public class Query : IQuery
-        {
-            public string PhoneHashId { get; set; }
-            public TInputFileLocation Location { get; set; }
-        }
-
         public class Handler : IQueryHandler<Query, FileInfo>
         {
             private readonly ITelegramService _telegramService;
-
-            public IGuidService _guidService { get; }
 
             public Handler(ITelegramService telegramService, IGuidService guidService)
             {
                 _telegramService = telegramService;
                 _guidService = guidService;
             }
+
+            public IGuidService _guidService { get; }
 
             public async Task<FileInfo> HandleAsync(Query query)
             {
@@ -44,6 +37,13 @@ namespace FWT.Api.Controllers.Photo
                     Name = _guidService.New().ToString("n")
                 };
             }
+        }
+
+        public class Query : IQuery
+        {
+            public TInputFileLocation Location { get; set; }
+
+            public string PhoneHashId { get; set; }
         }
     }
 }

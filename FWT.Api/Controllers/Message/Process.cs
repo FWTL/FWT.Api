@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Threading.Tasks;
+using FluentValidation;
 using FluentValidation.Validators;
 using FWT.Api.Jobs;
 using FWT.Core.CQRS;
@@ -11,7 +12,6 @@ using OpenTl.Schema;
 using OpenTl.Schema.Channels;
 using OpenTl.Schema.Messages;
 using OpenTl.Schema.Users;
-using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Api.Controllers.Message
@@ -21,7 +21,9 @@ namespace FWT.Api.Controllers.Message
         public class Command : ICommand
         {
             public int Id { get; set; }
+
             public string PhoneHashId { get; set; }
+
             public PeerType Type { get; set; }
         }
 

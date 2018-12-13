@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using FWT.Core.CQRS;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using FWT.Core.CQRS;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace FWT.Infrastructure.Handlers
 {
@@ -40,6 +40,11 @@ namespace FWT.Infrastructure.Handlers
             return JsonConvert.DeserializeObject<TResult>(cache.ToString());
         }
 
+        public virtual TimeSpan? Ttl(TQuery query)
+        {
+            return null;
+        }
+
         public virtual async Task WriteAsync(TQuery query, TResult result)
         {
             if (KeyFn == null)
@@ -55,11 +60,6 @@ namespace FWT.Infrastructure.Handlers
 
             var cacheExpiration = Ttl(query);
             await _cache.StringSetAsync(key, JsonConvert.SerializeObject(result), cacheExpiration).ConfigureAwait(false);
-        }
-
-        public virtual TimeSpan? Ttl(TQuery query)
-        {
-            return null;
         }
     }
 }

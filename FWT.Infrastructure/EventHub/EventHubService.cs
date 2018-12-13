@@ -1,9 +1,9 @@
-﻿using FWT.Core.Services.EventHub;
-using Microsoft.Azure.EventHubs;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using FWT.Core.Services.EventHub;
+using Microsoft.Azure.EventHubs;
+using Newtonsoft.Json;
 
 namespace FWT.Infrastructure.EventHub
 {

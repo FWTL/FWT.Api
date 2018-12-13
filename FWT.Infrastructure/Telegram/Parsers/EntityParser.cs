@@ -1,7 +1,7 @@
-﻿using FWT.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FWT.Infrastructure.Telegram.Parsers.Models;
+using OpenTl.Schema;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
@@ -27,99 +27,17 @@ namespace FWT.Infrastructure.Telegram.Parsers
               { typeof(TMessageEntityCode).FullName, x => { return Parse(x as TMessageEntityCode); } },
         };
 
+        public static MessageEntity Parse(IMessageEntity entity)
+        {
+            string key = entity.GetType().FullName;
+            return Switch[key](entity);
+        }
+
         private static MessageEntity Parse(TInputMessageEntityMentionName inputMessageEntityMentionName)
         {
             return new MessageEntity()
             {
                 Type = TelegramEntity.MentionName
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityHashtag messageEntityHashtag)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Hashtag
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityUrl messageEntityUrl)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Url
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityUnknown messageEntityUnknown)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Unknown
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityBotCommand messageEntityBotCommand)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.BotCommand
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityEmail messageEntityEmail)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Email
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityMentionName messageEntityMentionName)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.MentionName
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityPre messageEntityPre)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Pre
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityCode messageEntityCode)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Code
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityItalic messageEntityItalic)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.Italic
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityTextUrl messageEntityTextUrl)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.TextUrl
-            };
-        }
-
-        private static MessageEntity Parse(TMessageEntityCashtag messageEntityCashtag)
-        {
-            return new MessageEntity()
-            {
-                Type = TelegramEntity.CashTag
             };
         }
 
@@ -131,11 +49,51 @@ namespace FWT.Infrastructure.Telegram.Parsers
             };
         }
 
-        private static MessageEntity Parse(TMessageEntityPhone messageEntityPhone)
+        private static MessageEntity Parse(TMessageEntityBotCommand messageEntityBotCommand)
         {
             return new MessageEntity()
             {
-                Type = TelegramEntity.Phone
+                Type = TelegramEntity.BotCommand
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityCashtag messageEntityCashtag)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.CashTag
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityCode messageEntityCode)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Code
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityEmail messageEntityEmail)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Email
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityHashtag messageEntityHashtag)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Hashtag
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityItalic messageEntityItalic)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Italic
             };
         }
 
@@ -147,10 +105,52 @@ namespace FWT.Infrastructure.Telegram.Parsers
             };
         }
 
-        public static MessageEntity Parse(IMessageEntity entity)
+        private static MessageEntity Parse(TMessageEntityMentionName messageEntityMentionName)
         {
-            string key = entity.GetType().FullName;
-            return Switch[key](entity);
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.MentionName
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityPhone messageEntityPhone)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Phone
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityPre messageEntityPre)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Pre
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityTextUrl messageEntityTextUrl)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.TextUrl
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityUnknown messageEntityUnknown)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Unknown
+            };
+        }
+
+        private static MessageEntity Parse(TMessageEntityUrl messageEntityUrl)
+        {
+            return new MessageEntity()
+            {
+                Type = TelegramEntity.Url
+            };
         }
     }
 }

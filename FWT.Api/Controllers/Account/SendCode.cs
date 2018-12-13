@@ -1,6 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using FluentValidation;
 using FWT.Core.CQRS;
-using FWT.Core.Extensions;
 using FWT.Core.Helpers;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Telegram;
@@ -8,27 +9,15 @@ using FWT.Infrastructure.Validation;
 using NodaTime;
 using OpenTl.ClientApi;
 using OpenTl.Schema.Auth;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Account
 {
     public class SendCode
     {
-
-        public class Query : IQuery
-        {
-            public Query(string phoneNumber)
-            {
-                PhoneNumber = Regex.Replace(phoneNumber ?? string.Empty, "[^0-9]", "");
-            }
-
-            public string PhoneNumber { get; }
-        }
-
         public class Handler : IQueryHandler<Query, string>
         {
             private readonly IClock _clock;
+
             private readonly ITelegramService _telegramService;
 
             public Handler(IClock clock, ITelegramService telegramService)
@@ -48,6 +37,16 @@ namespace FWT.Api.Controllers.Account
 
                 return result.PhoneCodeHash;
             }
+        }
+
+        public class Query : IQuery
+        {
+            public Query(string phoneNumber)
+            {
+                PhoneNumber = Regex.Replace(phoneNumber ?? string.Empty, "[^0-9]", "");
+            }
+
+            public string PhoneNumber { get; }
         }
 
         public class Validator : AppAbstractValidation<Query>

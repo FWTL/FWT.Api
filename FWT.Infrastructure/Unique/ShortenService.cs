@@ -1,6 +1,6 @@
-﻿using HashidsNet;
+﻿using System.Collections.Generic;
 using FWT.Core.Services.Hash;
-using System.Collections.Generic;
+using HashidsNet;
 
 namespace FWT.Infrastructure.Hash
 {

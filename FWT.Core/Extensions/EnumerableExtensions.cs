@@ -5,6 +5,14 @@ namespace FWT.Core.Extensions
 {
     public static class EnumerableExtensions
     {
+        public static void AddWhenNotNull<T>(this ICollection<T> list, T item)
+        {
+            if (item != null)
+            {
+                list.Add(item);
+            }
+        }
+
         public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
             foreach (T item in enumeration)
@@ -18,14 +26,6 @@ namespace FWT.Core.Extensions
             foreach (TModel item in enumeration)
             {
                 yield return action(item);
-            }
-        }
-
-        public static void AddWhenNotNull<T>(this ICollection<T> list, T item)
-        {
-            if (item != null)
-            {
-                list.Add(item);
             }
         }
     }

@@ -1,9 +1,9 @@
-﻿using FWT.Api.Controllers.User;
+﻿using System.Threading.Tasks;
+using FWT.Api.Controllers.User;
 using FWT.Core.CQRS;
 using FWT.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers
 {
@@ -12,7 +12,9 @@ namespace FWT.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
+
         private readonly IQueryDispatcher _queryDispatcher;
+
         private readonly ICurrentUserProvider _userProvider;
 
         public UsersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)

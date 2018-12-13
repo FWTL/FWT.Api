@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+﻿using System.Threading.Tasks;
+using FluentValidation;
+using FWT.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
-using FWT.Core.Extensions;
-using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Grid
@@ -15,6 +15,11 @@ namespace FWT.Infrastructure.Grid
         {
         }
 
+        public long Offset
+        {
+            get { return (Page - 1) * (int)PerPage; }
+        }
+
         public int Page { get; set; }
 
         public PageSize PerPage { get; set; }
@@ -22,19 +27,6 @@ namespace FWT.Infrastructure.Grid
         internal string Host { get; set; }
 
         internal string Path { get; set; }
-
-        public long Offset { get { return (Page - 1) * (int)PerPage; }  }
-    }
-
-    public class PaginationParamsValidator : AbstractValidator<PaginationParams>
-    {
-        public PaginationParamsValidator()
-        {
-            RuleFor(x => x.PerPage).IsInEnum();
-            RuleFor(x => x.Page).InclusiveBetween(0, int.MaxValue);
-            RuleFor(x => x.Host).NotEmpty();
-            RuleFor(x => x.Path).NotEmpty();
-        }
     }
 
     public class PaginationParamsModelBinder : IModelBinder
@@ -73,6 +65,17 @@ namespace FWT.Infrastructure.Grid
             }
 
             return Task.CompletedTask;
+        }
+    }
+
+    public class PaginationParamsValidator : AbstractValidator<PaginationParams>
+    {
+        public PaginationParamsValidator()
+        {
+            RuleFor(x => x.PerPage).IsInEnum();
+            RuleFor(x => x.Page).InclusiveBetween(0, int.MaxValue);
+            RuleFor(x => x.Host).NotEmpty();
+            RuleFor(x => x.Path).NotEmpty();
         }
     }
 }

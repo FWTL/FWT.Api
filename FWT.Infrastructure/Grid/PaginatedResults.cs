@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 
 namespace FWT.Infrastructure.Grid
 {
@@ -17,6 +17,29 @@ namespace FWT.Infrastructure.Grid
             CalculateProperties(total, paginationParams);
             Data = data;
         }
+
+        [JsonProperty(PropertyName = "current_page")]
+        public long CurrentPage { get; set; }
+
+        public List<TData> Data { get; set; } = new List<TData>();
+
+        public long From { get; set; }
+
+        [JsonProperty(PropertyName = "last_page")]
+        public int LastPage { get; set; }
+
+        [JsonProperty(PropertyName = "next_page_url")]
+        public string NextPageUrl { get; set; }
+
+        [JsonProperty(PropertyName = "per_page")]
+        public int PerPage { get; set; }
+
+        [JsonProperty(PropertyName = "prev_page_url")]
+        public string PreviousPageUrl { get; set; }
+
+        public long To { get; set; }
+
+        public long Total { get; set; }
 
         private void BuildUrl(long total, PaginationParams paginationParams, SortParams sortParams, List<TData> data)
         {
@@ -48,16 +71,6 @@ namespace FWT.Infrastructure.Grid
             }
         }
 
-        private void CalculateProperties(long total, PaginationParams paginationParams)
-        {
-            PerPage = (int)paginationParams.PerPage;
-            CurrentPage = paginationParams.Page;
-            LastPage = (int)Math.Ceiling(total / (decimal)paginationParams.PerPage);
-            From = paginationParams.Offset + 1;
-            To = CalcualteTo(total, paginationParams);
-            Total = total;
-        }
-
         private long CalcualteTo(long total, PaginationParams paginationParams)
         {
             if (CurrentPage == LastPage)
@@ -68,27 +81,14 @@ namespace FWT.Infrastructure.Grid
             return paginationParams.Offset + (int)paginationParams.PerPage + 1;
         }
 
-        public long Total { get; set; }
-
-        [JsonProperty(PropertyName = "per_page")]
-        public int PerPage { get; set; }
-
-        [JsonProperty(PropertyName = "current_page")]
-        public long CurrentPage { get; set; }
-
-        [JsonProperty(PropertyName = "last_page")]
-        public int LastPage { get; set; }
-
-        [JsonProperty(PropertyName = "next_page_url")]
-        public string NextPageUrl { get; set; }
-
-        [JsonProperty(PropertyName = "prev_page_url")]
-        public string PreviousPageUrl { get; set; }
-
-        public long From { get; set; }
-
-        public long To { get; set; }
-
-        public List<TData> Data { get; set; } = new List<TData>();
+        private void CalculateProperties(long total, PaginationParams paginationParams)
+        {
+            PerPage = (int)paginationParams.PerPage;
+            CurrentPage = paginationParams.Page;
+            LastPage = (int)Math.Ceiling(total / (decimal)paginationParams.PerPage);
+            From = paginationParams.Offset + 1;
+            To = CalcualteTo(total, paginationParams);
+            Total = total;
+        }
     }
 }

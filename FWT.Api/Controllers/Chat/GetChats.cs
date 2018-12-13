@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Core.Extensions;
 using FWT.Core.Services.Telegram;
@@ -6,25 +9,16 @@ using FWT.Infrastructure.Cache;
 using FWT.Infrastructure.Handlers;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Telegram.Parsers;
-using FWT.Infrastructure.Telegram.Parsers.Models;
 using FWT.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Chat
 {
     public class GetChats
     {
-        public class Query : IQuery
-        {
-            public string PhoneHashId { get; set; }
-        }
-
         public class Cache : RedisJsonHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
         {
             public Cache(IDatabase cache) : base(cache)
@@ -67,6 +61,11 @@ namespace FWT.Api.Controllers.Chat
 
                 return chats;
             }
+        }
+
+        public class Query : IQuery
+        {
+            public string PhoneHashId { get; set; }
         }
 
         public class Validator : AppAbstractValidation<Query>

@@ -1,20 +1,21 @@
-﻿using FluentValidation;
+﻿using System;
+using System.IO;
+using System.Text;
+using FluentValidation;
 using FWT.Core.Services.Logging;
 using FWT.Infrastructure.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.IO;
-using System.Text;
 
 namespace FWT.Infrastructure.Filters
 {
     public sealed class ApiExceptionAttribute : ExceptionFilterAttribute
     {
-        private readonly ILogger _logger;
         private readonly IHostingEnvironment _hosting;
+
+        private readonly ILogger _logger;
 
         public ApiExceptionAttribute(ILogger logger, IHostingEnvironment hosting)
         {

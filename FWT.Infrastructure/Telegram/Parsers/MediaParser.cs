@@ -1,9 +1,9 @@
-﻿using FWT.Core.Extensions;
-using FWT.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FWT.Core.Extensions;
+using FWT.Infrastructure.Telegram.Parsers.Models;
+using OpenTl.Schema;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
@@ -25,9 +25,27 @@ namespace FWT.Infrastructure.Telegram.Parsers
             { typeof(TMessageMediaGame).FullName, x => { return Parse(x as TMessageMediaGame); } },
         };
 
-        private static MessageMedia Parse(TMessageMediaGame messageMediaGame)
+        public static MessageMedia Parse(IMessageMedia media)
         {
-            throw new NotImplementedException();
+            if (media.IsNull())
+            {
+                return null;
+            }
+
+            string key = media.GetType().FullName;
+            return Switch[key](media);
+        }
+
+        private static MessageMedia Parse(TMessageMediaContact messageMediaContact)
+        {
+            var media = new MessageMedia()
+            {
+                Type = TelegramMediaType.MediaContact
+            };
+
+            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.FirstName), messageMediaContact.FirstName));
+            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.PhoneNumber), messageMediaContact.PhoneNumber));
+            return media;
         }
 
         private static MessageMedia Parse(TMessageMediaDocument messageMediaDocument)
@@ -56,7 +74,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return messageMedia;
         }
 
-        private static MessageMedia Parse(TMessageMediaUnsupported messageMediaUnsupported)
+        private static MessageMedia Parse(TMessageMediaEmpty messageMediaEmpty)
         {
             return new MessageMedia()
             {
@@ -64,32 +82,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
             };
         }
 
-        private static MessageMedia Parse(TMessageMediaContact messageMediaContact)
+        private static MessageMedia Parse(TMessageMediaGame messageMediaGame)
         {
-            var media = new MessageMedia()
-            {
-                Type = TelegramMediaType.MediaContact
-            };
-
-            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.FirstName), messageMediaContact.FirstName));
-            media.Attibutes.Add(new DocumentAttribute(nameof(messageMediaContact.PhoneNumber), messageMediaContact.PhoneNumber));
-            return media;
-        }
-
-        private static MessageMedia Parse(TMessageMediaVenue messageMediaVenue)
-        {
-            return new MessageMedia()
-            {
-                Type = TelegramMediaType.Venue
-            };
-        }
-
-        private static MessageMedia Parse(TMessageMediaInvoice messageMediaInvoice)
-        {
-            return new MessageMedia()
-            {
-                Type = TelegramMediaType.Invoice
-            };
+            throw new NotImplementedException();
         }
 
         private static MessageMedia Parse(TMessageMediaGeo messageMediaGeo)
@@ -105,11 +100,24 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return media;
         }
 
-        private static MessageMedia Parse(TMessageMediaEmpty messageMediaEmpty)
+        private static MessageMedia Parse(TMessageMediaGeoLive messageMediaGeoLive)
+        {
+            var point = messageMediaGeoLive.Geo.As<TGeoPoint>();
+            var media = new MessageMedia()
+            {
+                Type = TelegramMediaType.GeoLive
+            };
+
+            media.Attibutes.Add(new DocumentAttribute("Lat", point.Lat.ToString()));
+            media.Attibutes.Add(new DocumentAttribute("Long", point.Long.ToString()));
+            return media;
+        }
+
+        private static MessageMedia Parse(TMessageMediaInvoice messageMediaInvoice)
         {
             return new MessageMedia()
             {
-                Type = TelegramMediaType.Unknown
+                Type = TelegramMediaType.Invoice
             };
         }
 
@@ -139,17 +147,20 @@ namespace FWT.Infrastructure.Telegram.Parsers
             };
         }
 
-        private static MessageMedia Parse(TMessageMediaGeoLive messageMediaGeoLive)
+        private static MessageMedia Parse(TMessageMediaUnsupported messageMediaUnsupported)
         {
-            var point = messageMediaGeoLive.Geo.As<TGeoPoint>();
-            var media = new MessageMedia()
+            return new MessageMedia()
             {
-                Type = TelegramMediaType.GeoLive
+                Type = TelegramMediaType.Unknown
             };
+        }
 
-            media.Attibutes.Add(new DocumentAttribute("Lat", point.Lat.ToString()));
-            media.Attibutes.Add(new DocumentAttribute("Long", point.Long.ToString()));
-            return media;
+        private static MessageMedia Parse(TMessageMediaVenue messageMediaVenue)
+        {
+            return new MessageMedia()
+            {
+                Type = TelegramMediaType.Venue
+            };
         }
 
         private static MessageMedia Parse(TMessageMediaWebPage messageMediaWebPage)
@@ -158,17 +169,6 @@ namespace FWT.Infrastructure.Telegram.Parsers
             {
                 Type = TelegramMediaType.WebPage
             };
-        }
-
-        public static MessageMedia Parse(IMessageMedia media)
-        {
-            if (media.IsNull())
-            {
-                return null;
-            }
-
-            string key = media.GetType().FullName;
-            return Switch[key](media);
         }
     }
 }

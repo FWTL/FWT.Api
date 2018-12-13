@@ -1,4 +1,6 @@
-﻿using FWT.Core.Services.EventHub;
+﻿using System;
+using System.Threading.Tasks;
+using FWT.Core.Services.EventHub;
 using FWT.Core.Services.Telegram;
 using FWT.Core.Services.Unique;
 using FWT.Infrastructure.Telegram;
@@ -7,17 +9,17 @@ using Hangfire;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
-using System;
-using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Api.Jobs
 {
     public class GetMessages
     {
-        private readonly ITelegramService _telegramService;
-        private readonly IRandomService _randomService;
         private readonly IEventHubService _eventHub;
+
+        private readonly IRandomService _randomService;
+
+        private readonly ITelegramService _telegramService;
 
         public GetMessages(ITelegramService telegramService, IRandomService randomService, IEventHubService eventHub)
         {

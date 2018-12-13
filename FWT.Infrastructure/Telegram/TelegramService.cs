@@ -1,21 +1,25 @@
-﻿using FWT.Core.Services.Dapper;
+﻿using System;
+using System.Threading.Tasks;
+using FWT.Core.Services.Dapper;
 using FWT.Core.Services.Telegram;
 using FWT.Database;
 using Microsoft.Extensions.Caching.Memory;
 using OpenTl.ClientApi;
 using StackExchange.Redis;
-using System;
-using System.Threading.Tasks;
 
 namespace FWT.Infrastructure.Telegram
 {
     public class TelegramService : ITelegramService
     {
-        private readonly IDatabase _database;
-        private readonly TelegramSettings _settings;
-        private readonly IMemoryCache _cache;
         private static readonly TimeSpan SlidingExpiration = TimeSpan.FromMinutes(60);
+
+        private readonly IMemoryCache _cache;
+
+        private readonly IDatabase _database;
+
         private readonly IDatabaseConnector<TelegramDatabaseCredentials> _databaseConnector;
+
+        private readonly TelegramSettings _settings;
 
         public TelegramService(IDatabase database, TelegramSettings settings, IMemoryCache cache, IDatabaseConnector<TelegramDatabaseCredentials> databaseConnector)
         {
@@ -23,6 +27,19 @@ namespace FWT.Infrastructure.Telegram
             _settings = settings;
             _cache = cache;
             _databaseConnector = databaseConnector;
+        }
+
+        public async Task<IClientApi> BuildAsync(string hash)
+        {
+            if (_cache.TryGetValue(hash, out IClientApi clientApi))
+            {
+                return clientApi;
+            }
+
+            IClientApi client = await ClientFactory.BuildClientAsync(BuildSettings(hash));
+            _cache.Set(hash, client, new MemoryCacheEntryOptions().SetSlidingExpiration(SlidingExpiration));
+
+            return client;
         }
 
         private IFactorySettings BuildSettings(string hash)
@@ -46,19 +63,6 @@ namespace FWT.Infrastructure.Telegram
                 },
                 SessionStore = new DatabaseSessionStore(_databaseConnector)
             };
-        }
-
-        public async Task<IClientApi> BuildAsync(string hash)
-        {
-            if (_cache.TryGetValue(hash, out IClientApi clientApi))
-            {
-                return clientApi;
-            }
-
-            IClientApi client = await ClientFactory.BuildClientAsync(BuildSettings(hash));
-            _cache.Set(hash, client, new MemoryCacheEntryOptions().SetSlidingExpiration(SlidingExpiration));
-
-            return client;
         }
     }
 }

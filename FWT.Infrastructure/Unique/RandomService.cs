@@ -1,14 +1,14 @@
-﻿using FWT.Core.Services.Unique;
-using System;
+﻿using System;
+using FWT.Core.Services.Unique;
 
 namespace FWT.Infrastructure.Services.Unique
 {
     public class RandomService : IRandomService
     {
-        public Random Random { get; } = new Random();
-
         public RandomService()
         {
         }
+
+        public Random Random { get; } = new Random();
     }
 }

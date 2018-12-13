@@ -4,9 +4,11 @@ namespace FWT.Infrastructure.Configuration
 {
     public class AzureSecretsVaultSource : IConfigurationSource
     {
-        private readonly string _clientId;
-        private readonly string _clientSecret;
         private readonly string _baseUrl;
+
+        private readonly string _clientId;
+
+        private readonly string _clientSecret;
 
         public AzureSecretsVaultSource(string baseUrl, string clientId, string clientSecret)
         {

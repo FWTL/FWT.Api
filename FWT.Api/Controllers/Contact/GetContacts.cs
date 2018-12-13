@@ -1,4 +1,8 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Cache;
@@ -10,20 +14,11 @@ using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Dialog
 {
     public class GetContacts
     {
-        public class Query : IQuery
-        {
-            public string PhoneHashId { get; set; }
-        }
-
         public class Cache : RedisJsonHandler<Query, List<Contact>>
         {
             public Cache(IDatabase cache) : base(cache)
@@ -64,6 +59,11 @@ namespace FWT.Api.Controllers.Dialog
 
                 return contacts;
             }
+        }
+
+        public class Query : IQuery
+        {
+            public string PhoneHashId { get; set; }
         }
 
         public class Validator : AppAbstractValidation<Query>

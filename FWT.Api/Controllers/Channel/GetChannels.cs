@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Core.Extensions;
 using FWT.Core.Services.Telegram;
@@ -12,19 +15,11 @@ using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Chat
 {
     public class GetChannels
     {
-        public class Query : IQuery
-        {
-            public string PhoneHashId { get; set; }
-        }
-
         public class Cache : RedisJsonHandler<Query, List<Channel>>
         {
             public Cache(IDatabase cache) : base(cache)
@@ -69,18 +64,23 @@ namespace FWT.Api.Controllers.Chat
             }
         }
 
+        public class Query : IQuery
+        {
+            public string PhoneHashId { get; set; }
+        }
+
         public class Validator : AppAbstractValidation<Query>
         {
             private readonly ITelegramService _telegramService;
 
-            public Validator(ITelegramService telegramService)
-            {
-                _telegramService = telegramService;
-            }
-
             public Validator()
             {
                 RuleFor(x => x.PhoneHashId).NotEmpty();
+            }
+
+            public Validator(ITelegramService telegramService)
+            {
+                _telegramService = telegramService;
             }
         }
     }

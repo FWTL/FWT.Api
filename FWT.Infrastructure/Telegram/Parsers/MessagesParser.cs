@@ -1,7 +1,7 @@
-﻿using FWT.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FWT.Infrastructure.Telegram.Parsers.Models;
+using OpenTl.Schema.Messages;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
@@ -40,6 +40,17 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return result;
         }
 
+        private static List<Message> Parse(TMessages messages)
+        {
+            var result = new List<Message>();
+            foreach (var message in messages.Messages)
+            {
+                result.Add(MessageParser.Parse(message));
+            }
+
+            return result;
+        }
+
         private static List<Message> Parse(TMessagesNotModified messagesNotModified)
         {
             throw new NotImplementedException();
@@ -49,17 +60,6 @@ namespace FWT.Infrastructure.Telegram.Parsers
         {
             var result = new List<Message>();
             foreach (var message in messagesSlice.Messages)
-            {
-                result.Add(MessageParser.Parse(message));
-            }
-
-            return result;
-        }
-
-        private static List<Message> Parse(TMessages messages)
-        {
-            var result = new List<Message>();
-            foreach (var message in messages.Messages)
             {
                 result.Add(MessageParser.Parse(message));
             }

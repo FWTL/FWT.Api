@@ -1,6 +1,6 @@
 ﻿namespace FWT.Core.Entities
 {
-    public class TelegramSession 
+    public class TelegramSession
     {
         public string HashId { get; set; }
 

@@ -1,9 +1,9 @@
-﻿using FWT.Core.Extensions;
+﻿using System;
+using System.Collections.Generic;
+using FWT.Core.Extensions;
 using FWT.Infrastructure.Telegram.Parsers.Models;
 using NodaTime;
 using OpenTl.Schema;
-using System;
-using System.Collections.Generic;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -22,19 +22,6 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return Switch[key](message);
         }
 
-        private static Message Parse(TMessageEmpty messageEmpty)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static Message Parse(TMessageService messageService)
-        {
-            var message = MessageServiceParser.Parse(messageService.Action);
-            message.Id = messageService.Id;
-            message.CreateDate = Instant.FromUnixTimeSeconds(messageService.Date).ToDateTimeUtc();
-            return message;
-        }
-
         private static Message Parse(TMessage message)
         {
             var parsedMessage = new Message()
@@ -49,6 +36,19 @@ namespace FWT.Infrastructure.Telegram.Parsers
 
             message.Entities?.ForEach(entity => parsedMessage.Entities.Add(EntityParser.Parse(entity)));
             return parsedMessage;
+        }
+
+        private static Message Parse(TMessageEmpty messageEmpty)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Message Parse(TMessageService messageService)
+        {
+            var message = MessageServiceParser.Parse(messageService.Action);
+            message.Id = messageService.Id;
+            message.CreateDate = Instant.FromUnixTimeSeconds(messageService.Date).ToDateTimeUtc();
+            return message;
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using FWT.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FWT.Infrastructure.Telegram.Parsers.Models;
+using OpenTl.Schema;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -18,16 +18,15 @@ namespace FWT.Infrastructure.Telegram.Parsers
             { typeof(TDocumentAttributeImageSize).FullName, x => { return Parse(x as TDocumentAttributeImageSize); } },
         };
 
-        private static List<DocumentAttribute> Parse(TDocumentAttributeImageSize documentAttributeImageSize)
+        public static List<DocumentAttribute> Parse(IDocumentAttribute attribute)
         {
-            return new List<DocumentAttribute>();
+            string key = attribute.GetType().FullName;
+            return Switch[key](attribute);
         }
 
-        private static List<DocumentAttribute> Parse(TDocumentAttributeVideo documentAttributeVideo)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeAnimated documentAttributeAnimated)
         {
-            var attributes = new List<DocumentAttribute>();
-            attributes.Add(new DocumentAttribute(nameof(documentAttributeVideo.Duration), documentAttributeVideo.Duration.ToString()));
-            return attributes;
+            return new List<DocumentAttribute>();
         }
 
         private static List<DocumentAttribute> Parse(TDocumentAttributeAudio documentAttributeAudio)
@@ -40,6 +39,13 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return attributes;
         }
 
+        private static List<DocumentAttribute> Parse(TDocumentAttributeFilename documentAttributeFilename)
+        {
+            var attributes = new List<DocumentAttribute>();
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeFilename.FileName), documentAttributeFilename.FileName));
+            return attributes;
+        }
+
         private static List<DocumentAttribute> Parse(TDocumentAttributeHasStickers documentAttributeHasStickers)
         {
             var attributes = new List<DocumentAttribute>();
@@ -47,7 +53,7 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return attributes;
         }
 
-        private static List<DocumentAttribute> Parse(TDocumentAttributeAnimated documentAttributeAnimated)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeImageSize documentAttributeImageSize)
         {
             return new List<DocumentAttribute>();
         }
@@ -62,17 +68,11 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return attributes;
         }
 
-        private static List<DocumentAttribute> Parse(TDocumentAttributeFilename documentAttributeFilename)
+        private static List<DocumentAttribute> Parse(TDocumentAttributeVideo documentAttributeVideo)
         {
             var attributes = new List<DocumentAttribute>();
-            attributes.Add(new DocumentAttribute(nameof(documentAttributeFilename.FileName), documentAttributeFilename.FileName));
+            attributes.Add(new DocumentAttribute(nameof(documentAttributeVideo.Duration), documentAttributeVideo.Duration.ToString()));
             return attributes;
-        }
-
-        public static List<DocumentAttribute> Parse(IDocumentAttribute attribute)
-        {
-            string key = attribute.GetType().FullName;
-            return Switch[key](attribute);
         }
     }
 }

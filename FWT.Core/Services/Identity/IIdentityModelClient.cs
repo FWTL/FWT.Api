@@ -1,6 +1,6 @@
-﻿using IdentityModel.Client;
+﻿using System.Threading.Tasks;
+using IdentityModel.Client;
 using OpenTl.Schema;
-using System.Threading.Tasks;
 
 namespace FWT.Core.Services.Identity
 {

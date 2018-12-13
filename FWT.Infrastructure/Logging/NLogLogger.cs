@@ -1,5 +1,5 @@
-using FWT.Core.Services.Logging;
 using System;
+using FWT.Core.Services.Logging;
 
 namespace Auth.FWT.Infrastructure.Logging
 {

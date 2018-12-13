@@ -1,10 +1,10 @@
-﻿using FluentValidation;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using FluentValidation;
+using FWT.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
-using FWT.Core.Extensions;
-using System.Linq;
-using System.Threading.Tasks;
 using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Grid
@@ -13,6 +13,7 @@ namespace FWT.Infrastructure.Grid
     public class SortParams
     {
         public int ColumnNo { get; set; }
+
         public SortDirection Direction { get; set; }
     }
 
@@ -26,7 +27,7 @@ namespace FWT.Infrastructure.Grid
             int? l_columnNo = null;
             SortDirection? e_direction = null;
 
-            if(sorting.Count > 0)
+            if (sorting.Count > 0)
             {
                 var split = sorting[0].Split('|');
                 l_columnNo = split.ElementAtOrDefault(1) != null ? split[0].ToN<int>() : null;

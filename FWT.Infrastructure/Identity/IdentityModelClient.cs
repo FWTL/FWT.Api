@@ -1,19 +1,20 @@
-﻿using FluentValidation;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using FluentValidation;
 using FluentValidation.Results;
 using FWT.Core.Helpers;
 using FWT.Core.Services.Identity;
 using IdentityModel.Client;
 using OpenTl.Schema;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace FWT.Infrastructure.Identity
 {
     public class IdentityModelClient : IIdentityModelClient
     {
-        private IdentityModelCredentials _credentials;
         private IDiscoveryCache _cache;
+
+        private IdentityModelCredentials _credentials;
 
         public IdentityModelClient(IdentityModelCredentials credentials, IDiscoveryCache cache)
         {

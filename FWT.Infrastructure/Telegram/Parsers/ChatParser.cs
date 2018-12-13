@@ -1,36 +1,25 @@
-﻿using FWT.Infrastructure.Telegram.Parsers.Models;
+﻿using System;
+using System.Collections.Generic;
+using FWT.Infrastructure.Telegram.Parsers.Models;
 using NodaTime;
 using OpenTl.Schema;
-using System;
-using System.Collections.Generic;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
     public static class ChatParser
     {
-        private static readonly Dictionary<string, Func<IChat, Chat>> SwitchChat = new Dictionary<string, Func<IChat, Chat>>()
-        {
-              { typeof(TChatEmpty).FullName, x => { return Parse(x as TChatEmpty); } },
-              { typeof(TChat).FullName, x => { return Parse(x as TChat); } },
-              { typeof(TChatForbidden).FullName, x => { return Parse(x as TChatForbidden); } },
-        };
-
         private static readonly Dictionary<string, Func<IChat, Channel>> SwitchChannel = new Dictionary<string, Func<IChat, Channel>>()
         {
               { typeof(TChannel).FullName, x => { return Parse(x as TChannel); } },
               { typeof(TChannelForbidden).FullName, x => { return Parse(x as TChannelForbidden); } },
         };
 
-        public static Chat ParseChat(IChat chat)
+        private static readonly Dictionary<string, Func<IChat, Chat>> SwitchChat = new Dictionary<string, Func<IChat, Chat>>()
         {
-            string key = chat.GetType().FullName;
-            if (SwitchChat.ContainsKey(key))
-            {
-                return SwitchChat[key](chat);
-            }
-
-            return null;
-        }
+              { typeof(TChatEmpty).FullName, x => { return Parse(x as TChatEmpty); } },
+              { typeof(TChat).FullName, x => { return Parse(x as TChat); } },
+              { typeof(TChatForbidden).FullName, x => { return Parse(x as TChatForbidden); } },
+        };
 
         public static Channel ParseChannel(IChat chat)
         {
@@ -43,33 +32,15 @@ namespace FWT.Infrastructure.Telegram.Parsers
             return null;
         }
 
-        private static Chat Parse(TChatEmpty chat)
+        public static Chat ParseChat(IChat chat)
         {
-            throw new NotImplementedException();
-        }
-
-        private static Chat Parse(TChat chat)
-        {
-            var appChat = new Chat()
+            string key = chat.GetType().FullName;
+            if (SwitchChat.ContainsKey(key))
             {
-                Id = chat.Id,
-                CreateDate = Instant.FromUnixTimeSeconds(chat.Date).ToDateTimeUtc(),
-                Title = chat.Title,
-                MigratetToChannelId = chat.MigratedTo.As<TInputChannel>()?.ChannelId
-            };
+                return SwitchChat[key](chat);
+            }
 
-            return appChat;
-        }
-
-        private static Chat Parse(TChatForbidden chat)
-        {
-            var appChat = new Chat()
-            {
-                Id = chat.Id,
-                Title = chat.Title,
-            };
-
-            return appChat;
+            return null;
         }
 
         private static Channel Parse(TChannel chat)
@@ -87,6 +58,35 @@ namespace FWT.Infrastructure.Telegram.Parsers
         private static Channel Parse(TChannelForbidden chat)
         {
             var appChat = new Channel()
+            {
+                Id = chat.Id,
+                Title = chat.Title,
+            };
+
+            return appChat;
+        }
+
+        private static Chat Parse(TChat chat)
+        {
+            var appChat = new Chat()
+            {
+                Id = chat.Id,
+                CreateDate = Instant.FromUnixTimeSeconds(chat.Date).ToDateTimeUtc(),
+                Title = chat.Title,
+                MigratetToChannelId = chat.MigratedTo.As<TInputChannel>()?.ChannelId
+            };
+
+            return appChat;
+        }
+
+        private static Chat Parse(TChatEmpty chat)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Chat Parse(TChatForbidden chat)
+        {
+            var appChat = new Chat()
             {
                 Id = chat.Id,
                 Title = chat.Title,

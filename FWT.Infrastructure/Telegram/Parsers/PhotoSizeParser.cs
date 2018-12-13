@@ -1,8 +1,7 @@
-﻿using FWT.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using FWT.Infrastructure.Telegram.Parsers.Models;
+using OpenTl.Schema;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
@@ -15,6 +14,12 @@ namespace FWT.Infrastructure.Telegram.Parsers
               { typeof(TPhotoCachedSize).FullName, x => { return Parse(x as TPhotoCachedSize); } },
         };
 
+        public static PhotoSize Parse(IPhotoSize photoSize)
+        {
+            string key = photoSize.GetType().FullName;
+            return Switch[key](photoSize);
+        }
+
         private static PhotoSize Parse(TPhotoCachedSize photoCachedSize)
         {
             return new PhotoSize()
@@ -22,11 +27,6 @@ namespace FWT.Infrastructure.Telegram.Parsers
                 Size = 0,
                 Location = photoCachedSize.Location,
             };
-        }
-
-        private static PhotoSize Parse(TPhotoSizeEmpty photoSizeEmpty)
-        {
-            throw new NotImplementedException();
         }
 
         private static PhotoSize Parse(TPhotoSize photoSize)
@@ -38,10 +38,9 @@ namespace FWT.Infrastructure.Telegram.Parsers
             };
         }
 
-        public static PhotoSize Parse(IPhotoSize photoSize)
+        private static PhotoSize Parse(TPhotoSizeEmpty photoSizeEmpty)
         {
-            string key = photoSize.GetType().FullName;
-            return Switch[key](photoSize);
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,21 +1,16 @@
-﻿using FluentValidation;
+﻿using System.Threading.Tasks;
+using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Core.Services.Telegram;
 using FWT.Infrastructure.Telegram;
 using FWT.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers.Account
 {
     public class Logout
     {
-        public class Query : IQuery
-        {
-            public string PhoneHashId { get; set; }
-        }
-
         public class Handler : IQueryHandler<Query, bool>
         {
             private readonly ITelegramService _telegramService;
@@ -38,6 +33,11 @@ namespace FWT.Api.Controllers.Account
             }
         }
 
+        public class Query : IQuery
+        {
+            public string PhoneHashId { get; set; }
+        }
+
         public class Result
         {
             public Result(TUser user)
@@ -49,9 +49,12 @@ namespace FWT.Api.Controllers.Account
             }
 
             public string FirstName { get; }
+
             public string LastName { get; }
-            public string UserName { get; }
+
             public long? PhotoId { get; }
+
+            public string UserName { get; }
         }
 
         public class Validator : AppAbstractValidation<Query>

@@ -1,8 +1,8 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+using Autofac;
 using FluentValidation;
 using FWT.Core.CQRS;
 using FWT.Infrastructure.Validation;
-using System.Threading.Tasks;
 
 namespace FWT.Infrastructure.CQRS
 {

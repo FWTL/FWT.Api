@@ -1,9 +1,9 @@
-using FWT.Core.Services.Dapper;
-using FWT.Core.Sql;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using FWT.Core.Services.Dapper;
+using FWT.Core.Sql;
 
 namespace FWT.Infrastructure.Dapper
 {

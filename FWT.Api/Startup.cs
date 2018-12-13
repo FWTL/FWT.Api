@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Dormer.Scheduler.Jobs;
@@ -17,13 +18,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
 
 namespace FWT.Api
 {
     public class Startup
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+
         private IConfigurationRoot _configuration;
 
         public Startup(IHostingEnvironment hostingEnvironment)
@@ -44,6 +45,34 @@ namespace FWT.Api
             _configuration = configuration.Build();
 
             _hostingEnvironment = hostingEnvironment;
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
+        {
+            app.UseAuthentication();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FWT.Api");
+                c.DisplayRequestDuration();
+
+                c.OAuthClientId("swagger");
+            });
+
+            app.UseMvc(routes =>
+            {
+            });
+
+            JobsSetup.Purge(services.GetService<IDatabaseConnector<HangfireDatabaseCredentials>>());
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard("/SchedulerDashboard", new DashboardOptions()
+            {
+                Authorization = new[] { new DevelopmentAuthorizationFilter() }
+            });
+
+            ValidatorOptions.LanguageManager.Enabled = false;
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -104,34 +133,6 @@ namespace FWT.Api
             cache.FlushDatabase();
 
             return new AutofacServiceProvider(applicationContainer);
-        }
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
-        {
-            app.UseAuthentication();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "FWT.Api");
-                c.DisplayRequestDuration();
-
-                c.OAuthClientId("swagger");
-            });
-
-            app.UseMvc(routes =>
-            {
-            });
-
-            JobsSetup.Purge(services.GetService<IDatabaseConnector<HangfireDatabaseCredentials>>());
-
-            app.UseHangfireServer();
-            app.UseHangfireDashboard("/SchedulerDashboard", new DashboardOptions()
-            {
-                Authorization = new[] { new DevelopmentAuthorizationFilter() }
-            });
-
-            ValidatorOptions.LanguageManager.Enabled = false;
         }
     }
 }

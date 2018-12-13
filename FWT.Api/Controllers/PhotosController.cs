@@ -1,11 +1,11 @@
-﻿using FWT.Api.Controllers.Photo;
+﻿using System.Threading.Tasks;
+using FWT.Api.Controllers.Photo;
 using FWT.Core.CQRS;
 using FWT.Core.Helpers;
 using FWT.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenTl.Schema;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers
 {
@@ -14,7 +14,9 @@ namespace FWT.Api.Controllers
     public class PhotosController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
+
         private readonly IQueryDispatcher _queryDispatcher;
+
         private readonly ICurrentUserProvider _userProvider;
 
         public PhotosController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)

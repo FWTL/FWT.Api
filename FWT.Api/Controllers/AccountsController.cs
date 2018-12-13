@@ -1,4 +1,5 @@
-﻿using FWT.Api.Controllers.Account;
+﻿using System.Threading.Tasks;
+using FWT.Api.Controllers.Account;
 using FWT.Core.CQRS;
 using FWT.Core.Services.Identity;
 using FWT.Core.Services.User;
@@ -6,7 +7,6 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenTl.Schema;
-using System.Threading.Tasks;
 
 namespace FWT.Api.Controllers
 {
@@ -15,8 +15,11 @@ namespace FWT.Api.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+
         private readonly IIdentityModelClient _identityClient;
+
+        private readonly IQueryDispatcher _queryDispatcher;
+
         private readonly ICurrentUserProvider _userProvider;
 
         public AccountsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, IIdentityModelClient identityClient, ICurrentUserProvider userProvider)
@@ -25,6 +28,16 @@ namespace FWT.Api.Controllers
             _queryDispatcher = queryDispatcher;
             _identityClient = identityClient;
             _userProvider = userProvider;
+        }
+
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<bool> Logout(string phoneNumber, string sentCode, string code)
+        {
+            return await _queryDispatcher.DispatchAsync<Logout.Query, bool>(new Logout.Query()
+            {
+                PhoneHashId = _userProvider.PhoneHashId(User)
+            });
         }
 
         [HttpPost]
@@ -41,16 +54,6 @@ namespace FWT.Api.Controllers
             TUser tlUser = await _queryDispatcher.DispatchAsync<SignIn.Query, TUser>(new SignIn.Query(phoneNumber, sentCode, code));
             TokenResponse response = await _identityClient.RequestClientCredentialsTokenAsync(tlUser);
             return response.Json;
-        }
-
-        [HttpPost]
-        [Route("Logout")]
-        public async Task<bool> Logout(string phoneNumber, string sentCode, string code)
-        {
-            return await _queryDispatcher.DispatchAsync<Logout.Query, bool>(new Logout.Query()
-            {
-                PhoneHashId = _userProvider.PhoneHashId(User)
-            });
         }
     }
 }
