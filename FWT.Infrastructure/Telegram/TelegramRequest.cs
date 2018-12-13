@@ -20,7 +20,7 @@ namespace FWTL.Infrastructure.Telegram
                 ThrowValidationException(ex);
             }
 
-            throw new Exception("Unsupported path");
+            throw new NotImplementedException("Unsupported path");
         }
 
         public static async Task<TResult> HandleAsync<TResult>(Func<Task<TResult>> func, CustomContext context)
@@ -35,7 +35,7 @@ namespace FWTL.Infrastructure.Telegram
                 return default(TResult);
             }
 
-            throw new Exception("Unsupported path");
+            throw new NotImplementedException("Unsupported path");
         }
 
         public static async Task HandleAsync(Func<Task> func)
