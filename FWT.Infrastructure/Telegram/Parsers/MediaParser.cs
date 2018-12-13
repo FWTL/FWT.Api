@@ -8,7 +8,7 @@ using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    public class MediaParser
+    public static class MediaParser
     {
         private static readonly Dictionary<string, Func<IMessageMedia, MessageMedia>> Switch = new Dictionary<string, Func<IMessageMedia, MessageMedia>>()
         {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    public class ChatParser
+    public static class ChatParser
     {
         private static readonly Dictionary<string, Func<IChat, Chat>> SwitchChat = new Dictionary<string, Func<IChat, Chat>>()
         {

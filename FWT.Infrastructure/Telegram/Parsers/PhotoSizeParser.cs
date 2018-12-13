@@ -6,7 +6,7 @@ using System.Text;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    public class PhotoSizeParser
+    public static class PhotoSizeParser
     {
         private static readonly Dictionary<string, Func<IPhotoSize, PhotoSize>> Switch = new Dictionary<string, Func<IPhotoSize, PhotoSize>>()
         {

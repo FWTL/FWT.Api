@@ -55,17 +55,17 @@ namespace FWT.Api.Controllers.Message
                 {
                     case (PeerType.Channal):
                         {
-                            await ValidateRequestAsync(new RequestGetFullChannel() { Channel = new TInputChannel() { ChannelId = command.Id } }, command, context);
+                            await ValidateRequestAsync(new RequestGetFullChannel() { Channel = new TInputChannel() { ChannelId = command.Id } }, command, context).ConfigureAwait(false);
                             return;
                         }
                     case (PeerType.Chat):
                         {
-                            await ValidateRequestAsync(new RequestGetFullChat() { ChatId = command.Id }, command, context);
+                            await ValidateRequestAsync(new RequestGetFullChat() { ChatId = command.Id }, command, context).ConfigureAwait(false);
                             return;
                         }
                     case (PeerType.User):
                         {
-                            await ValidateRequestAsync(new RequestGetFullUser() { Id = new TInputUser() { UserId = command.Id, } }, command, context);
+                            await ValidateRequestAsync(new RequestGetFullUser() { Id = new TInputUser() { UserId = command.Id, } }, command, context).ConfigureAwait(false);
                             return;
                         }
                 }

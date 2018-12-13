@@ -6,7 +6,7 @@ using static FWT.Core.Helpers.Enum;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    public class EntityParser
+    public static class EntityParser
     {
         private static readonly Dictionary<string, Func<IMessageEntity, MessageEntity>> Switch = new Dictionary<string, Func<IMessageEntity, MessageEntity>>()
         {

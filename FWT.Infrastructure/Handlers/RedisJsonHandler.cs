@@ -21,7 +21,7 @@ namespace FWT.Infrastructure.Handlers
         {
             if (KeyFn == null)
             {
-                throw new Exception("KeyFn not defined");
+                throw new ArgumentException("KeyFn not defined");
             }
 
             string key = KeyFn(query);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FWT.Infrastructure.Telegram.Parsers
 {
-    internal class DocumentAttributeParser
+    public static class DocumentAttributeParser
     {
         private static readonly Dictionary<string, Func<IDocumentAttribute, List<DocumentAttribute>>> Switch = new Dictionary<string, Func<IDocumentAttribute, List<DocumentAttribute>>>()
         {

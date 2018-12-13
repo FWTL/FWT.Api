@@ -12,7 +12,6 @@ namespace FWT.Infrastructure.Swagger
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var hasAuthorize = context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
-
             if (hasAuthorize)
             {
                 operation.Responses.Add("401", new Response { Description = "Unauthorized" });
