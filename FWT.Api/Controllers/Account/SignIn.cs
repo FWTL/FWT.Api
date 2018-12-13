@@ -7,7 +7,6 @@ using FWTL.Core.Helpers;
 using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Validation;
-using NodaTime;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Auth;
@@ -38,13 +37,10 @@ namespace FWTL.Api.Controllers.Account
 
         public class Handler : IQueryHandler<Query, TUser>
         {
-            private readonly IClock _clock;
-
             private readonly ITelegramService _telegramService;
 
-            public Handler(IClock clock, ITelegramService telegramService)
+            public Handler(ITelegramService telegramService)
             {
-                _clock = clock;
                 _telegramService = telegramService;
             }
 
