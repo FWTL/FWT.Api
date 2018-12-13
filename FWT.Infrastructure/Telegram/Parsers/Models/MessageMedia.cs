@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using static FWT.Core.Helpers.Enum;
+using static FWTL.Core.Helpers.Enum;
 
-namespace FWT.Infrastructure.Telegram.Parsers.Models
+namespace FWTL.Infrastructure.Telegram.Parsers.Models
 {
     public class MessageMedia
     {

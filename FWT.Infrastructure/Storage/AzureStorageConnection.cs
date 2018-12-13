@@ -1,4 +1,4 @@
-﻿namespace FWT.Infrastructure.Schema
+﻿namespace FWTL.Infrastructure.Schema
 {
     public class AzureStorageCredentials
     {

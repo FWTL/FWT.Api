@@ -2,21 +2,21 @@
 using Auth.FWT.Infrastructure.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using FWT.Core.CQRS;
-using FWT.Core.Extensions;
-using FWT.Core.Services.Redis;
-using FWT.Core.Services.Sql;
-using FWT.Core.Services.Telegram;
-using FWT.Core.Services.Unique;
-using FWT.Database;
-using FWT.Infrastructure.CQRS;
-using FWT.Infrastructure.Dapper;
-using FWT.Infrastructure.EventHub;
-using FWT.Infrastructure.Identity;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Unique;
-using FWT.Infrastructure.User;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Core.Extensions;
+using FWTL.Core.Services.Redis;
+using FWTL.Core.Services.Sql;
+using FWTL.Core.Services.Telegram;
+using FWTL.Core.Services.Unique;
+using FWTL.Database;
+using FWTL.Infrastructure.CQRS;
+using FWTL.Infrastructure.Dapper;
+using FWTL.Infrastructure.EventHub;
+using FWTL.Infrastructure.Identity;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Unique;
+using FWTL.Infrastructure.User;
+using FWTL.Infrastructure.Validation;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.EventHubs;
@@ -26,7 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using StackExchange.Redis;
 
-namespace FWT.Api
+namespace FWTL.Api
 {
     public class IocConfig
     {

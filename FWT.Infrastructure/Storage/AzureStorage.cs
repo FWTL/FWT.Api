@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FWT.Core.Extensions;
-using FWT.Core.Helpers;
-using FWT.Core.Services.Storage;
-using FWT.Infrastructure.Schema;
+using FWTL.Core.Extensions;
+using FWTL.Core.Helpers;
+using FWTL.Core.Services.Storage;
+using FWTL.Infrastructure.Schema;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using NodaTime;
 
-namespace FWT.Infrastructure.Storage
+namespace FWTL.Infrastructure.Storage
 {
     public class AzureStorage : IStorage
     {

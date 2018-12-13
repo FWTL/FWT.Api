@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace FWT.Infrastructure.Validation
+namespace FWTL.Infrastructure.Validation
 {
     public abstract class AppAbstractValidation<TModel> : AbstractValidator<TModel>
     {

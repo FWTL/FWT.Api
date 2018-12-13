@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
-using FWT.Core.CQRS;
-using FWT.Core.Extensions;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Cache;
-using FWT.Infrastructure.Handlers;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Telegram.Parsers;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Core.Extensions;
+using FWTL.Core.Services.Telegram;
+using FWTL.Infrastructure.Cache;
+using FWTL.Infrastructure.Handlers;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Telegram.Parsers;
+using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using StackExchange.Redis;
 
-namespace FWT.Api.Controllers.Chat
+namespace FWTL.Api.Controllers.Chat
 {
     public class GetChats
     {

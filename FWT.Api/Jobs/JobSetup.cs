@@ -1,8 +1,8 @@
 ﻿namespace Dormer.Scheduler.Jobs
 {
     using Dapper;
-    using FWT.Core.Services.Dapper;
-    using FWT.Core.Services.Sql;
+    using FWTL.Core.Services.Dapper;
+    using FWTL.Core.Services.Sql;
 
     public static class JobsSetup
     {

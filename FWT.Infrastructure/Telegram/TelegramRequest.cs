@@ -5,7 +5,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using FluentValidation.Validators;
 
-namespace FWT.Infrastructure.Telegram
+namespace FWTL.Infrastructure.Telegram
 {
     public static class TelegramRequest
     {

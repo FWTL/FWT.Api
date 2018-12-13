@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FWT.Core.Services.EventHub
+namespace FWTL.Core.Services.EventHub
 {
     public interface IEventHubService
     {

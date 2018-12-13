@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
-using FWT.Api.Controllers.Account;
-using FWT.Core.CQRS;
-using FWT.Core.Services.Identity;
-using FWT.Core.Services.User;
+using FWTL.Api.Controllers.Account;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.Identity;
+using FWTL.Core.Services.User;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using OpenTl.Schema;
 
-namespace FWT.Api.Controllers
+namespace FWTL.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

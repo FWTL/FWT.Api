@@ -1,7 +1,7 @@
 ﻿using System;
-using FWT.Core.Services.Unique;
+using FWTL.Core.Services.Unique;
 
-namespace FWT.Infrastructure.Services.Unique
+namespace FWTL.Infrastructure.Services.Unique
 {
     public class RandomService : IRandomService
     {

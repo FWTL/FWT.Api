@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using FWT.Api.Controllers.User;
-using FWT.Core.CQRS;
-using FWT.Core.Services.User;
+using FWTL.Api.Controllers.User;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FWT.Api.Controllers
+namespace FWTL.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

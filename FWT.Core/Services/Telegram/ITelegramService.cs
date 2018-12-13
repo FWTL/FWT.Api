@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using OpenTl.ClientApi;
 
-namespace FWT.Core.Services.Telegram
+namespace FWTL.Core.Services.Telegram
 {
     public interface ITelegramService
     {

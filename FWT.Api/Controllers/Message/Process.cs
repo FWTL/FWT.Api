@@ -1,20 +1,20 @@
 ﻿using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
-using FWT.Api.Jobs;
-using FWT.Core.CQRS;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Validation;
+using FWTL.Api.Jobs;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.Telegram;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Validation;
 using Hangfire;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Channels;
 using OpenTl.Schema.Messages;
 using OpenTl.Schema.Users;
-using static FWT.Core.Helpers.Enum;
+using static FWTL.Core.Helpers.Enum;
 
-namespace FWT.Api.Controllers.Message
+namespace FWTL.Api.Controllers.Message
 {
     public class Process
     {

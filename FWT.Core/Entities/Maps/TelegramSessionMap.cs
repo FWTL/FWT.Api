@@ -1,4 +1,4 @@
-﻿namespace FWT.Core.Entities.Maps
+﻿namespace FWTL.Core.Entities.Maps
 {
     public static class TelegramSessionMap
     {

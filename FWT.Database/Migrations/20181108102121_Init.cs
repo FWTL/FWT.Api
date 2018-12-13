@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FWT.Database.Migrations
+namespace FWTL.Database.Migrations
 {
     public partial class Init : Migration
     {

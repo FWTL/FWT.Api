@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FWT.Core.Services.Dapper;
-using FWT.Core.Services.Telegram;
-using FWT.Database;
+using FWTL.Core.Services.Dapper;
+using FWTL.Core.Services.Telegram;
+using FWTL.Database;
 using Microsoft.Extensions.Caching.Memory;
 using OpenTl.ClientApi;
 using StackExchange.Redis;
 
-namespace FWT.Infrastructure.Telegram
+namespace FWTL.Infrastructure.Telegram
 {
     public class TelegramService : ITelegramService
     {

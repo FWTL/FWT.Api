@@ -1,4 +1,4 @@
-﻿namespace FWT.Core.Entities
+﻿namespace FWTL.Core.Entities
 {
     public class TelegramSession
     {

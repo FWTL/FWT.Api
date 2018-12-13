@@ -4,13 +4,13 @@ using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Dormer.Scheduler.Jobs;
 using FluentValidation;
-using FWT.Core.Services.Dapper;
-using FWT.Core.Services.Sql;
-using FWT.Database;
-using FWT.Infrastructure.Configuration;
-using FWT.Infrastructure.Filters;
-using FWT.Infrastructure.Hangfire;
-using FWT.Infrastructure.Swagger;
+using FWTL.Core.Services.Dapper;
+using FWTL.Core.Services.Sql;
+using FWTL.Database;
+using FWTL.Infrastructure.Configuration;
+using FWTL.Infrastructure.Filters;
+using FWTL.Infrastructure.Hangfire;
+using FWTL.Infrastructure.Swagger;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace FWT.Api
+namespace FWTL.Api
 {
     public class Startup
     {

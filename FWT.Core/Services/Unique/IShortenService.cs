@@ -1,6 +1,6 @@
 ﻿using HashidsNet;
 
-namespace FWT.Core.Services.Hash
+namespace FWTL.Core.Services.Hash
 {
     public interface IShortenService
     {

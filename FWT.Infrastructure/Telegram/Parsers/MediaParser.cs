@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FWT.Core.Extensions;
-using FWT.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Core.Extensions;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using OpenTl.Schema;
-using static FWT.Core.Helpers.Enum;
+using static FWTL.Core.Helpers.Enum;
 
-namespace FWT.Infrastructure.Telegram.Parsers
+namespace FWTL.Infrastructure.Telegram.Parsers
 {
     public static class MediaParser
     {

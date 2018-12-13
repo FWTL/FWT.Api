@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace FWT.Core.Helpers
+namespace FWTL.Core.Helpers
 {
     public static class FileHelper
     {

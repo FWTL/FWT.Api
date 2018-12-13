@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using FWT.Core.Services.EventHub;
+using FWTL.Core.Services.EventHub;
 using Microsoft.Azure.EventHubs;
 using Newtonsoft.Json;
 
-namespace FWT.Infrastructure.EventHub
+namespace FWTL.Infrastructure.EventHub
 {
     public class EventHubService : IEventHubService
     {

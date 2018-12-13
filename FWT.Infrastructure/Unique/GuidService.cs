@@ -1,7 +1,7 @@
 ﻿using System;
-using FWT.Core.Services.Unique;
+using FWTL.Core.Services.Unique;
 
-namespace FWT.Infrastructure.Unique
+namespace FWTL.Infrastructure.Unique
 {
     public class GuidService : IGuidService
     {

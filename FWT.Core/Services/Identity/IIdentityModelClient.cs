@@ -2,7 +2,7 @@
 using IdentityModel.Client;
 using OpenTl.Schema;
 
-namespace FWT.Core.Services.Identity
+namespace FWTL.Core.Services.Identity
 {
     public interface IIdentityModelClient
     {

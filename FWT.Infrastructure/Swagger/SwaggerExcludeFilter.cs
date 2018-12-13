@@ -2,7 +2,7 @@
 using System.Reflection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace FWT.Infrastructure.Swagger
+namespace FWTL.Infrastructure.Swagger
 {
     public class SwaggerExcludeFilter : ISchemaFilter
     {

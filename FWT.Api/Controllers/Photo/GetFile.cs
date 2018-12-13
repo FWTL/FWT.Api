@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
-using FWT.Core.CQRS;
-using FWT.Core.Helpers;
-using FWT.Core.Services.Telegram;
-using FWT.Core.Services.Unique;
-using FWT.Infrastructure.Telegram;
+using FWTL.Core.CQRS;
+using FWTL.Core.Helpers;
+using FWTL.Core.Services.Telegram;
+using FWTL.Core.Services.Unique;
+using FWTL.Infrastructure.Telegram;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 
-namespace FWT.Api.Controllers.Photo
+namespace FWTL.Api.Controllers.Photo
 {
     public class GetPhoto
     {

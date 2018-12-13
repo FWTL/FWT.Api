@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FWT.Core.Services.Unique
+namespace FWTL.Core.Services.Unique
 {
     public interface IRandomService
     {

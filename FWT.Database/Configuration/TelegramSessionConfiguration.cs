@@ -1,6 +1,6 @@
-﻿namespace FWT.Database.Configuration
+﻿namespace FWTL.Database.Configuration
 {
-    using FWT.Core.Entities;
+    using FWTL.Core.Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

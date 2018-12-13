@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FWT.Core\FWT.Core.csproj" />
-    <ProjectReference Include="..\FWT.Database\FWT.Database.csproj" />
+    <ProjectReference Include="..\FWT.Core\FWTL.Core.csproj" />
+    <ProjectReference Include="..\FWT.Database\FWTL.Database.csproj" />
   </ItemGroup>
 
 </Project>

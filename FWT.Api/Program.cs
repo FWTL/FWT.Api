@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace FWT.Api
+namespace FWTL.Api
 {
     public class Program
     {

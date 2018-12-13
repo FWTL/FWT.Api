@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace FWT.Database.Migrations
+namespace FWTL.Database.Migrations
 {
     [DbContext(typeof(TelegramDatabaseContext))]
     public partial class TelegramDatabaseContextModelSnapshot : ModelSnapshot

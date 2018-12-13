@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
-using FWT.Core.Extensions;
+using FWTL.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Primitives;
-using static FWT.Core.Helpers.Enum;
+using static FWTL.Core.Helpers.Enum;
 
-namespace FWT.Infrastructure.Grid
+namespace FWTL.Infrastructure.Grid
 {
     [ModelBinder(typeof(SortParamsBinder))]
     public class SortParams

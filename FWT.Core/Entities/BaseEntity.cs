@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace FWT.Core.Entities
+namespace FWTL.Core.Entities
 {
     public abstract class BaseEntity<TKey>
     {

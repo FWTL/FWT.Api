@@ -1,16 +1,16 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentValidation;
-using FWT.Core.CQRS;
-using FWT.Core.Helpers;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Core.Helpers;
+using FWTL.Core.Services.Telegram;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Validation;
 using NodaTime;
 using OpenTl.ClientApi;
 using OpenTl.Schema.Auth;
 
-namespace FWT.Api.Controllers.Account
+namespace FWTL.Api.Controllers.Account
 {
     public class SendCode
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 
-namespace FWT.Infrastructure.Grid
+namespace FWTL.Infrastructure.Grid
 {
     public class PaginatedResults<TData>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FWT.Core.Services.Storage
+namespace FWTL.Core.Services.Storage
 {
     public class BlobFileInfo
     {

@@ -6,7 +6,7 @@ using Microsoft.Azure.KeyVault.Models;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest.Azure;
 
-namespace FWT.Infrastructure.Configuration
+namespace FWTL.Infrastructure.Configuration
 {
     public class AzureSecretParser
     {

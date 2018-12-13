@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using FWT.Core.Extensions;
-using FWT.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Core.Extensions;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using NodaTime;
 using OpenTl.Schema;
 
-namespace FWT.Infrastructure.Telegram.Parsers
+namespace FWTL.Infrastructure.Telegram.Parsers
 {
     public static class MessageParser
     {

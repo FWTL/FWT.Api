@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
-using FWT.Api.Controllers.Photo;
-using FWT.Core.CQRS;
-using FWT.Core.Helpers;
-using FWT.Core.Services.User;
+using FWTL.Api.Controllers.Photo;
+using FWTL.Core.CQRS;
+using FWTL.Core.Helpers;
+using FWTL.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenTl.Schema;
 
-namespace FWT.Api.Controllers
+namespace FWTL.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -2,7 +2,7 @@
 using System.Linq;
 using FluentValidation;
 
-namespace FWT.Infrastructure.Models
+namespace FWTL.Infrastructure.Models
 {
     public class ValidationResultModel
     {

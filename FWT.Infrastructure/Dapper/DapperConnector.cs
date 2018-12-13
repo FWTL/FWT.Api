@@ -2,10 +2,10 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using FWT.Core.Services.Dapper;
-using FWT.Core.Sql;
+using FWTL.Core.Services.Dapper;
+using FWTL.Core.Sql;
 
-namespace FWT.Infrastructure.Dapper
+namespace FWTL.Infrastructure.Dapper
 {
     public class DapperConnector<TCredentials> : IDatabaseConnector<TCredentials> where TCredentials : IDatabaseCredentials
     {

@@ -3,12 +3,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
-using FWT.Core.Helpers;
-using FWT.Core.Services.Identity;
+using FWTL.Core.Helpers;
+using FWTL.Core.Services.Identity;
 using IdentityModel.Client;
 using OpenTl.Schema;
 
-namespace FWT.Infrastructure.Identity
+namespace FWTL.Infrastructure.Identity
 {
     public class IdentityModelClient : IIdentityModelClient
     {

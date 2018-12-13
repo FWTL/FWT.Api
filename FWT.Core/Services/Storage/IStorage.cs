@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWT.Core.Helpers;
+using FWTL.Core.Helpers;
 
-namespace FWT.Core.Services.Storage
+namespace FWTL.Core.Services.Storage
 {
     public interface IStorage
     {

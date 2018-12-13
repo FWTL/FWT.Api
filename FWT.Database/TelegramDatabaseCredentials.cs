@@ -1,6 +1,6 @@
-﻿using FWT.Services.Sql;
+﻿using FWTL.Services.Sql;
 
-namespace FWT.Database
+namespace FWTL.Database
 {
     public class TelegramDatabaseCredentials : DatabaseCredentialsBase
     {

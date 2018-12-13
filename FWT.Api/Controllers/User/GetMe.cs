@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentValidation;
-using FWT.Core.CQRS;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Cache;
-using FWT.Infrastructure.Handlers;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.Telegram;
+using FWTL.Infrastructure.Cache;
+using FWTL.Infrastructure.Handlers;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using StackExchange.Redis;
 
-namespace FWT.Api.Controllers.User
+namespace FWTL.Api.Controllers.User
 {
     public class GetMe
     {

@@ -1,4 +1,4 @@
-﻿namespace FWT.Infrastructure.Telegram.Parsers.Models
+﻿namespace FWTL.Infrastructure.Telegram.Parsers.Models
 {
     public interface ITelegramType
     {

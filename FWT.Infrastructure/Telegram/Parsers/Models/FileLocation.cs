@@ -1,6 +1,6 @@
 ﻿using OpenTl.Schema;
 
-namespace FWT.Infrastructure.Telegram.Parsers.Models
+namespace FWTL.Infrastructure.Telegram.Parsers.Models
 {
     public class File
     {

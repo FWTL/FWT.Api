@@ -1,6 +1,6 @@
 ﻿using Hangfire.Dashboard;
 
-namespace FWT.Infrastructure.Hangfire
+namespace FWTL.Infrastructure.Hangfire
 {
     public class DevelopmentAuthorizationFilter : IDashboardAuthorizationFilter
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FWT.Core.Services.KeyVault
+namespace FWTL.Core.Services.KeyVault
 {
     public interface IAppKeyVault
     {

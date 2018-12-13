@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace FWT.Core.Helpers
+namespace FWTL.Core.Helpers
 {
     public static class ObjectHelper
     {

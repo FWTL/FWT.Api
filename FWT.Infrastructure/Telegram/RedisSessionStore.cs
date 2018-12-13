@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using OpenTl.ClientApi;
 using StackExchange.Redis;
 
-namespace FWT.Infrastructure.Telegram
+namespace FWTL.Infrastructure.Telegram
 {
     public class RedisSessionStore : ISessionStore
     {

@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Dapper;
-using FWT.Core.Services.Dapper;
-using FWT.Database;
+using FWTL.Core.Services.Dapper;
+using FWTL.Database;
 using OpenTl.ClientApi;
-using static FWT.Core.Entities.Maps.TelegramSessionMap;
+using static FWTL.Core.Entities.Maps.TelegramSessionMap;
 
-namespace FWT.Infrastructure.Telegram
+namespace FWTL.Infrastructure.Telegram
 {
     public class DatabaseSessionStore : ISessionStore
     {

@@ -2,14 +2,14 @@
 using System.IO;
 using System.Text;
 using FluentValidation;
-using FWT.Core.Services.Logging;
-using FWT.Infrastructure.Models;
+using FWTL.Core.Services.Logging;
+using FWTL.Infrastructure.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace FWT.Infrastructure.Filters
+namespace FWTL.Infrastructure.Filters
 {
     public sealed class ApiExceptionAttribute : ExceptionFilterAttribute
     {

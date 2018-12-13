@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Security.Claims;
-using FWT.Core.Services.User;
+using FWTL.Core.Services.User;
 
-namespace FWT.Infrastructure.User
+namespace FWTL.Infrastructure.User
 {
     public class CurrentUserProvider : ICurrentUserProvider
     {

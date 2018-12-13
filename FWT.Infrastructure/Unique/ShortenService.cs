@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using FWT.Core.Services.Hash;
+using FWTL.Core.Services.Hash;
 using HashidsNet;
 
-namespace FWT.Infrastructure.Hash
+namespace FWTL.Infrastructure.Hash
 {
     public class ShortenService : IShortenService
     {

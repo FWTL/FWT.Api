@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace FWT.Infrastructure.Swagger
+namespace FWTL.Infrastructure.Swagger
 {
     public class AuthorizeOperationFilter : IOperationFilter
     {

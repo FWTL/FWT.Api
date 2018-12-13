@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Autofac;
 using FluentValidation;
-using FWT.Core.CQRS;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Infrastructure.Validation;
 
-namespace FWT.Infrastructure.CQRS
+namespace FWTL.Infrastructure.CQRS
 {
     public class QueryDispatcher : IQueryDispatcher
     {

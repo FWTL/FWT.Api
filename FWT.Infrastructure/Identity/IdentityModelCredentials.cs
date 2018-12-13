@@ -1,4 +1,4 @@
-﻿namespace FWT.Infrastructure.Identity
+﻿namespace FWTL.Infrastructure.Identity
 {
     public class IdentityModelCredentials
     {

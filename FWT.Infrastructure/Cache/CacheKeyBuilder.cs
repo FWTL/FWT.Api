@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace FWT.Infrastructure.Cache
+namespace FWTL.Infrastructure.Cache
 {
     public static class CacheKeyBuilder
     {

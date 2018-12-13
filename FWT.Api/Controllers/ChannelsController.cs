@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWT.Api.Controllers.Chat;
-using FWT.Core.CQRS;
-using FWT.Core.Services.User;
-using FWT.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Api.Controllers.Chat;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.User;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FWT.Api.Controllers
+namespace FWTL.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

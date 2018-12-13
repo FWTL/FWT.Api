@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace FWT.Core.Helpers
+namespace FWTL.Core.Helpers
 {
     public class HashHelper
     {

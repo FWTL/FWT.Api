@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FWT.Core.CQRS;
+using FWTL.Core.CQRS;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace FWT.Infrastructure.Handlers
+namespace FWTL.Infrastructure.Handlers
 {
     public class RedisJsonHandler<TQuery, TResult> : IReadCacheHandler<TQuery, TResult>, IWriteCacheHandler<TQuery, TResult> where TQuery : IQuery where TResult : class
     {

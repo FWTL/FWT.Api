@@ -1,6 +1,6 @@
-﻿namespace FWT.Database
+﻿namespace FWTL.Database
 {
-    using FWT.Database.Configuration;
+    using FWTL.Database.Configuration;
     using Microsoft.EntityFrameworkCore;
 
     public class TelegramDatabaseContext : DbContext

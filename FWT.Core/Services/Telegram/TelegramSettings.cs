@@ -1,4 +1,4 @@
-﻿namespace FWT.Core.Services.Telegram
+﻿namespace FWTL.Core.Services.Telegram
 {
     public class TelegramSettings
     {

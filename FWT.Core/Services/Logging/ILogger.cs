@@ -1,6 +1,6 @@
 using System;
 
-namespace FWT.Core.Services.Logging
+namespace FWTL.Core.Services.Logging
 {
     public interface ILogger
     {

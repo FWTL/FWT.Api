@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FWT.Database.Migrations
+namespace FWTL.Database.Migrations
 {
     [DbContext(typeof(TelegramDatabaseContext))]
     [Migration("20181108102121_Init")]

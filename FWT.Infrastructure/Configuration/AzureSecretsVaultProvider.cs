@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace FWT.Infrastructure.Configuration
+namespace FWTL.Infrastructure.Configuration
 {
     public class AzureSecretsVaultProvider : ConfigurationProvider
     {

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
-using FWT.Core.CQRS;
-using FWT.Core.Services.Telegram;
-using FWT.Infrastructure.Cache;
-using FWT.Infrastructure.Handlers;
-using FWT.Infrastructure.Telegram;
-using FWT.Infrastructure.Telegram.Parsers.Models;
-using FWT.Infrastructure.Validation;
+using FWTL.Core.CQRS;
+using FWTL.Core.Services.Telegram;
+using FWTL.Infrastructure.Cache;
+using FWTL.Infrastructure.Handlers;
+using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
 
-namespace FWT.Api.Controllers.Dialog
+namespace FWTL.Api.Controllers.Dialog
 {
     public class GetContacts
     {

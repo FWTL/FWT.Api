@@ -1,9 +1,9 @@
 using System;
 using System.Data;
 using System.Threading.Tasks;
-using FWT.Core.Sql;
+using FWTL.Core.Sql;
 
-namespace FWT.Core.Services.Dapper
+namespace FWTL.Core.Services.Dapper
 {
     public interface IDatabaseConnector<TCredentails> where TCredentails : IDatabaseCredentials
     {

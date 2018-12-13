@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace FWT.Core.CQRS
+namespace FWTL.Core.CQRS
 {
     public interface ICommandHandler<in TCommand, TResult> where TCommand : ICommand
     {
