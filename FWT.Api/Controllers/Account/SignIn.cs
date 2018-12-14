@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentValidation;
 using FWTL.Core.CQRS;
@@ -10,31 +9,11 @@ using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Auth;
-using OpenTl.Schema.Help;
 
 namespace FWTL.Api.Controllers.Account
 {
     public class SignIn
     {
-        public class FakeSendCode : ISentCode
-        {
-            public BitArray Flags { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public ICodeType NextType { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public string PhoneCodeHash { get; set; }
-
-            public byte[] PhoneCodeHashAsBinary { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public bool PhoneRegistered { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public ITermsOfService TermsOfService { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public int Timeout { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-            public ISentCodeType Type { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-        }
-
         public class Handler : IQueryHandler<Query, TUser>
         {
             private readonly ITelegramService _telegramService;
@@ -49,8 +28,7 @@ namespace FWTL.Api.Controllers.Account
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
                 IClientApi client = await _telegramService.BuildAsync(hashedPhoneId);
 
-
-                var sentCode = new FakeSendCode()
+                var sentCode = new TSentCode()
                 {
                     PhoneCodeHash = query.SentCode
                 };

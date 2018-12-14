@@ -63,7 +63,6 @@ namespace FWTL.Infrastructure.Telegram.Parsers
                         {
                             Id = document.Id,
                             AccessHash = document.AccessHash,
-                            Version = document.Version
                         }
                     }
                 },
