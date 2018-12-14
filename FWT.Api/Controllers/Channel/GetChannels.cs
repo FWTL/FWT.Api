@@ -71,16 +71,9 @@ namespace FWTL.Api.Controllers.Chat
 
         public class Validator : AppAbstractValidation<Query>
         {
-            private readonly ITelegramService _telegramService;
-
             public Validator()
             {
                 RuleFor(x => x.PhoneHashId).NotEmpty();
-            }
-
-            public Validator(ITelegramService telegramService)
-            {
-                _telegramService = telegramService;
             }
         }
     }

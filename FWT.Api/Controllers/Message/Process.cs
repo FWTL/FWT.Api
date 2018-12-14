@@ -48,7 +48,7 @@ namespace FWTL.Api.Controllers.Message
                 RuleFor(x => x.PhoneHashId).NotEmpty();
                 RuleFor(x => x).CustomAsync(async (command, context, token) =>
                 {
-                    await HasAccessToPeerAsync(command, context);
+                    await HasAccessToPeerAsync(command, context).ConfigureAwait(false);
                 });
             }
 

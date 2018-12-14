@@ -28,7 +28,7 @@ namespace FWTL.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<Channel>> GetChats()
+        public async Task<List<Channel>> GetChannels()
         {
             return await _queryDispatcher.DispatchAsync<GetChannels.Query, List<Channel>>(new GetChannels.Query()
             {
