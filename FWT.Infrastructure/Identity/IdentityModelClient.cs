@@ -14,7 +14,7 @@ namespace FWTL.Infrastructure.Identity
     {
         private IDiscoveryCache _cache;
 
-        private IdentityModelCredentials _credentials;
+        private readonly IdentityModelCredentials _credentials;
 
         public IdentityModelClient(IdentityModelCredentials credentials, IDiscoveryCache cache)
         {
