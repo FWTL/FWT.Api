@@ -1,5 +1,4 @@
 ﻿using System;
-using Auth.FWT.Infrastructure.Logging;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FWTL.Core.CQRS;
@@ -24,6 +23,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
+using Serilog;
 using StackExchange.Redis;
 
 namespace FWTL.Api
@@ -190,7 +190,14 @@ namespace FWTL.Api
             builder.RegisterAssemblyTypes(assemblies).AsClosedTypesOf(typeof(IReadCacheHandler<,>)).InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(assemblies).AsClosedTypesOf(typeof(IWriteCacheHandler<,>)).InstancePerLifetimeScope();
 
-            builder.Register(b => NLogLogger.Instance).SingleInstance();
+            builder.Register<ILogger>(b =>
+            {
+                return new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
+                .CreateLogger();
+            });
 
             builder.Register<IClock>(b =>
             {
