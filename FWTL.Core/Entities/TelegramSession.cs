@@ -2,7 +2,7 @@
 {
     public class TelegramSession
     {
-        public string HashId { get; set; }
+        public string UserId { get; set; }
 
         public byte[] Session { get; set; }
     }

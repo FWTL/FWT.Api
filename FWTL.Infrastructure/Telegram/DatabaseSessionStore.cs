@@ -11,7 +11,7 @@ namespace FWTL.Infrastructure.Telegram
     {
         private readonly IDatabaseConnector<TelegramDatabaseCredentials> _database;
 
-        private string _hashId;
+        private string _userId;
 
         public DatabaseSessionStore(IDatabaseConnector<TelegramDatabaseCredentials> database)
         {
@@ -26,7 +26,7 @@ namespace FWTL.Infrastructure.Telegram
         {
             return _database.Execute(conn =>
             {
-                return conn.QueryFirstOrDefault<byte[]>($"SELECT {Session} FROM {TelegramSession} WHERE {HashId} = @{HashId}", new { HashId = _hashId });
+                return conn.QueryFirstOrDefault<byte[]>($"SELECT {Session} FROM {TelegramSessionTable} WHERE {UserId} = @{UserId}", new { UserId = _userId });
             });
         }
 
@@ -35,24 +35,24 @@ namespace FWTL.Infrastructure.Telegram
             await _database.ExecuteAsync(conn =>
             {
                 return conn.ExecuteAsync($@"
-                IF NOT EXISTS ( SELECT 1 FROM {TelegramSession} WHERE {HashId} = @{HashId})
+                IF NOT EXISTS ( SELECT 1 FROM {TelegramSessionTable} WHERE {UserId} = @{UserId})
                 BEGIN
-                  INSERT INTO {TelegramSession} ({HashId},{Session})
-                  VALUES (@{HashId},@{Session})
+                  INSERT INTO {TelegramSessionTable} ({UserId},{Session})
+                  VALUES (@{UserId},@{Session})
                 END
                 	ELSE
                 BEGIN
-                  UPDATE {TelegramSession}
+                  UPDATE {TelegramSessionTable}
                   SET {Session} = @{Session}
-                  WHERE {HashId} = @{HashId}
+                  WHERE {UserId} = @{UserId}
                 END;
-            ", new { HashId = _hashId, Session = session });
+            ", new { UserId = _userId, Session = session });
             });
         }
 
         public void SetSessionTag(string sessionTag)
         {
-            _hashId = sessionTag;
+            _userId = sessionTag;
         }
     }
 }

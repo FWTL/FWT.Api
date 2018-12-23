@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Core", "FWT.Core\FWTL.Core.csproj", "{005E8734-5113-4486-B930-ECA70F698E52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Core", "FWTL.Core\FWTL.Core.csproj", "{005E8734-5113-4486-B930-ECA70F698E52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Infrastructure", "FWT.Infrastructure\FWTL.Infrastructure.csproj", "{9EEDE92A-E9E5-4D39-8C8C-194AF25BA986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Infrastructure", "FWTL.Infrastructure\FWTL.Infrastructure.csproj", "{9EEDE92A-E9E5-4D39-8C8C-194AF25BA986}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Database", "FWT.Database\FWTL.Database.csproj", "{E651DAD6-26EB-40F1-A5AD-AF8491FCC5C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Database", "FWTL.Database\FWTL.Database.csproj", "{E651DAD6-26EB-40F1-A5AD-AF8491FCC5C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Api", "FWT.Api\FWTL.Api.csproj", "{FF97F549-AE81-4400-BBB6-0CA61F926CB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Api", "FWTL.Api\FWTL.Api.csproj", "{FF97F549-AE81-4400-BBB6-0CA61F926CB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

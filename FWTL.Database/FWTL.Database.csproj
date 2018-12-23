@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FWT.Core\FWTL.Core.csproj" />
+    <ProjectReference Include="..\FWTL.Core\FWTL.Core.csproj" />
   </ItemGroup>
 
 </Project>

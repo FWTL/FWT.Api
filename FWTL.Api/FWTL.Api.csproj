@@ -27,9 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FWT.Core\FWTL.Core.csproj" />
-    <ProjectReference Include="..\FWT.Database\FWTL.Database.csproj" />
-    <ProjectReference Include="..\FWT.Infrastructure\FWTL.Infrastructure.csproj" />
+    <ProjectReference Include="..\FWTL.Core\FWTL.Core.csproj" />
+    <ProjectReference Include="..\FWTL.Database\FWTL.Database.csproj" />
+    <ProjectReference Include="..\FWTL.Infrastructure\FWTL.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
