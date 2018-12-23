@@ -5,7 +5,7 @@ namespace FWTL.Core.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static void AddWhenNotNull<T>(this ICollection<T> list, T item)
+        public static void AddWhenNotNull<T>(this ICollection<T> list, T item) where T : class
         {
             if (item != null)
             {
