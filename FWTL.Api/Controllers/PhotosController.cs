@@ -32,7 +32,7 @@ namespace FWTL.Api.Controllers
         {
             var result = await _queryDispatcher.DispatchAsync<GetPhoto.Query, FileInfo>(new GetPhoto.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User),
+                UserId = _userProvider.UserId(User),
                 Location = new TInputFileLocation()
                 {
                     LocalId = localId,

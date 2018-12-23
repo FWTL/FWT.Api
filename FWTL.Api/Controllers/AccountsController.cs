@@ -36,7 +36,7 @@ namespace FWTL.Api.Controllers
         {
             return await _queryDispatcher.DispatchAsync<Logout.Query, bool>(new Logout.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                UserId = _userProvider.UserId(User)
             });
         }
 

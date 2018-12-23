@@ -23,7 +23,7 @@ namespace FWTL.Api.Controllers.Messages
         {
             public int Id { get; set; }
 
-            public string PhoneHashId { get; set; }
+            public string UserId { get; set; }
 
             public PeerType Type { get; set; }
         }
@@ -32,7 +32,7 @@ namespace FWTL.Api.Controllers.Messages
         {
             public Task ExecuteAsync(Command command)
             {
-                BackgroundJob.Enqueue<GetMessages>(job => job.ForPeer(command.Id, command.Type, command.PhoneHashId, 0, 0));
+                BackgroundJob.Enqueue<GetMessages>(job => job.ForPeer(command.Id, command.Type, command.UserId, 0, 0));
                 return Task.CompletedTask;
             }
         }
@@ -45,7 +45,7 @@ namespace FWTL.Api.Controllers.Messages
             {
                 _telegramService = telegramService;
 
-                RuleFor(x => x.PhoneHashId).NotEmpty();
+                RuleFor(x => x.UserId).NotEmpty();
                 RuleFor(x => x).CustomAsync(async (command, context, token) =>
                 {
                     await HasAccessToPeerAsync(command, context).ConfigureAwait(false);
@@ -80,7 +80,7 @@ namespace FWTL.Api.Controllers.Messages
 
             private async Task ValidateRequestAsync<TResult>(IRequest<TResult> request, Command command, CustomContext context)
             {
-                IClientApi client = await _telegramService.BuildAsync(command.PhoneHashId);
+                IClientApi client = await _telegramService.BuildAsync(command.UserId);
                 var result = (await TelegramRequest.HandleAsync(() =>
                 {
                     return client.CustomRequestsService.SendRequestAsync(request);

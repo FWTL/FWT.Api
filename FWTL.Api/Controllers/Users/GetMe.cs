@@ -21,7 +21,7 @@ namespace FWTL.Api.Controllers.Users
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.PhoneHashId);
+                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.UserId);
                 };
             }
 
@@ -42,7 +42,7 @@ namespace FWTL.Api.Controllers.Users
 
             public async Task<Result> HandleAsync(Query query)
             {
-                IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
+                IClientApi client = await _telegramService.BuildAsync(query.UserId);
 
                 TUserFull result = await TelegramRequest.HandleAsync(() =>
                 {
@@ -55,7 +55,7 @@ namespace FWTL.Api.Controllers.Users
 
         public class Query : IQuery
         {
-            public string PhoneHashId { get; set; }
+            public string UserId { get; set; }
         }
 
         public class Result
@@ -85,7 +85,7 @@ namespace FWTL.Api.Controllers.Users
         {
             public Validator()
             {
-                RuleFor(x => x.PhoneHashId).NotEmpty();
+                RuleFor(x => x.UserId).NotEmpty();
             }
         }
     }

@@ -32,7 +32,7 @@ namespace FWTL.Api.Controllers
         {
             return await _queryDispatcher.DispatchAsync<GetChannels.Query, List<Channel>>(new GetChannels.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                UserId = _userProvider.UserId(User)
             });
         }
     }

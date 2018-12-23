@@ -35,7 +35,7 @@ namespace FWTL.Infrastructure.Identity
                 Scope = "api",
                 Parameters = new Dictionary<string, string>()
                 {
-                    { "PhoneHashId", HashHelper.GetHash(user.Phone) }
+                    { "UserId", HashHelper.GetHash(user.Phone) }
                 }
             });
 

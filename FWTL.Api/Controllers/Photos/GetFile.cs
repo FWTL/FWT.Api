@@ -25,7 +25,7 @@ namespace FWTL.Api.Controllers.Photos
 
             public async Task<FileInfo> HandleAsync(Query query)
             {
-                IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
+                IClientApi client = await _telegramService.BuildAsync(query.UserId);
                 byte[] result = (await TelegramRequest.HandleAsync(() =>
                 {
                     return client.FileService.DownloadFullFileAsync(query.Location);
@@ -43,7 +43,7 @@ namespace FWTL.Api.Controllers.Photos
         {
             public TInputFileLocation Location { get; set; }
 
-            public string PhoneHashId { get; set; }
+            public string UserId { get; set; }
         }
     }
 }

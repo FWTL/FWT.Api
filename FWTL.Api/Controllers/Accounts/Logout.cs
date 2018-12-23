@@ -22,7 +22,7 @@ namespace FWTL.Api.Controllers.Accounts
 
             public async Task<bool> HandleAsync(Query query)
             {
-                IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
+                IClientApi client = await _telegramService.BuildAsync(query.UserId);
 
                 await TelegramRequest.HandleAsync(() =>
                 {
@@ -35,7 +35,7 @@ namespace FWTL.Api.Controllers.Accounts
 
         public class Query : IQuery
         {
-            public string PhoneHashId { get; set; }
+            public string UserId { get; set; }
         }
 
         public class Result
@@ -61,7 +61,7 @@ namespace FWTL.Api.Controllers.Accounts
         {
             public Validator()
             {
-                RuleFor(x => x.PhoneHashId).NotEmpty();
+                RuleFor(x => x.UserId).NotEmpty();
             }
         }
     }

@@ -33,7 +33,7 @@ namespace FWTL.Api.Controllers
         {
             return await _queryDispatcher.DispatchAsync<GetChats.Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>(new GetChats.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                UserId = _userProvider.UserId(User)
             });
         }
 
@@ -45,7 +45,7 @@ namespace FWTL.Api.Controllers
             await _commandDispatcher.DispatchAsync(new Process.Command()
             {
                 Id = id,
-                PhoneHashId = _userProvider.PhoneHashId(User),
+                UserId = _userProvider.UserId(User),
                 Type = PeerType.Chat
             });
         }

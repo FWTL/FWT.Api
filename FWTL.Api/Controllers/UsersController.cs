@@ -31,7 +31,7 @@ namespace FWTL.Api.Controllers
         {
             return await _queryDispatcher.DispatchAsync<GetMe.Query, GetMe.Result>(new GetMe.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                UserId = _userProvider.UserId(User)
             });
         }
     }

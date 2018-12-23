@@ -34,7 +34,7 @@ namespace FWTL.Api.Controllers
         {
             return await _queryDispatcher.DispatchAsync<GetContacts.Query, List<Contact>>(new GetContacts.Query()
             {
-                PhoneHashId = _userProvider.PhoneHashId(User)
+                UserId = _userProvider.UserId(User)
             });
         }
 
@@ -46,7 +46,7 @@ namespace FWTL.Api.Controllers
             await _commandDispatcher.DispatchAsync(new Process.Command()
             {
                 Id = id,
-                PhoneHashId = _userProvider.PhoneHashId(User),
+                UserId = _userProvider.UserId(User),
                 Type = PeerType.User
             });
         }

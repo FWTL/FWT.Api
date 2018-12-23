@@ -28,10 +28,10 @@ namespace FWTL.Api.Jobs
             _eventHub = eventHub;
         }
 
-        public async Task ForPeer(int id, PeerType peerType, string phoneHashId, int offset, int maxId)
+        public async Task ForPeer(int id, PeerType peerType, string userId, int offset, int maxId)
         {
             IInputPeer peer = GetPeer(id, peerType);
-            IClientApi client = await _telegramService.BuildAsync(phoneHashId);
+            IClientApi client = await _telegramService.BuildAsync(userId);
             IMessages history = await TelegramRequest.HandleAsync(() =>
             {
                 return client.MessagesService.GetHistoryAsync(peer, offset, maxId, 100);
@@ -43,7 +43,7 @@ namespace FWTL.Api.Jobs
             if (messages.Count > 0)
             {
                 BackgroundJob.Schedule<GetMessages>(
-                    job => job.ForPeer(id, peerType, phoneHashId, offset + 100, 0),
+                    job => job.ForPeer(id, peerType, userId, offset + 100, 0),
                     TimeSpan.FromSeconds(_randomService.Random.Next(5, 20)));
             }
         }
