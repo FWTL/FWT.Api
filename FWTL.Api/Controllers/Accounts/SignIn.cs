@@ -7,13 +7,14 @@ using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
+using OpenTl.Schema;
 using OpenTl.Schema.Auth;
 
-namespace FWTL.Api.Controllers.Account
+namespace FWTL.Api.Controllers.Accounts
 {
-    public class SendCode
+    public class SignIn
     {
-        public class Handler : IQueryHandler<Query, string>
+        public class Handler : IQueryHandler<Query, TUser>
         {
             private readonly ITelegramService _telegramService;
 
@@ -22,27 +23,39 @@ namespace FWTL.Api.Controllers.Account
                 _telegramService = telegramService;
             }
 
-            public async Task<string> HandleAsync(Query query)
+            public async Task<TUser> HandleAsync(Query query)
             {
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
                 IClientApi client = await _telegramService.BuildAsync(hashedPhoneId);
-                ISentCode result = await TelegramRequest.HandleAsync(() =>
+
+                var sentCode = new TSentCode()
                 {
-                    return client.AuthService.SendCodeAsync(query.PhoneNumber);
+                    PhoneCodeHash = query.SentCode
+                };
+
+                TUser result = await TelegramRequest.HandleAsync(() =>
+                {
+                    return client.AuthService.SignInAsync(query.PhoneNumber, sentCode, query.Code);
                 });
 
-                return result.PhoneCodeHash;
+                return result;
             }
         }
 
         public class Query : IQuery
         {
-            public Query(string phoneNumber)
+            public Query(string phoneNumber, string sentCode, string code)
             {
                 PhoneNumber = Regex.Replace(phoneNumber ?? string.Empty, "[^0-9]", "");
+                Code = code;
+                SentCode = sentCode;
             }
 
+            public string Code { get; }
+
             public string PhoneNumber { get; }
+
+            public string SentCode { get; }
         }
 
         public class Validator : AppAbstractValidation<Query>
@@ -50,6 +63,8 @@ namespace FWTL.Api.Controllers.Account
             public Validator()
             {
                 RuleFor(x => x.PhoneNumber).NotEmpty();
+                RuleFor(x => x.Code).NotEmpty();
+                RuleFor(x => x.SentCode).NotEmpty();
             }
         }
     }

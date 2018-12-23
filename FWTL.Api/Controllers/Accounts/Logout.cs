@@ -7,7 +7,7 @@ using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 
-namespace FWTL.Api.Controllers.Account
+namespace FWTL.Api.Controllers.Accounts
 {
     public class Logout
     {

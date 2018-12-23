@@ -9,24 +9,23 @@ using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Telegram.Parsers;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.Chat
+namespace FWTL.Api.Controllers.Chats
 {
-    public class GetChannels
+    public class GetChats
     {
-        public class Cache : RedisJsonHandler<Query, List<Channel>>
+        public class Cache : RedisJsonHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<GetChannels, Query>(query, m => m.PhoneHashId);
+                    return CacheKeyBuilder.Build<GetChats, Query>(query, m => m.PhoneHashId);
                 };
             }
 
@@ -36,7 +35,7 @@ namespace FWTL.Api.Controllers.Chat
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<Channel>>
+        public class Handler : IQueryHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -45,7 +44,7 @@ namespace FWTL.Api.Controllers.Chat
                 _telegramService = telegramService;
             }
 
-            public async Task<List<Channel>> HandleAsync(Query query)
+            public async Task<List<Infrastructure.Telegram.Parsers.Models.Chat>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.PhoneHashId);
 
@@ -54,13 +53,13 @@ namespace FWTL.Api.Controllers.Chat
                     return client.MessagesService.GetUserDialogsAsync();
                 })).As<TDialogs>();
 
-                var channels = new List<Channel>();
-                foreach (IChat channel in result.Chats)
+                var chats = new List<Infrastructure.Telegram.Parsers.Models.Chat>();
+                foreach (IChat chat in result.Chats)
                 {
-                    channels.AddWhenNotNull(ChatParser.ParseChannel(channel));
+                    chats.AddWhenNotNull(ChatParser.ParseChat(chat));
                 }
 
-                return channels;
+                return chats;
             }
         }
 

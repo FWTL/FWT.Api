@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FWTL.Api.Controllers.Photo;
+using FWTL.Api.Controllers.Photos;
 using FWTL.Core.CQRS;
 using FWTL.Core.Helpers;
 using FWTL.Core.Services.User;

@@ -11,7 +11,7 @@ using OpenTl.ClientApi;
 using OpenTl.Schema;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.User
+namespace FWTL.Api.Controllers.Users
 {
     public class GetMe
     {

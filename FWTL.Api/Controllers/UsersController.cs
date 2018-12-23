@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FWTL.Api.Controllers.User;
+using FWTL.Api.Controllers.Users;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;

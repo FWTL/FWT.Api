@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWTL.Api.Controllers.Dialog;
-using FWTL.Api.Controllers.Message;
+using FWTL.Api.Controllers.Contacts;
+using FWTL.Api.Controllers.Messages;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
 using FWTL.Infrastructure.Telegram.Parsers.Models;

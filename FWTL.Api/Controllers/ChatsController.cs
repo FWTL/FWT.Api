@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWTL.Api.Controllers.Chat;
-using FWTL.Api.Controllers.Message;
+using FWTL.Api.Controllers.Chats;
+using FWTL.Api.Controllers.Messages;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
 using Microsoft.AspNetCore.Authorization;

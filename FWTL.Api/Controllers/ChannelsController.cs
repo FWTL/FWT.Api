@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWTL.Api.Controllers.Chat;
+using FWTL.Api.Controllers.Channels;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
 using FWTL.Infrastructure.Telegram.Parsers.Models;

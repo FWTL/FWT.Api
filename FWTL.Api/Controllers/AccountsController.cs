@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FWTL.Api.Controllers.Account;
+using FWTL.Api.Controllers.Accounts;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.Identity;
 using FWTL.Core.Services.User;

@@ -15,7 +15,7 @@ using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.Dialog
+namespace FWTL.Api.Controllers.Contacts
 {
     public class GetContacts
     {

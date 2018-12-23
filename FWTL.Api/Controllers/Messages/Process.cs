@@ -15,7 +15,7 @@ using OpenTl.Schema.Messages;
 using OpenTl.Schema.Users;
 using static FWTL.Core.Helpers.Enum;
 
-namespace FWTL.Api.Controllers.Message
+namespace FWTL.Api.Controllers.Messages
 {
     public class Process
     {
