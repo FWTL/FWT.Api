@@ -14,14 +14,13 @@ namespace FWTL.Api.Controllers.Photos
         public class Handler : IQueryHandler<Query, FileInfo>
         {
             private readonly ITelegramService _telegramService;
+            private readonly IGuidService _guidService;
 
             public Handler(ITelegramService telegramService, IGuidService guidService)
             {
                 _telegramService = telegramService;
                 _guidService = guidService;
             }
-
-            public IGuidService _guidService { get; }
 
             public async Task<FileInfo> HandleAsync(Query query)
             {
