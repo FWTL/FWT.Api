@@ -19,7 +19,7 @@ namespace FWTL.Infrastructure.Handlers
 
         public virtual async Task<TResult> ReadAsync(TQuery query)
         {
-            if (KeyFn == null)
+            if (KeyFn == null) 
             {
                 throw new ArgumentException("KeyFn not defined");
             }
