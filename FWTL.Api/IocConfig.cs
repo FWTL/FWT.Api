@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data.SqlClient;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FWTL.Core.CQRS;
 using FWTL.Core.Extensions;
+using FWTL.Core.Services.Dapper;
 using FWTL.Core.Services.Redis;
 using FWTL.Core.Services.Sql;
 using FWTL.Core.Services.Telegram;
@@ -24,6 +26,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Serilog;
+using Serilog.Events;
+using StackExchange.Profiling.Data;
 using StackExchange.Redis;
 
 namespace FWTL.Api
@@ -192,10 +196,13 @@ namespace FWTL.Api
 
             builder.Register<ILogger>(b =>
             {
+                var format = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {NewLine}{Message:lj}{NewLine}{Exception}";
+
                 return new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Error)
+                .WriteTo.Console(outputTemplate: format)
+                .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error, outputTemplate: format)
+                .WriteTo.Logger(cl => cl.Filter.ByIncludingOnly(evt => evt.Level == LogEventLevel.Information).WriteTo.File("Logs/queries.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information, outputTemplate: format))
                 .CreateLogger();
             });
 
@@ -209,7 +216,6 @@ namespace FWTL.Api
                 return new MemoryCache(new MemoryCacheOptions());
             }).SingleInstance();
 
-            builder.RegisterType<DapperConnector<TelegramDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<DapperConnector<HangfireDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
@@ -227,6 +233,15 @@ namespace FWTL.Api
             {
                 var connectionStringBuilder = b.Resolve<EventHubsConnectionStringBuilder>();
                 return EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
+            }).InstancePerLifetimeScope();
+
+            builder.RegisterType<ProfileDbConnection>().AsImplementedInterfaces().SingleInstance();
+            builder.Register<IDatabaseConnector<TelegramDatabaseCredentials>>(b =>
+            {
+                var databaseCredentials = b.Resolve<TelegramDatabaseCredentials>();
+                var profiler = b.Resolve<IDbProfiler>();
+                ProfiledDbConnection databaseConnection = new ProfiledDbConnection(new SqlConnection(databaseCredentials.ConnectionString), profiler);
+                return new DapperConnector<TelegramDatabaseCredentials>(databaseConnection);
             }).InstancePerLifetimeScope();
 
             return builder.Build();
