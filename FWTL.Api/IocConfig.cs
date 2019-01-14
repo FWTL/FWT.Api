@@ -8,6 +8,7 @@ using FWTL.Core.Services.Sql;
 using FWTL.Core.Services.Telegram;
 using FWTL.Core.Services.Unique;
 using FWTL.Database;
+using FWTL.Infrastructure;
 using FWTL.Infrastructure.CQRS;
 using FWTL.Infrastructure.Dapper;
 using FWTL.Infrastructure.EventHub;
@@ -25,7 +26,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Serilog;
 using Serilog.Events;
-using StackExchange.Profiling.Data;
 using StackExchange.Redis;
 using System;
 using System.Data.SqlClient;
@@ -234,19 +234,10 @@ namespace FWTL.Api
                 return EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
             }).InstancePerLifetimeScope();
 
-            builder.RegisterType<ProfileDbConnection>().AsImplementedInterfaces().SingleInstance();
-            //builder.Register<IDatabaseConnector<TelegramDatabaseCredentials>>(b =>
-            //{
-            //    var databaseCredentials = b.Resolve<TelegramDatabaseCredentials>();
-            //    var profiler = b.Resolve<IDbProfiler>();
-            //    ProfiledDbConnection databaseConnection = new ProfiledDbConnection(new SqlConnection(databaseCredentials.ConnectionString), profiler);
-            //    return new DapperConnector<TelegramDatabaseCredentials>(databaseConnection);
-            //}).InstancePerLifetimeScope();
-
             builder.Register<IDatabaseConnector<TelegramDatabaseCredentials>>(b =>
             {
                 var databaseCredentials = b.Resolve<TelegramDatabaseCredentials>();
-                return new DapperConnector<TelegramDatabaseCredentials>(new SqlConnection(databaseCredentials.ConnectionString));
+                return new TelegramStoreDapperConnector<TelegramDatabaseCredentials>(databaseCredentials);
             }).InstancePerLifetimeScope();
 
             builder.Register<IDatabaseConnector<HangfireDatabaseCredentials>>(b =>

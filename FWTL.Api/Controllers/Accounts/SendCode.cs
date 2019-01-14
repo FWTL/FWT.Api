@@ -25,11 +25,11 @@ namespace FWTL.Api.Controllers.Accounts
             public async Task<string> HandleAsync(Query query)
             {
                 string hashedPhoneId = HashHelper.GetHash(query.PhoneNumber);
-                IClientApi client = await _telegramService.BuildAsync(hashedPhoneId);
+                IClientApi client = await _telegramService.BuildAsync(hashedPhoneId).ConfigureAwait(false);
                 ISentCode result = await TelegramRequest.HandleAsync(() =>
                 {
                     return client.AuthService.SendCodeAsync(query.PhoneNumber);
-                });
+                }).ConfigureAwait(false);
 
                 return result.PhoneCodeHash;
             }
