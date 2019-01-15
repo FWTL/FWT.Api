@@ -5,6 +5,7 @@ using FluentValidation;
 using FWTL.Core.CQRS;
 using FWTL.Core.Extensions;
 using FWTL.Core.Services.Telegram;
+using FWTL.Events.Telegram.Messages;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
@@ -19,7 +20,7 @@ namespace FWTL.Api.Controllers.Chats
 {
     public class GetChats
     {
-        public class Cache : RedisJsonHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
+        public class Cache : RedisJsonHandler<Query, List<Chat>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
@@ -35,7 +36,7 @@ namespace FWTL.Api.Controllers.Chats
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
+        public class Handler : IQueryHandler<Query, List<Chat>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -44,7 +45,7 @@ namespace FWTL.Api.Controllers.Chats
                 _telegramService = telegramService;
             }
 
-            public async Task<List<Infrastructure.Telegram.Parsers.Models.Chat>> HandleAsync(Query query)
+            public async Task<List<Chat>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.UserId);
 
@@ -53,7 +54,7 @@ namespace FWTL.Api.Controllers.Chats
                     return client.MessagesService.GetUserDialogsAsync();
                 })).As<TDialogs>();
 
-                var chats = new List<Infrastructure.Telegram.Parsers.Models.Chat>();
+                var chats = new List<Chat>();
                 foreach (IChat chat in result.Chats)
                 {
                     chats.AddWhenNotNull(ChatParser.ParseChat(chat));

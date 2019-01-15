@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using FWTL.Core.CQRS;
 using FWTL.Core.Extensions;
 using FWTL.Core.Services.Dapper;
+using FWTL.Core.Services.Identity;
 using FWTL.Core.Services.Redis;
 using FWTL.Core.Services.Sql;
 using FWTL.Core.Services.Telegram;

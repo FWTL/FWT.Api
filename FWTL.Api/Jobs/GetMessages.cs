@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FWTL.Core.Services.EventHub;
+﻿using FWTL.Core.Services.EventHub;
 using FWTL.Core.Services.Telegram;
 using FWTL.Core.Services.Unique;
 using FWTL.Events.Telegram.Messages;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Telegram.Parsers;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
 using Hangfire;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
-using static FWTL.Core.Helpers.Enum;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Api.Jobs
 {

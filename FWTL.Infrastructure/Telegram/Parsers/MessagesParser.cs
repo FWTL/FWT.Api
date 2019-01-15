@@ -2,6 +2,7 @@
 using OpenTl.Schema.Messages;
 using System;
 using System.Collections.Generic;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {

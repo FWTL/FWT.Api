@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using FWTL.Api.Controllers.Channels;
+﻿using FWTL.Api.Controllers.Channels;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Events.Telegram.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FWTL.Api.Controllers
 {

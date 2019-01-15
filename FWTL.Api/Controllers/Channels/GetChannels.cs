@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using FWTL.Core.CQRS;
 using FWTL.Core.Extensions;
 using FWTL.Core.Services.Telegram;
+using FWTL.Events.Telegram.Messages;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Telegram.Parsers;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FWTL.Api.Controllers.Channels
 {
