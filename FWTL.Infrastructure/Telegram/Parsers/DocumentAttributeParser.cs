@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+﻿using FWTL.Events.Telegram.Messages;
 using OpenTl.Schema;
+using System;
+using System.Collections.Generic;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {

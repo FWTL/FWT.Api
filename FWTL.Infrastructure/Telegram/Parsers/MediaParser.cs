@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FWTL.Core.Extensions;
+using FWTL.Events.Telegram.Messages;
+using OpenTl.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FWTL.Core.Extensions;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using static FWTL.Core.Helpers.Enum;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {
@@ -59,11 +59,11 @@ namespace FWTL.Infrastructure.Telegram.Parsers
                     new File()
                     {
                         Size = document.Size,
-                        Location = new TInputDocumentFileLocation()
-                        {
-                            Id = document.Id,
-                            AccessHash = document.AccessHash,
-                        }
+                        //Location = new TInputDocumentFileLocation()
+                        //{
+                        //    Id = document.Id,
+                        //    AccessHash = document.AccessHash,
+                        //}
                     }
                 },
                 Type = TelegramMediaType.Document
@@ -124,24 +124,24 @@ namespace FWTL.Infrastructure.Telegram.Parsers
         {
             var photo = messageMediaPhoto.Photo.As<TPhoto>();
             var sizes = photo.Sizes.ForEach(size => { return PhotoSizeParser.Parse(size); });
-            var files = sizes.ForEach(size =>
-            {
-                var location = size.Location.As<TFileLocation>();
-                return new File()
-                {
-                    Size = size.Size,
-                    Location = new TInputFileLocation()
-                    {
-                        LocalId = location.LocalId,
-                        VolumeId = location.VolumeId,
-                        Secret = location.Secret
-                    }
-                };
-            });
+            //var files = sizes.ForEach(size =>
+            //{
+            //    var location = size.Location.As<TFileLocation>();
+            //    return new File()
+            //    {
+            //        Size = size.Size,
+            //        Location = new TInputFileLocation()
+            //        {
+            //            LocalId = location.LocalId,
+            //            VolumeId = location.VolumeId,
+            //            Secret = location.Secret
+            //        }
+            //    };
+            //});
 
             return new MessageMedia()
             {
-                Files = files.ToList(),
+                //Files = files.ToList(),
                 Type = TelegramMediaType.Photo
             };
         }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FWTL.Events.Telegram.Messages;
+using OpenTl.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
-using OpenTl.Schema;
-using static FWTL.Core.Helpers.Enum;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {

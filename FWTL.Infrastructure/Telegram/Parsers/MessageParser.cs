@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using FWTL.Core.Extensions;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+﻿using FWTL.Core.Extensions;
+using FWTL.Events.Telegram.Messages;
 using NodaTime;
 using OpenTl.Schema;
+using System;
+using System.Collections.Generic;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {
