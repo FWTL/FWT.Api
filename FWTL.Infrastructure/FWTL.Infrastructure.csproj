@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="FWTL.Events" Version="1.0.9" />
-    <PackageReference Include="FWTL.Infrastructure.Common" Version="1.0.8" />
+    <PackageReference Include="FWTL.Infrastructure.Common" Version="1.0.10" />
     <PackageReference Include="Hangfire.Core" Version="1.6.21" />
     <PackageReference Include="OpenTl.ClientApi" Version="0.7.97" />
   </ItemGroup>

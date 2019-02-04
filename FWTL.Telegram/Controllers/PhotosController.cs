@@ -26,22 +26,22 @@ namespace FWTL.Telegram.Controllers
             _userProvider = userProvider;
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<FileContentResult> GetChats(long volumeId, int localId, long secret)
-        {
-            var result = await _queryDispatcher.DispatchAsync<GetPhoto.Query, FileInfo>(new GetPhoto.Query()
-            {
-                UserId = _userProvider.UserId(User),
-                Location = new TInputFileLocation()
-                {
-                    LocalId = localId,
-                    VolumeId = volumeId,
-                    Secret = secret
-                }
-            });
+        //[HttpGet]
+        //[Authorize]
+        //public async Task<FileContentResult> GetChats(long volumeId, int localId, long secret)
+        //{
+        //    var result = await _queryDispatcher.DispatchAsync<GetPhoto.Query, FileInfo>(new GetPhoto.Query()
+        //    {
+        //        UserId = _userProvider.UserId(User),
+        //        Location = new TInputFileLocation()
+        //        {
+        //            LocalId = localId,
+        //            VolumeId = volumeId,
+        //            Secret = secret
+        //        }
+        //    });
 
-            return File(result.Content, "image/jpeg", result.Name);
-        }
+        //    return File(result.Content, "image/jpeg", result.Name);
+        //}
     }
 }

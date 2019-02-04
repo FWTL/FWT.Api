@@ -14,6 +14,7 @@ using FWTL.Infrastructure.CQRS;
 using FWTL.Infrastructure.Dapper;
 using FWTL.Infrastructure.EventHub;
 using FWTL.Infrastructure.Identity;
+using FWTL.Infrastructure.Services.Unique;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Unique;
 using FWTL.Infrastructure.User;

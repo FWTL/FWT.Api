@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using FWTL.Core.CQRS;
-using FWTL.Core.Helpers;
 using FWTL.Core.Services.Telegram;
 using FWTL.Core.Services.Unique;
 using FWTL.Infrastructure.Telegram;
@@ -11,7 +10,7 @@ namespace FWTL.Telegram.Controllers.Photos
 {
     public class GetPhoto
     {
-        public class Handler : IQueryHandler<Query, FileInfo>
+        public class Handler : IQueryHandler<Query, bool>
         {
             private readonly ITelegramService _telegramService;
             private readonly IGuidService _guidService;
@@ -22,7 +21,7 @@ namespace FWTL.Telegram.Controllers.Photos
                 _guidService = guidService;
             }
 
-            public async Task<FileInfo> HandleAsync(Query query)
+            public async Task<bool> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.UserId);
                 byte[] result = (await TelegramRequest.HandleAsync(() =>
@@ -30,11 +29,13 @@ namespace FWTL.Telegram.Controllers.Photos
                     return client.FileService.DownloadFullFileAsync(query.Location);
                 }));
 
-                return new FileInfo()
-                {
-                    Content = result,
-                    Name = _guidService.New().ToString("n")
-                };
+                return true;
+
+                //return new FileInfo()
+                //{
+                //    Content = result,
+                //    Name = _guidService.New().ToString("n")
+                //};
             }
         }
 
