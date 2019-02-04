@@ -11,7 +11,7 @@ using OpenTl.Schema;
 using OpenTl.Schema.Messages;
 using static FWTL.Core.Helpers.Enum;
 
-namespace FWTL.Api.Jobs
+namespace FWTL.Telegram.Jobs
 {
     public class GetMessages
     {

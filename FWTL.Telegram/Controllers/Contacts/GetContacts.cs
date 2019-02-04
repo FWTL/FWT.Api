@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using FWTL.Core.CQRS;
-using FWTL.Core.Extensions;
 using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
-using FWTL.Infrastructure.Telegram.Parsers;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using OpenTl.Schema.Messages;
+using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.Chats
+namespace FWTL.Telegram.Controllers.Contacts
 {
-    public class GetChats
+    public class GetContacts
     {
-        public class Cache : RedisJsonHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
+        public class Cache : RedisJsonHandler<Query, List<Contact>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<GetChats, Query>(query, m => m.UserId);
+                    return CacheKeyBuilder.Build<Contact, Query>(query, m => m.UserId);
                 };
             }
 
@@ -35,7 +35,7 @@ namespace FWTL.Api.Controllers.Chats
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>
+        public class Handler : IQueryHandler<Query, List<Contact>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -44,22 +44,20 @@ namespace FWTL.Api.Controllers.Chats
                 _telegramService = telegramService;
             }
 
-            public async Task<List<Infrastructure.Telegram.Parsers.Models.Chat>> HandleAsync(Query query)
+            public async Task<List<Contact>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.UserId);
-
-                TDialogs result = (await TelegramRequest.HandleAsync(() =>
+                TContacts result = (await TelegramRequest.HandleAsync(() =>
                 {
-                    return client.MessagesService.GetUserDialogsAsync();
-                })).As<TDialogs>();
+                    return client.ContactsService.GetContactsAsync();
+                }));
 
-                var chats = new List<Infrastructure.Telegram.Parsers.Models.Chat>();
-                foreach (IChat chat in result.Chats)
+                List<Contact> contacts = result.Users.Select(c =>
                 {
-                    chats.AddWhenNotNull(ChatParser.ParseChat(chat));
-                }
+                    return new Contact(c.As<TUser>());
+                }).ToList();
 
-                return chats;
+                return contacts;
             }
         }
 

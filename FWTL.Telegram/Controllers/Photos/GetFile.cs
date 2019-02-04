@@ -7,7 +7,7 @@ using FWTL.Infrastructure.Telegram;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 
-namespace FWTL.Api.Controllers.Photos
+namespace FWTL.Telegram.Controllers.Photos
 {
     public class GetPhoto
     {

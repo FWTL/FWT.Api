@@ -30,7 +30,7 @@ using Serilog.Events;
 using StackExchange.Profiling.Data;
 using StackExchange.Redis;
 
-namespace FWTL.Api
+namespace FWTL.Telegram
 {
     public class IocConfig
     {

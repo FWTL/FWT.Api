@@ -19,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace FWTL.Api
+namespace FWTL.Telegram
 {
     public class Startup
     {

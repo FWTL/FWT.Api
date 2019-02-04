@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Infrastructure", "FWTL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Database", "FWTL.Database\FWTL.Database.csproj", "{E651DAD6-26EB-40F1-A5AD-AF8491FCC5C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Api", "FWTL.Api\FWTL.Api.csproj", "{FF97F549-AE81-4400-BBB6-0CA61F926CB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FWTL.Telegram", "FWTL.Api\FWTL.Telegram.csproj", "{FF97F549-AE81-4400-BBB6-0CA61F926CB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

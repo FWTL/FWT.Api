@@ -8,9 +8,9 @@ if(!($buildPath)){
 }
 else
 {
-    $buildPath = Join-Path $buildPath 'FWTL.Api'
+    $buildPath = Join-Path $buildPath 'FWTL.Telegram'
 }
 
 $Env:ASPNETCORE_ENVIRONMENT = $configuration
 Set-Location $buildPath
-dotnet ef database update --startup-project ../FWTL.Api --verbose
+dotnet ef database update --startup-project ../FWTL.Telegram --verbose

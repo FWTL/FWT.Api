@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using FWTL.Api.Controllers.Photos;
+using FWTL.Telegram.Controllers.Photos;
 using FWTL.Core.CQRS;
 using FWTL.Core.Helpers;
 using FWTL.Core.Services.User;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OpenTl.Schema;
 
-namespace FWTL.Api.Controllers
+namespace FWTL.Telegram.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

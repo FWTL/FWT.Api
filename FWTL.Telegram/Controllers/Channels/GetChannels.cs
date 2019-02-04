@@ -1,27 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentValidation;
 using FWTL.Core.CQRS;
+using FWTL.Core.Extensions;
 using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
+using FWTL.Infrastructure.Telegram.Parsers;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
+using OpenTl.Schema.Messages;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.Users
+namespace FWTL.Telegram.Controllers.Channels
 {
-    public class GetMe
+    public class GetChannels
     {
-        public class Cache : RedisJsonHandler<Query, Result>
+        public class Cache : RedisJsonHandler<Query, List<Channel>>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.UserId);
+                    return CacheKeyBuilder.Build<GetChannels, Query>(query, m => m.UserId);
                 };
             }
 
@@ -31,7 +36,7 @@ namespace FWTL.Api.Controllers.Users
             }
         }
 
-        public class Handler : IQueryHandler<Query, Result>
+        public class Handler : IQueryHandler<Query, List<Channel>>
         {
             private readonly ITelegramService _telegramService;
 
@@ -40,45 +45,28 @@ namespace FWTL.Api.Controllers.Users
                 _telegramService = telegramService;
             }
 
-            public async Task<Result> HandleAsync(Query query)
+            public async Task<List<Channel>> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.UserId);
 
-                TUserFull result = await TelegramRequest.HandleAsync(() =>
+                TDialogs result = (await TelegramRequest.HandleAsync(() =>
                 {
-                    return client.UsersService.GetCurrentUserFullAsync();
-                });
+                    return client.MessagesService.GetUserDialogsAsync();
+                })).As<TDialogs>();
 
-                return new Result(result.User.As<TUser>());
+                var channels = new List<Channel>();
+                foreach (IChat channel in result.Chats)
+                {
+                    channels.AddWhenNotNull(ChatParser.ParseChannel(channel));
+                }
+
+                return channels;
             }
         }
 
         public class Query : IQuery
         {
             public string UserId { get; set; }
-        }
-
-        public class Result
-        {
-            public Result()
-            {
-            }
-
-            public Result(TUser user)
-            {
-                FirstName = user.FirstName;
-                LastName = user.LastName;
-                UserName = user.Username;
-                PhotoId = user.Photo.As<TUserProfilePhoto>()?.PhotoId;
-            }
-
-            public string FirstName { get; set; }
-
-            public string LastName { get; set; }
-
-            public long? PhotoId { get; set; }
-
-            public string UserName { get; set; }
         }
 
         public class Validator : AppAbstractValidation<Query>

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Validators;
-using FWTL.Api.Jobs;
+using FWTL.Telegram.Jobs;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Telegram;
@@ -15,7 +15,7 @@ using OpenTl.Schema.Messages;
 using OpenTl.Schema.Users;
 using static FWTL.Core.Helpers.Enum;
 
-namespace FWTL.Api.Controllers.Messages
+namespace FWTL.Telegram.Controllers.Messages
 {
     public class Process
     {

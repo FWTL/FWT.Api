@@ -1,15 +1,17 @@
-﻿using System.Threading.Tasks;
-using FWTL.Api.Controllers.Users;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FWTL.Telegram.Controllers.Channels;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
+using FWTL.Infrastructure.Telegram.Parsers.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FWTL.Api.Controllers
+namespace FWTL.Telegram.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class ChannelsController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
 
@@ -17,7 +19,7 @@ namespace FWTL.Api.Controllers
 
         private readonly ICurrentUserProvider _userProvider;
 
-        public UsersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
+        public ChannelsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher, ICurrentUserProvider userProvider)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
@@ -25,11 +27,10 @@ namespace FWTL.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/Me")]
         [Authorize]
-        public async Task<GetMe.Result> GetMe()
+        public async Task<List<Channel>> GetChannels()
         {
-            return await _queryDispatcher.DispatchAsync<GetMe.Query, GetMe.Result>(new GetMe.Query()
+            return await _queryDispatcher.DispatchAsync<GetChannels.Query, List<Channel>>(new GetChannels.Query()
             {
                 UserId = _userProvider.UserId(User)
             });

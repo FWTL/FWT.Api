@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using FWTL.Core.CQRS;
@@ -8,24 +6,22 @@ using FWTL.Core.Services.Telegram;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
-using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
 
-namespace FWTL.Api.Controllers.Contacts
+namespace FWTL.Telegram.Controllers.Users
 {
-    public class GetContacts
+    public class GetMe
     {
-        public class Cache : RedisJsonHandler<Query, List<Contact>>
+        public class Cache : RedisJsonHandler<Query, Result>
         {
             public Cache(IDatabase cache) : base(cache)
             {
                 KeyFn = query =>
                 {
-                    return CacheKeyBuilder.Build<Contact, Query>(query, m => m.UserId);
+                    return CacheKeyBuilder.Build<GetMe, Query>(query, m => m.UserId);
                 };
             }
 
@@ -35,7 +31,7 @@ namespace FWTL.Api.Controllers.Contacts
             }
         }
 
-        public class Handler : IQueryHandler<Query, List<Contact>>
+        public class Handler : IQueryHandler<Query, Result>
         {
             private readonly ITelegramService _telegramService;
 
@@ -44,26 +40,45 @@ namespace FWTL.Api.Controllers.Contacts
                 _telegramService = telegramService;
             }
 
-            public async Task<List<Contact>> HandleAsync(Query query)
+            public async Task<Result> HandleAsync(Query query)
             {
                 IClientApi client = await _telegramService.BuildAsync(query.UserId);
-                TContacts result = (await TelegramRequest.HandleAsync(() =>
-                {
-                    return client.ContactsService.GetContactsAsync();
-                }));
 
-                List<Contact> contacts = result.Users.Select(c =>
+                TUserFull result = await TelegramRequest.HandleAsync(() =>
                 {
-                    return new Contact(c.As<TUser>());
-                }).ToList();
+                    return client.UsersService.GetCurrentUserFullAsync();
+                });
 
-                return contacts;
+                return new Result(result.User.As<TUser>());
             }
         }
 
         public class Query : IQuery
         {
             public string UserId { get; set; }
+        }
+
+        public class Result
+        {
+            public Result()
+            {
+            }
+
+            public Result(TUser user)
+            {
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                UserName = user.Username;
+                PhotoId = user.Photo.As<TUserProfilePhoto>()?.PhotoId;
+            }
+
+            public string FirstName { get; set; }
+
+            public string LastName { get; set; }
+
+            public long? PhotoId { get; set; }
+
+            public string UserName { get; set; }
         }
 
         public class Validator : AppAbstractValidation<Query>
