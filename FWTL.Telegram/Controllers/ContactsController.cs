@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWTL.Telegram.Controllers.Contacts;
-using FWTL.Telegram.Controllers.Messages;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Events.Telegram.Messages;
+using FWTL.Telegram.Controllers.Contacts;
+using FWTL.Telegram.Controllers.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static FWTL.Core.Helpers.Enum;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Telegram.Controllers
 {

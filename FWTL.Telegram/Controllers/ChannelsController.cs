@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using FWTL.Telegram.Controllers.Channels;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+using FWTL.Events.Telegram.Messages;
+using FWTL.Telegram.Controllers.Channels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

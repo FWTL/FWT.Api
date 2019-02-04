@@ -19,14 +19,7 @@ namespace FWTL.Infrastructure.Telegram.Parsers
         public static List<Message> Parse(IMessages messages, int id, PeerType peerType)
         {
             string key = messages.GetType().FullName;
-            List<Message> message = Switch[key](messages);
-            message.ForEach(m =>
-            {
-                m.UniqueId = $"{m.Id};{id};{(int)peerType}";
-                m.SourceId = $"{id};{(int)peerType}";
-            });
-
-            return message;
+            return Switch[key](messages);
         }
 
         private static List<Message> Parse(TChannelMessages channelMessages)
