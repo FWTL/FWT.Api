@@ -1,15 +1,15 @@
-﻿using System;
-using System.Data.SqlClient;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FWTL.Core.CQRS;
 using FWTL.Core.Extensions;
 using FWTL.Core.Services.Dapper;
+using FWTL.Core.Services.Identity;
 using FWTL.Core.Services.Redis;
 using FWTL.Core.Services.Sql;
 using FWTL.Core.Services.Telegram;
 using FWTL.Core.Services.Unique;
 using FWTL.Database;
+using FWTL.Infrastructure;
 using FWTL.Infrastructure.CQRS;
 using FWTL.Infrastructure.Dapper;
 using FWTL.Infrastructure.EventHub;
@@ -27,8 +27,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Serilog;
 using Serilog.Events;
-using StackExchange.Profiling.Data;
 using StackExchange.Redis;
+using System;
+using System.Data.SqlClient;
 
 namespace FWTL.Telegram
 {
@@ -204,7 +205,7 @@ namespace FWTL.Telegram
                 .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error, outputTemplate: format)
                 .WriteTo.Logger(cl => cl.Filter.ByIncludingOnly(evt => evt.Level == LogEventLevel.Information).WriteTo.File("Logs/queries.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information, outputTemplate: format))
                 .CreateLogger();
-            });
+            }).SingleInstance();
 
             builder.Register<IClock>(b =>
             {
@@ -216,7 +217,6 @@ namespace FWTL.Telegram
                 return new MemoryCache(new MemoryCacheOptions());
             }).SingleInstance();
 
-            builder.RegisterType<DapperConnector<HangfireDatabaseCredentials>>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<GuidService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<TelegramService>().AsImplementedInterfaces().InstancePerLifetimeScope();
             builder.RegisterType<IdentityModelClient>().AsImplementedInterfaces().InstancePerLifetimeScope();
@@ -235,13 +235,16 @@ namespace FWTL.Telegram
                 return EventHubClient.CreateFromConnectionString(connectionStringBuilder.ToString());
             }).InstancePerLifetimeScope();
 
-            builder.RegisterType<ProfileDbConnection>().AsImplementedInterfaces().SingleInstance();
             builder.Register<IDatabaseConnector<TelegramDatabaseCredentials>>(b =>
             {
                 var databaseCredentials = b.Resolve<TelegramDatabaseCredentials>();
-                var profiler = b.Resolve<IDbProfiler>();
-                ProfiledDbConnection databaseConnection = new ProfiledDbConnection(new SqlConnection(databaseCredentials.ConnectionString), profiler);
-                return new DapperConnector<TelegramDatabaseCredentials>(databaseConnection);
+                return new TelegramStoreDapperConnector<TelegramDatabaseCredentials>(databaseCredentials);
+            }).InstancePerLifetimeScope();
+
+            builder.Register<IDatabaseConnector<HangfireDatabaseCredentials>>(b =>
+            {
+                var databaseCredentials = b.Resolve<HangfireDatabaseCredentials>();
+                return new DapperConnector<HangfireDatabaseCredentials>(new SqlConnection(databaseCredentials.ConnectionString));
             }).InstancePerLifetimeScope();
 
             return builder.Build();

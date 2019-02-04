@@ -14,6 +14,7 @@ using OpenTl.Schema.Channels;
 using OpenTl.Schema.Messages;
 using OpenTl.Schema.Users;
 using static FWTL.Core.Helpers.Enum;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Telegram.Controllers.Messages
 {

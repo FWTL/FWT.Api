@@ -4,9 +4,11 @@ using FWTL.Telegram.Controllers.Chats;
 using FWTL.Telegram.Controllers.Messages;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.User;
+using FWTL.Events.Telegram.Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static FWTL.Core.Helpers.Enum;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Telegram.Controllers
 {
@@ -29,9 +31,9 @@ namespace FWTL.Telegram.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<List<Infrastructure.Telegram.Parsers.Models.Chat>> GetChats()
+        public async Task<List<Chat>> GetChats()
         {
-            return await _queryDispatcher.DispatchAsync<GetChats.Query, List<Infrastructure.Telegram.Parsers.Models.Chat>>(new GetChats.Query()
+            return await _queryDispatcher.DispatchAsync<GetChats.Query, List<Chat>>(new GetChats.Query()
             {
                 UserId = _userProvider.UserId(User)
             });

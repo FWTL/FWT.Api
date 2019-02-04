@@ -36,7 +36,7 @@ namespace FWTL.Infrastructure.Telegram
                 return clientApi;
             }
 
-            IClientApi client = await ClientFactory.BuildClientAsync(BuildSettings(hash));
+            IClientApi client = await ClientFactory.BuildClientAsync(BuildSettings(hash)).ConfigureAwait(false);
             _cache.Set(hash, client, new MemoryCacheEntryOptions().SetSlidingExpiration(SlidingExpiration));
 
             return client;

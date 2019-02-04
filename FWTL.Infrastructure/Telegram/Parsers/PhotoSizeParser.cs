@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
+﻿using FWTL.Events.Telegram.Messages;
 using OpenTl.Schema;
+using System;
+using System.Collections.Generic;
 
 namespace FWTL.Infrastructure.Telegram.Parsers
 {
@@ -25,7 +25,7 @@ namespace FWTL.Infrastructure.Telegram.Parsers
             return new PhotoSize()
             {
                 Size = 0,
-                Location = photoCachedSize.Location,
+                //Location = photoCachedSize.Location,
             };
         }
 
@@ -34,7 +34,7 @@ namespace FWTL.Infrastructure.Telegram.Parsers
             return new PhotoSize()
             {
                 Size = photoSize.Size,
-                Location = photoSize.Location
+                //Location = photoSize.Location
             };
         }
 

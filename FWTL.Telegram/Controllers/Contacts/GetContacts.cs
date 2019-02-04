@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using FWTL.Core.CQRS;
 using FWTL.Core.Services.Telegram;
+using FWTL.Events.Telegram.Messages;
 using FWTL.Infrastructure.Cache;
 using FWTL.Infrastructure.Handlers;
 using FWTL.Infrastructure.Telegram;
-using FWTL.Infrastructure.Telegram.Parsers.Models;
 using FWTL.Infrastructure.Validation;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Contacts;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FWTL.Telegram.Controllers.Contacts
 {
@@ -54,7 +54,14 @@ namespace FWTL.Telegram.Controllers.Contacts
 
                 List<Contact> contacts = result.Users.Select(c =>
                 {
-                    return new Contact(c.As<TUser>());
+                    var user = c.As<TUser>();
+                    return new Contact()
+                    {
+                        FirstName = user.FirstName,
+                        Id = user.Id,
+                        LastName = user.LastName,
+                        UserName = user.Username
+                    };
                 }).ToList();
 
                 return contacts;

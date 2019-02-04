@@ -282,3 +282,5 @@ __pycache__/
 /FWT.AuthServer/appsettings.Development.json
 /AzureSetup/azureauth.properties
 /FWT.Api/appsettings.Development.json
+/FWTL.Api/Logs
+/FWTL.Api/appsettings.Development.json

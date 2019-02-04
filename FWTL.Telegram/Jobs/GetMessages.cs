@@ -1,15 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using FWTL.Core.Services.EventHub;
+﻿using FWTL.Core.Services.EventHub;
 using FWTL.Core.Services.Telegram;
 using FWTL.Core.Services.Unique;
+using FWTL.Events.Telegram.Messages;
 using FWTL.Infrastructure.Telegram;
 using FWTL.Infrastructure.Telegram.Parsers;
 using Hangfire;
 using OpenTl.ClientApi;
 using OpenTl.Schema;
 using OpenTl.Schema.Messages;
-using static FWTL.Core.Helpers.Enum;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using static FWTL.Events.Telegram.Enums;
 
 namespace FWTL.Telegram.Jobs
 {
@@ -37,7 +39,7 @@ namespace FWTL.Telegram.Jobs
                 return client.MessagesService.GetHistoryAsync(peer, offset, maxId, 100);
             });
 
-            var messages = MessagesParser.Parse(history, id, peerType);
+            List<Message> messages = MessagesParser.Parse(history, id, peerType);
             await _eventHub.SendAsync(messages);
 
             if (messages.Count > 0)
